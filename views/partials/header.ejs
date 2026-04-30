@@ -1,0 +1,52 @@
+<header class="sticky-header">
+  <nav class="nav-bar" aria-label="user menu">
+    <% if (user && user.permission_status === "admin") { %>
+    <a class="button-default nav-button" href="/app/admin">
+      <span class="emoji emoji-nav-size" role="img" aria-label="Admin panel link">
+        ⚙
+      </span>
+    </a>
+    <% } %>
+    <a class="button-default nav-button" href="/app/info">
+      <span class="emoji emoji-nav-size" role="img" aria-label="Site information link">
+        ℹ
+      </span>
+    </a>
+    <% if (user) { %>
+    <button
+      class="button-default nav-button new-message-button"
+      data-section="modal-new-message"
+      data-title="modal-title-new-message"
+      data-target-id="<%= user.id %>"
+      >
+      <span class="emoji emoji-nav-size" role="img" aria-label="Create a new message">
+        📝
+      </span>
+    </button>
+    <% } %>
+    <a class="button-default nav-button" href="/app/message-boards">
+      <span class="emoji emoji-nav-size" role="img" aria-label="Message board link">
+        💬
+      </span>
+    </a>
+    <% if (user) { %>
+    <a class="button-default nav-button" href="/app/your-profile">
+      <span class="emoji emoji-nav-size" role="img" aria-label="Your avatar image and link to your profile">
+        <%= user.avatar_type %>
+      </span>
+    </a>
+    <% } %>
+    <form action="/app/log-out" method="POST">
+      <%# CSRF Token - hidden input for forms %>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button class="button-default nav-button" type="submit">
+        <span class="emoji emoji-nav-size" role="img" aria-label="Log out">
+          📴
+        </span>
+      </button>
+    </form>
+  </nav>
+  <% if (user) { %>
+  <div class="logged-in-bar uppercase"><p>logged in as "<%= user.email %>"</p></div>
+  <% } %>
+</header>

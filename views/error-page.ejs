@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body>
+    <main>
+      <div class="card page-errors">
+        <div class="page-title uppercase">
+          <h1><%= title %></h1>  
+        </div>
+        <p><%= error %></p>
+
+        <%# Specific Content for 401 - Unauthorized %>
+        <% if (status === 401) { %>
+          <div class="button-container-row-space-evenly">
+            <a class="button-default wide-button" href="/app/login">login</a>
+          </div>
+        <% } %>
+
+        <%# Specific Content for 403 - Forbidden %>
+        <% if (status === 403) { %>
+          <% if (status === 403 && code === "ACCOUNT_DISABLED") { %>
+          <br>
+          <div class="element-container-row-center-start">
+            <span class="emoji emoji-size-small margin-right">😖</span><p>Please contact the admin for additional assistance.</p>
+          </div>
+          <% } else if (status === 403) { %>       
+          <div class="button-container-row-space-evenly">
+              <a class="button-default wide-button" href="/app">back to home</a>
+              <% } %>
+          </div>
+        <% } %>
+
+        <%# Specific Content for 404 - Not Found %>
+        <% if (status === 404) { %>
+          <div class="button-container-row-space-evenly">
+            <a class="button-default wide-button" href="/app">back to home</a>
+          </div>
+        <% } %>
+
+        <%# Specific Content for 500 - Internal Server Error %>
+        <% if (status === 500) { %>
+          <div class="button-container-row-space-evenly">
+            <a class="button-default wide-button" href="/app">back to home</a>
+          </div>
+        <% } %>
+
+        <%# Fallback for other status codes (if any, e.g., 429, 502, etc.) %>
+        <% if (![401, 403, 404, 500].includes(status)) { %>
+          <div class="button-container-row-space-evenly">
+            <a class="button-default wide-button" href="/app">back to home</a>
+          </div>
+        <% } %>
+      </div>
+    </main>
+    <%- include('./partials/footer.ejs') %>    
+  </body>
+</html>

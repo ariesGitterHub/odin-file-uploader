@@ -9,7 +9,7 @@
   --orange: #c18266;
   --pink: #ba79b5;
 
-  --box-shadow-gray: inset 0 0.25rem 1rem var(--gray);
+  --box-shadow-gray: inset 0 0.25rem 0.75rem var(--gray);
   --box-shadow-white: 0rem 1rem 3rem var(--white);
 
   --button-default-h: 1.75rem;
@@ -17,6 +17,7 @@
 
   --font-title: "Audiowide", sans-serif;
   --font-text:  "Roboto", sans-serif;
+  --font-emoji: "Noto Emoji", sans-serif;
   --font-size-default: 1rem;
 
   --card-width: 300px;
@@ -60,6 +61,17 @@ body {
   box-sizing: border-box;
 }
 
+/* Titles */
+.page-title {
+  display: inline-block;
+  background: linear-gradient(180deg, var(--gray), var(--black));
+  text-transform: uppercase;
+  -webkit-background-clip: text; /* Clips background to text shape */
+  -webkit-text-fill-color: transparent; /* Makes original text color transparent */
+}
+
+
+
 /* BUTTON element */
 .button-default {
   all: unset; /* nukes browser defaults */
@@ -70,11 +82,10 @@ body {
   justify-content: center;
   background-color: var(--white);
   border: var(--border-default);
-  border-radius: var(--border-radius-default);
+  border-radius: var(--border-radius-small);
   box-shadow: var(--box-shadow-gray);
-  color: var(--off-black);
+  color: var(--black);
   cursor: pointer;
-  /* font-family: var(--font-text); */
   font-family: var(--font-title);
   font-size: var(--font-size-default);
   font-weight: var(--font-weight-heavy);
@@ -82,17 +93,22 @@ body {
   text-transform: uppercase;
 }
 
-.button-default:link,
-.button-default:visited,
-.button-default:hover {
-  color: var(--black); /* mouse over */
-}
-
-button:hover,
 .button-default:hover {
   background-color: var(--orange);
   box-shadow: var(--box-shadow-gray);
   color: var(--black);
+   transform: scale(1.1);
+}
+
+/* CONTAINERS */
+
+.button-container-col {
+  width: var(--width-default-percent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacer-default);
 }
 
 .button-container-row-space-evenly {
@@ -104,12 +120,75 @@ button:hover,
   margin-top: var(--spacer-big);
 }
 
+.button-container-row {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacer-default);
+}
+
+/* --column-based */
+.element-container-col-default {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.element-container-col-start-center {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+/* --row-based */
+.element-container-row-center-start {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
 .element-container-row-default {
   width: var(--width-default-percent);
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+.element-container-row-space-evenly {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.element-container-row-space-between {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacer-medium);
+}
+
+.password-rules-container {
+  width: var(--width-default-percent);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  gap: var(--spacer-small);
+  padding: var(--spacer-default);
+}
+
+
+
+/* FORM ELEMENTS */
+form {
+  width: var(--card-width);
+}
+
 
 .card {
   height: fit-content;
@@ -130,8 +209,10 @@ button:hover,
 /*  index.ejs */
 
 .index-image {
-  width: 250px;
+  width: var(--card-width);
   height: auto;
+  /* box-shadow: var(--box-shadow-white); */
+  opacity: .75;
 }
 
 /* footer.ejs */
@@ -145,6 +226,15 @@ footer {
 
 /* misc */
 
+.emoji {
+  font-family: var(--font-emoji) !important;
+  font-weight: 100;
+}
+
 .justify-content-center {
   justify-content: center;
 }
+
+/* .uppercase {
+  text-transform: uppercase;
+} */

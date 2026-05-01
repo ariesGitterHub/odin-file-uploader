@@ -18,11 +18,11 @@ const helmet = require("helmet");
 
 // Middleware / routes
 // const requireUserIsActive = require("./middleware/requireUserIsActive");
-// const {
-//   csrfProtection,
-//   csrfTokenMiddleware,
-//   csrfErrorHandler,
-// } = require("./middleware/csrfMiddleware");
+const {
+  csrfProtection,
+  csrfTokenMiddleware,
+  csrfErrorHandler,
+} = require("./middleware/csrfMiddleware");
 // const setPermissions = require("./middleware/setPermissions");
 const appRouter = require("./routes/appRouter");
 
@@ -83,8 +83,8 @@ app.use(passport.session());
 // app.use(requireUserIsActive);
 
 // *** CSRF protection (must come after session + passport)
-// app.use(csrfProtection);
-// app.use(csrfTokenMiddleware);
+app.use(csrfProtection);
+app.use(csrfTokenMiddleware);
 
 // *** Chrome devtools noise fix
 app.use((req, res, next) => {
@@ -110,7 +110,7 @@ app.get("/", (req, res) => {
 app.use("/app", appRouter);
 
 // *** CSRF error handler
-// app.use(csrfErrorHandler);
+app.use(csrfErrorHandler);
 
 // *** 404 handler
 app.use((req, res, next) => {

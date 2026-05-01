@@ -48,7 +48,7 @@ const { Router } = require("express");
 //   postMemberInviteDeclined,
 // } = require("../controllers/memberControllers");
 
-const { getHome } = require("../controllers/appControllers");
+const { getHome, getSignUpPage } = require("../controllers/appControllers");
 
 // const {
 //   getModalDataToFrontend,
@@ -87,7 +87,7 @@ appRouter.get("/", getHome);
 // // Auth
 
 // // ROUTES: SIGN UP PAGE (sign-up.ejs)
-// appRouter.get("/sign-up", getSignUpPage);
+appRouter.get("/sign-up", getSignUpPage);
 // appRouter.post(
 //   "/sign-up",
 //   createUserValidatorSignUp,

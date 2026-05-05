@@ -52,7 +52,26 @@ async function getSignUpPage(req, res, next) {
   }
 }
 
+// CONTROLLER: LOG-IN PAGE (log-in.ejs)
+async function getLogInPage(req, res, next) {
+  try {
+    // if (await isMaintenanceMode()) {
+    //   return res.redirect("/");
+    // }
+
+    res.render("log-in", {
+      title: "log In",
+      errors: [],
+      passwordRules,
+      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getHome,
   getSignUpPage,
+  getLogInPage,
 };

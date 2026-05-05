@@ -48,7 +48,7 @@ const { Router } = require("express");
 //   postMemberInviteDeclined,
 // } = require("../controllers/memberControllers");
 
-const { getHome, getSignUpPage } = require("../controllers/appControllers");
+const { getHome, getSignUpPage, getLogInPage } = require("../controllers/appControllers");
 
 // const {
 //   getModalDataToFrontend,
@@ -100,7 +100,7 @@ appRouter.get("/sign-up", getSignUpPage);
 // );
 
 // // ROUTES: LOG IN PAGE (log-in.ejs)
-// appRouter.get("/log-in", getLogInPage);
+appRouter.get("/log-in", getLogInPage);
 // appRouter.post("/log-in", rateLimiter, postLogInPage);
 
 // // ROUTES: LOG OUT BUTTON

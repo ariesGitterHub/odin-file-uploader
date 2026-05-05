@@ -8,8 +8,12 @@
   --blue: #0d79f2;
   --orange: #c18266;
   --pink: #ba79b5;
+  --purple: #744674;
+  --gold: #ffd700;
 
-  --box-shadow-gray: inset 0 0.25rem 0.75rem var(--gray);
+  /* --box-shadow-gray: inset 0 0.25rem 0.75rem var(--gray); */
+  --box-shadow-gray: inset 0 0.125rem 0.125rem var(--gray);
+  --box-shadow-black: inset 0 0.125rem 0.125rem var(--black);
   --box-shadow-white: 0rem 1rem 3rem var(--white);
 
   --button-default-h: 1.75rem;
@@ -22,6 +26,8 @@
 
   --card-width: 300px;
   --width-default-percent: 100%;
+
+  --border-black: 2px solid var(--black);
 
   --border-radius-circle: 50%;
   --border-radius-big: 1rem;
@@ -64,7 +70,7 @@ body {
 /* Titles */
 .page-title {
   display: inline-block;
-  background: linear-gradient(180deg, var(--gray), var(--black));
+  background: linear-gradient(180deg, var(--black), var(--purple));
   text-transform: uppercase;
   -webkit-background-clip: text; /* Clips background to text shape */
   -webkit-text-fill-color: transparent; /* Makes original text color transparent */
@@ -94,10 +100,12 @@ body {
 }
 
 .button-default:hover {
-  background-color: var(--orange);
-  box-shadow: var(--box-shadow-gray);
-  color: var(--black);
-   transform: scale(1.1);
+  /* background-color: var(--orange); */
+  /* background-color: transparent; */
+  background-color: var(--purple);
+  box-shadow: var(--box-shadow-black);
+  color: var(--gold);
+   /* transform: scale(1.125); */
 }
 
 /* CONTAINERS */
@@ -179,6 +187,8 @@ body {
   align-items: start;
   justify-content: start;
   gap: var(--spacer-small);
+  border: var(--border-black);
+  border-radius: var(--border-radius-small);
   padding: var(--spacer-default);
 }
 
@@ -187,6 +197,23 @@ body {
 /* FORM ELEMENTS */
 form {
   width: var(--card-width);
+}
+
+label {
+  color: var(--black);
+  font-family: var(--font-title);
+  text-transform: lowercase;
+}
+
+input {
+  height: 1.75rem;
+  width: var(--width-default-percent);
+  border-radius: var(--border-radius-small);
+  color: var(--black);
+  font-family: var(--font-text);
+  font-size: var(--font-size-default);
+  margin-bottom: var(--spacer-default);
+  padding-left: var(--spacer-small);
 }
 
 
@@ -218,6 +245,7 @@ form {
 /* footer.ejs */
 footer {
   color: var(--black);
+  font-family: var(--font-text);
   font-size: var(--font-size-small);
   margin: var(--spacer-biggest);
   text-align: center;

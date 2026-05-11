@@ -48,7 +48,7 @@ const { Router } = require("express");
 //   postMemberInviteDeclined,
 // } = require("../controllers/memberControllers");
 
-const { getHome, getSignUpPage, getLogInPage } = require("../controllers/appControllers");
+const { getHome, getSignUpPage, getLogInPage, getUserDataPage } = require("../controllers/appControllers");
 
 // const {
 //   getModalDataToFrontend,
@@ -321,5 +321,7 @@ appRouter.get("/log-in", getLogInPage);
 //   requireRole("guest"),
 //   postMemberInviteDeclined,
 // );
+
+appRouter.get("/user-data", getUserDataPage);
 
 module.exports = appRouter;

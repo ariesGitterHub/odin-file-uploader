@@ -10,11 +10,14 @@
   --pink: #ba79b5;
   --purple: #744674;
   --gold: #ffd700;
+  --gold-lt: #d6c66a;
+  --gold-trans: #ffd70080;
 
-  /* --box-shadow-gray: inset 0 0.25rem 0.75rem var(--gray); */
-  --box-shadow-gray: inset 0 0.125rem 0.125rem var(--gray);
-  --box-shadow-black: inset 0 0.125rem 0.125rem var(--black);
-  --box-shadow-white: 0rem 1rem 3rem var(--white);
+  --box-shadow-gray: inset 0 0.25rem 0.75rem var(--gray);
+  /* --box-shadow-gray: inset 0 0.125rem 0.125rem var(--gray); */
+  /* --box-shadow-black: inset 0 0.125rem 0.125rem var(--black); */
+  /* --box-shadow-white: 0rem 1rem 3rem var(--white); */
+  --box-shadow-black: 0rem 0.5rem 1rem var(--black);
 
   --button-default-h: 1.75rem;
   --button-default-w: 5.5rem;
@@ -23,6 +26,7 @@
   --font-text:  "Roboto", sans-serif;
   --font-emoji: "Noto Emoji", sans-serif;
   --font-size-default: 1rem;
+  --font-size-large: 1.5rem;
 
   --card-width: 300px;
   --width-default-percent: 100%;
@@ -89,7 +93,7 @@ body {
   background-color: var(--white);
   border: var(--border-default);
   border-radius: var(--border-radius-small);
-  box-shadow: var(--box-shadow-gray);
+  box-shadow: var(--box-shadow-black);
   color: var(--black);
   cursor: pointer;
   font-family: var(--font-title);
@@ -102,10 +106,35 @@ body {
 .button-default:hover {
   /* background-color: var(--orange); */
   /* background-color: transparent; */
-  background-color: var(--purple);
-  box-shadow: var(--box-shadow-black);
-  color: var(--gold);
+  background-color: var(--gold-lt);
+  /* box-shadow: var(--box-shadow-black); */
+  color: var(--black);
    /* transform: scale(1.125); */
+}
+
+/* HEADER */
+
+header {
+  /* background-color: var(--blue); */
+  border-bottom: 3px solid var(--black);
+  margin-top: var(--spacer-default);
+  margin-bottom: var(--spacer-default);
+  padding-top: var(--spacer-small);
+  padding-bottom: var(--spacer-big);
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  width: var(--width-default-percent);
+}
+
+.nav-button {
+  height: 2.25rem;
+  width: 5rem;
+  background-color: var(--gray);
+  font-size: var(--font-size-large);
+  font-weight: 800;
 }
 
 /* CONTAINERS */
@@ -219,17 +248,51 @@ input {
 
 .card {
   height: fit-content;
-  width: var(--card-width);
+  width: fit-content;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  /* background-color: var(--black); */
+  background-color: var(--gray);
   /* background-color: transparent; */
-  /* border-radius: var(--border-radius-big); */
-  /* box-shadow: var(--box-shadow-white); */
-  /* margin: var(--spacer-default); */
-  /* padding: var(--spacer-biggest); */
+  border-radius: var(--border-radius-big);
+  box-shadow: var(--box-shadow-black);
+  color: var(--black);
+  font-weight: 800;
+  margin: var(--spacer-default);
+  padding: var(--spacer-default);
+}
+
+.card span {
+  font-size: 3rem;
+}
+
+.card:hover {
+  background-color: var(--gold-lt);
+}
+
+.folder-emoji {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  font-size: 2rem; /* adjust as needed */
+}
+
+.folder-emoji .hovered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.folder-emoji:hover .unhovered {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.folder-emoji:hover .hovered {
+  opacity: 1;
 }
 
 
@@ -241,6 +304,8 @@ input {
   /* box-shadow: var(--box-shadow-white); */
   opacity: .75;
 }
+
+
 
 /* footer.ejs */
 footer {
@@ -256,11 +321,14 @@ footer {
 
 .emoji {
   font-family: var(--font-emoji) !important;
-  font-weight: 100;
 }
 
 .justify-content-center {
   justify-content: center;
+}
+
+.flex-gap {
+  gap: var(--spacer-default);
 }
 
 /* .uppercase {

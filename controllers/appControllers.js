@@ -70,8 +70,28 @@ async function getLogInPage(req, res, next) {
   }
 }
 
+
+// CONTROLLER: USER FOLDER PAGE (user-folder.ejs)
+async function getUserDataPage(req, res, next) {
+  try {
+    // if (await isMaintenanceMode()) {
+    //   return res.redirect("/");
+    // }
+
+    res.render("user-data", {
+      title: "User Data",
+      errors: [],
+      // passwordRules,
+      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getHome,
   getSignUpPage,
   getLogInPage,
+  getUserDataPage,
 };

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body>
+    <header class="sticky-header">
+      <nav class="element-container-row-default flex-gap" aria-label="user menu">
+        <a class="button-default nav-button" href="/app/new-folder">
+          <span
+            class="emoji"
+            role="img"
+            aria-label="New folder link"
+          >
+            +📁
+          </span>
+        </a>
+        <a class="button-default nav-button" href="/app/profile">
+          <span
+            class="emoji"
+            role="img"
+            aria-label="User profile link"
+          >
+            👤
+          </span>
+        </a>
+        <a class="button-default nav-button" href="/app/new-file">
+          <span
+            class="emoji"
+            role="img"
+            aria-label="Upload file link"
+          >
+            +📄
+          </span>
+        </a>
+      </nav>
+    </header>
+    <main class="element-container-col-start-center">
+      <div class="card">
+        <span           
+          class="emoji folder-emoji"
+          role="img"
+          aria-label="Data folder">
+        <span class="unhovered">📁</span>
+        <span class="hovered">📂</span>
+      </span>
+        <p>Default Folder</p>
+      </div>
+    </main>
+  </body>
+</html>

@@ -10,8 +10,12 @@
   --pink: #ba79b5;
   --purple: #744674;
   --gold: #ffd700;
-  --gold-lt: #d6c66a;
+  --gold-lt: #eee208;
   --gold-trans: #ffd70080;
+
+  --red-bold: #dc1919;
+  --blue-bold: #1818cc;
+
 
   --box-shadow-gray: inset 0 0.25rem 0.75rem var(--gray);
   /* --box-shadow-gray: inset 0 0.125rem 0.125rem var(--gray); */
@@ -27,8 +31,13 @@
   --font-emoji: "Noto Emoji", sans-serif;
   --font-size-default: 1rem;
   --font-size-large: 1.5rem;
+  --font-size-title: 2.5rem;
 
-  --card-width: 300px;
+  --text-shadow: 0 1px 3px var(--red-bold), 0 1px 3px var(--blue-bold);
+
+  --index-card-width: 300px;
+  --form-width: 300px;
+  --folder-card-width: 8rem;
   --width-default-percent: 100%;
 
   --border-black: 2px solid var(--black);
@@ -48,6 +57,7 @@
 html,
 body {
   min-height: 100vh;
+  min-width: 350px;
   margin: 0;
   padding: 0;
 }
@@ -61,6 +71,10 @@ body {
   color: var(--black);
   font-family: var(--font-text);
   font-size: var(--font-size-default);
+}
+
+main {
+  /* min-width: 300px; */
 }
 
 *,
@@ -90,7 +104,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--white);
+  background-color: var(--gray);
   border: var(--border-default);
   border-radius: var(--border-radius-small);
   box-shadow: var(--box-shadow-black);
@@ -106,7 +120,7 @@ body {
 .button-default:hover {
   /* background-color: var(--orange); */
   /* background-color: transparent; */
-  background-color: var(--gold-lt);
+  background-color: var(--gold);
   /* box-shadow: var(--box-shadow-black); */
   color: var(--black);
    /* transform: scale(1.125); */
@@ -116,10 +130,10 @@ body {
 
 header {
   /* background-color: var(--blue); */
-  border-bottom: 3px solid var(--black);
+  border-bottom: 2px double var(--black);
   margin-top: var(--spacer-default);
   margin-bottom: var(--spacer-default);
-  padding-top: var(--spacer-small);
+  /* padding-top: var(--spacer-small); */
   padding-bottom: var(--spacer-big);
 }
 
@@ -127,6 +141,17 @@ header {
   position: sticky;
   top: 0;
   width: var(--width-default-percent);
+}
+
+.title h1 {
+  height: fit-content;
+  width: fit-content;
+  color: var(--gold);
+  font-family: var(--font-title);
+  font-size: var(--font-size-title);
+  padding: var(--spacer-default);
+  text-shadow: var(--text-shadow);
+  text-transform: capitalize;
 }
 
 .nav-button {
@@ -190,6 +215,7 @@ header {
 .element-container-row-default {
   width: var(--width-default-percent);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
@@ -225,12 +251,13 @@ header {
 
 /* FORM ELEMENTS */
 form {
-  width: var(--card-width);
+  width: var(--form-width);
 }
 
 label {
-  color: var(--black);
+  color: var(--gold);
   font-family: var(--font-title);
+  text-shadow: var(--text-shadow);
   text-transform: lowercase;
 }
 
@@ -246,9 +273,34 @@ input {
 }
 
 
-.card {
+/*  index.ejs */
+
+.index-card {
   height: fit-content;
-  width: fit-content;
+  width: var(--index-card-width);
+}
+
+.index-title {
+  font-family: var(--font-title);
+  font-size: var(--font-size-large);
+  font-weight: 800;
+  color: var(--gold);
+  text-shadow: var(--text-shadow);
+  /* text-transform: uppercase; */
+}
+
+.index-image {
+  width: var(--card-width);
+  height: auto;
+  /* box-shadow: var(--box-shadow-white); */
+  opacity: .75;
+}
+
+/* user-data.ejs */
+
+.folder-card {
+  height: fit-content;
+  width: var(--folder-card-width);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -261,14 +313,16 @@ input {
   font-weight: 800;
   margin: var(--spacer-default);
   padding: var(--spacer-default);
+  text-wrap: wrap;
 }
 
-.card span {
+.folder-card span {
   font-size: 3rem;
 }
 
-.card:hover {
-  background-color: var(--gold-lt);
+.folder-card:hover {
+  background-color: var(--gold);
+  transform: scale(1.125);
 }
 
 .folder-emoji {
@@ -283,12 +337,12 @@ input {
   top: 0;
   left: 0;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.1s ease-in-out;
 }
 
 .folder-emoji:hover .unhovered {
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.1s ease-in-out;
 }
 
 .folder-emoji:hover .hovered {
@@ -296,14 +350,7 @@ input {
 }
 
 
-/*  index.ejs */
 
-.index-image {
-  width: var(--card-width);
-  height: auto;
-  /* box-shadow: var(--box-shadow-white); */
-  opacity: .75;
-}
 
 
 

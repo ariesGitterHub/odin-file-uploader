@@ -4,7 +4,9 @@
     <%- include('./partials/head.ejs') %>
   </head>
   <body>
-    <header class="sticky-header">
+    
+    <header class="sticky-header element-container-col-default">
+      <%- include('./partials/title.ejs') %>
       <nav class="element-container-row-default flex-gap" aria-label="user menu">
         <a class="button-default nav-button" href="/app/new-folder">
           <span
@@ -35,16 +37,61 @@
         </a>
       </nav>
     </header>
-    <main class="element-container-col-start-center">
-      <div class="card">
+    <main class="element-container-row-default">
+      <div class="folder-card">
         <span           
           class="emoji folder-emoji"
           role="img"
-          aria-label="Data folder">
-        <span class="unhovered">📁</span>
-        <span class="hovered">📂</span>
-      </span>
-        <p>Default Folder</p>
+          aria-label="Data folder"
+        >
+          <span class="unhovered">📁</span>
+          <span class="hovered">📂</span>
+        </span>
+        <p>Documents (0)</p>
+      </div>
+      <div class="folder-card">
+        <span           
+          class="emoji folder-emoji"
+          role="img"
+          aria-label="Data folder"
+        >
+          <span class="unhovered">📁</span>
+          <span class="hovered">📂</span>
+        </span>
+        <p>Images (5)</p>
+      </div>
+      <div class="folder-card">
+        <span           
+          class="emoji folder-emoji"
+          role="img"
+          aria-label="Data folder"
+        >
+          <span class="unhovered">📁</span>
+          <span class="hovered">📂</span>
+        </span>
+        <p>Audio (3)</p>
+      </div>
+      <div class="folder-card">
+        <span           
+          class="emoji folder-emoji"
+          role="img"
+          aria-label="Data folder"
+        >
+          <span class="unhovered">📁</span>
+          <span class="hovered">📂</span>
+        </span>
+        <p>Video (2)</p>
+      </div>
+      <div class="folder-card">
+        <span           
+          class="emoji folder-emoji"
+          role="img"
+          aria-label="Data folder"
+        >
+          <span class="unhovered">📁</span>
+          <span class="hovered">📂</span>
+        </span>
+        <p>Archives (13)</p>
       </div>
     </main>
   </body>

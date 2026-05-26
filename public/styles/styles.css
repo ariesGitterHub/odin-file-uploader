@@ -35,8 +35,8 @@
 
   --text-shadow: 0 1px 3px var(--red-bold), 0 1px 3px var(--blue-bold);
 
-  --index-card-width: 300px;
-  --form-width: 300px;
+  --index-card-width: 325px;
+  --form-width: 325px;
   --folder-card-width: 8rem;
   --width-default-percent: 100%;
 
@@ -44,6 +44,7 @@
 
   --border-radius-circle: 50%;
   --border-radius-big: 1rem;
+  --border-radius-biggest: 1.5rem;
   --border-radius-default: 0.5rem;
   --border-radius-small: 0.25rem;
 
@@ -63,19 +64,19 @@ body {
 }
 
 body {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
+  justify-content: start; */
   background: linear-gradient(05deg, var(--orange), var(--pink));
   color: var(--black);
   font-family: var(--font-text);
   font-size: var(--font-size-default);
 }
 
-main {
-  /* min-width: 300px; */
-}
+/* main {
+  background-color: white;
+} */
 
 *,
 *::before,
@@ -87,14 +88,12 @@ main {
 
 /* Titles */
 .page-title {
-  display: inline-block;
   background: linear-gradient(180deg, var(--black), var(--purple));
+  margin-bottom: var(--spacer-default);
   text-transform: uppercase;
   -webkit-background-clip: text; /* Clips background to text shape */
   -webkit-text-fill-color: transparent; /* Makes original text color transparent */
 }
-
-
 
 /* BUTTON element */
 .button-default {
@@ -126,15 +125,21 @@ main {
    /* transform: scale(1.125); */
 }
 
+.fit-content-button {
+  width: fit-content;
+  padding: 0 var(--spacer-default);
+}
+
 /* HEADER */
 
 header {
   /* background-color: var(--blue); */
-  border-bottom: 2px double var(--black);
-  margin-top: var(--spacer-default);
+  /* border-top: 2px double var(--black);
+  border-bottom: 2px double var(--black); */
+  /* margin-top: var(--spacer-default); */
   margin-bottom: var(--spacer-default);
   /* padding-top: var(--spacer-small); */
-  padding-bottom: var(--spacer-big);
+  /* padding-bottom: var(--spacer-big); */
 }
 
 .sticky-header {
@@ -143,15 +148,30 @@ header {
   width: var(--width-default-percent);
 }
 
-.title h1 {
+.title, .subtitle {
   height: fit-content;
   width: fit-content;
   color: var(--gold);
   font-family: var(--font-title);
-  font-size: var(--font-size-title);
   padding: var(--spacer-default);
   text-shadow: var(--text-shadow);
   text-transform: capitalize;
+}
+
+.title h1 {
+  font-size: var(--font-size-title);
+}
+
+.subtitle h2 {
+  font-size: var(--font-size-large);
+}
+
+nav {
+  /* background-color: var(--gold-trans); */
+  /* border-top: 2px double var(--black); */
+  border-bottom: 2px double var(--black);
+  /* margin-bottom: var(--spacer-default); */
+  padding-bottom: var(--spacer-biggest);
 }
 
 .nav-button {
@@ -179,7 +199,7 @@ header {
   align-items: center;
   justify-content: space-evenly;
   gap: var(--spacer-default);
-  margin-top: var(--spacer-big);
+  /* margin-top: var(--spacer-big); */
 }
 
 .button-container-row {
@@ -240,7 +260,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: start;
-  justify-content: start;
+  justify-content: center;
   gap: var(--spacer-small);
   border: var(--border-black);
   border-radius: var(--border-radius-small);
@@ -258,7 +278,7 @@ label {
   color: var(--gold);
   font-family: var(--font-title);
   text-shadow: var(--text-shadow);
-  text-transform: lowercase;
+  text-transform: uppercase;
 }
 
 input {
@@ -293,6 +313,7 @@ input {
   width: var(--card-width);
   height: auto;
   /* box-shadow: var(--box-shadow-white); */
+  box-shadow: var(--box-shadow-black);
   opacity: .75;
 }
 
@@ -356,6 +377,8 @@ input {
 
 /* footer.ejs */
 footer {
+  position: fixed;
+  bottom: 0;
   color: var(--black);
   font-family: var(--font-text);
   font-size: var(--font-size-small);
@@ -366,17 +389,25 @@ footer {
 
 /* misc */
 
+.frame-border-white {
+  border: 0.5rem double var(--gray);
+  border-radius: var(--border-radius-big);
+  padding: var(--spacer-biggest);
+}
+
 .emoji {
   font-family: var(--font-emoji) !important;
+}
+
+.flex-gap {
+  gap: var(--spacer-default);
 }
 
 .justify-content-center {
   justify-content: center;
 }
 
-.flex-gap {
-  gap: var(--spacer-default);
-}
+
 
 /* .uppercase {
   text-transform: uppercase;

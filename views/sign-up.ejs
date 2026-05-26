@@ -3,106 +3,103 @@
   <head>
     <%- include('./partials/head.ejs') %>
   </head>
-  <body class="justify-content-center">
-    <main>
-      <!-- <div class="card"> -->
-      <div>
-        <div class="page-title">
-          <h1>sign up</h1>
-        </div>
-        <!-- <form class="black" action="/app/sign-up" method="POST"> -->
-        <form class="element-container-col-start-center">
-          <%# CSRF Token - hidden input for forms %>
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <label for="first-name-sign-up">first name</label>
-          <input
-            id="first-name-sign-up"
-            type="text"          
-            name="first_name"
-            value="<%= formData?.first_name || '' %>"
-            placeholder="enter first name"
-            required
-          />
-          <label for="last-name-sign-up">last name</label>
-          <input
-            id="last-name-sign-up"
-            type="text"          
-            name="last_name"
-            value="<%= formData?.last_name || '' %>"
-            placeholder="enter last name"
-            required
-          />
-          <div class="element-container-row-start-center">
-            <label for="email-sign-up">email</label>
-            <% if (errors && errors.some(e => e.field === 'email')) { %>
-              <% errors.filter(e => e.field === 'email').forEach(e => { %>
-                <span class="error-message">[<%= e.message %>]</span>
-              <% }) %>
-            <% } %>
-          </div>
-          <input
-            id="email-sign-up"
-            type="email"            
-            name="email"
-            value="<%= formData?.email || '' %>"
-            placeholder="enter email address"
-            required
-          />
-          <div class="element-container-row-start-center">
-            <label for="invite-code-sign-up">invite code</label>
-            <% if (errors && errors.some(e => e.field === 'invite_code')) { %>
-              <% errors.filter(e => e.field === 'invite_code').forEach(e => { %>
-                <span class="error-message">[<%= e.message %>]</span>
-              <% }) %>
-            <% } %>
-          </div>
-          <input
-            id="invite-code-sign-up"
-            type="text"            
-            name="invite_code"
-            value="<%= formData?.invite_code || '' %>"
-            placeholder="enter invite code"
-            required
-          />
-          <div class="element-container-row-start-center">
-            <label for="password-sign-up">password</label>
-            <% if (errors && errors.some(e => e.field === 'password')) { %>
-              <% errors.filter(e => e.field === 'password').forEach(e => { %>
-                <span class="error-message">[<%= e.message %>]</span>
-              <% }) %>
-            <% } %>
-          </div>
-          <input
-            id="password-sign-up"
-            type="password"
-            name="password"
-            placeholder="select a password"
-            required
-          />
-          <div class="element-container-row-start-center">
-            <label for="confirm-password-sign-up">confirm</label> 
-            <% if (errors && errors.some(e => e.field === 'confirm_password')) { %>
-              <% errors.filter(e => e.field === 'confirm_password').forEach(e => { %>
-                <span class="error-message">[<%= e.message %>]</span>
-              <% }) %>
-            <% } %>
-          </div>
-          <input
-            id="confirm-password-sign-up"
-            type="password"
-            name="confirm_password"
-            placeholder="re-enter chosen password"
-            required
-          />
-          <div class="background-yellow border-default">
-            <%- include('./partials/password-rules.ejs') %>
-          </div>
-          <div class="button-container-row-space-evenly">
-            <a class="button-default" href="/app/">home</a>
-            <button class="button-default" type="submit">sign up</button>
-          </div>
-        </form>
+  <body class="element-container-col-default flex-gap">
+    <main class="frame-border-white">
+      <div class="page-title element-container-row-center-start">
+        <h1>sign up</h1>
       </div>
+      <!-- <form class="black" action="/app/sign-up" method="POST"> -->
+      <form class="element-container-col-start-center">
+        <%# CSRF Token - hidden input for forms %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <label for="first-name-sign-up">first name</label>
+        <input
+          id="first-name-sign-up"
+          type="text"          
+          name="first_name"
+          value="<%= formData?.first_name || '' %>"
+          placeholder="enter first name"
+          required
+        />
+        <label for="last-name-sign-up">last name</label>
+        <input
+          id="last-name-sign-up"
+          type="text"          
+          name="last_name"
+          value="<%= formData?.last_name || '' %>"
+          placeholder="enter last name"
+          required
+        />
+        <div class="element-container-row-start-center">
+          <label for="email-sign-up">email</label>
+          <% if (errors && errors.some(e => e.field === 'email')) { %>
+            <% errors.filter(e => e.field === 'email').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+        </div>
+        <input
+          id="email-sign-up"
+          type="email"            
+          name="email"
+          value="<%= formData?.email || '' %>"
+          placeholder="enter email address"
+          required
+        />
+        <div class="element-container-row-start-center">
+          <label for="invite-code-sign-up">invite code</label>
+          <% if (errors && errors.some(e => e.field === 'invite_code')) { %>
+            <% errors.filter(e => e.field === 'invite_code').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+        </div>
+        <input
+          id="invite-code-sign-up"
+          type="text"            
+          name="invite_code"
+          value="<%= formData?.invite_code || '' %>"
+          placeholder="enter invite code"
+          required
+        />
+        <div class="element-container-row-start-center">
+          <label for="password-sign-up">password</label>
+          <% if (errors && errors.some(e => e.field === 'password')) { %>
+            <% errors.filter(e => e.field === 'password').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+        </div>
+        <input
+          id="password-sign-up"
+          type="password"
+          name="password"
+          placeholder="select a password"
+          required
+        />
+        <div class="element-container-row-start-center">
+          <label for="confirm-password-sign-up">confirm</label> 
+          <% if (errors && errors.some(e => e.field === 'confirm_password')) { %>
+            <% errors.filter(e => e.field === 'confirm_password').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+        </div>
+        <input
+          id="confirm-password-sign-up"
+          type="password"
+          name="confirm_password"
+          placeholder="re-enter chosen password"
+          required
+        />
+        <div class="background-yellow border-default">
+          <%- include('./partials/password-rules.ejs') %>
+        </div>
+        <div class="button-container-row-space-evenly">
+          <a class="button-default" href="/app/">home</a>
+          <button class="button-default" type="submit">sign up</button>
+        </div>
+      </form>
     </main>
     <%- include('./partials/footer.ejs') %>
   </body>

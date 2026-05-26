@@ -3,54 +3,51 @@
   <head>
     <%- include('./partials/head.ejs') %>
   </head>
-  <body class="justify-content-center">
-    <main>
-      <!-- <div class="card"> -->
-      <div>
-        <div class="page-title">
-          <h1>log in</h1>
-        </div>
-        <!-- <form class="black" action="/app/sign-up" method="POST"> -->
-        <form class="element-container-col-start-center">
-          <%# CSRF Token - hidden input for forms %>
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="element-container-row-start-center">
-            <label for="email-log-in">email</label>
-            <% if (errors && errors.some(e => e.field === 'email')) { %>
-              <% errors.filter(e => e.field === 'email').forEach(e => { %>
-                <span class="error-message">[<%= e.message %>]</span>
-              <% }) %>
-            <% } %>
-          </div>
-          <input
-            id="email-log-in"
-            type="email"            
-            name="email"
-            value="<%= formData?.email || '' %>"
-            placeholder="enter email address"
-            required
-          />
-          <div class="element-container-row-start-center">
-            <label for="password-log-in">password</label>
-            <% if (errors && errors.some(e => e.field === 'password')) { %>
-              <% errors.filter(e => e.field === 'password').forEach(e => { %>
-                <span class="error-message">[<%= e.message %>]</span>
-              <% }) %>
-            <% } %>
-          </div>
-          <input
-            id="password-log-in"
-            type="password"
-            name="password"
-            placeholder="enter password"
-            required
-          />
-          <div class="button-container-row-space-evenly">
-            <a class="button-default" href="/app/">home</a>
-            <button class="button-default" type="submit">log in</button>
-          </div>
-        </form>
+  <body class="element-container-col-default flex-gap">
+    <main class="frame-border-white">
+      <div class="page-title">
+        <h1>log in</h1>
       </div>
+      <!-- <form class="black" action="/app/sign-up" method="POST"> -->
+      <form class="element-container-col-start-center">
+        <%# CSRF Token - hidden input for forms %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="element-container-row-start-center">
+          <label for="email-log-in">email</label>
+          <% if (errors && errors.some(e => e.field === 'email')) { %>
+            <% errors.filter(e => e.field === 'email').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+        </div>
+        <input
+          id="email-log-in"
+          type="email"            
+          name="email"
+          value="<%= formData?.email || '' %>"
+          placeholder="enter email address"
+          required
+        />
+        <div class="element-container-row-start-center">
+          <label for="password-log-in">password</label>
+          <% if (errors && errors.some(e => e.field === 'password')) { %>
+            <% errors.filter(e => e.field === 'password').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+        </div>
+        <input
+          id="password-log-in"
+          type="password"
+          name="password"
+          placeholder="enter password"
+          required
+        />
+        <div class="button-container-row-space-evenly">
+          <a class="button-default" href="/app/">home</a>
+          <button class="button-default" type="submit">log in</button>
+        </div>
+      </form>
     </main>
     <%- include('./partials/footer.ejs') %>
   </body>

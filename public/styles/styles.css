@@ -137,7 +137,7 @@ header {
   /* border-top: 2px double var(--black);
   border-bottom: 2px double var(--black); */
   /* margin-top: var(--spacer-default); */
-  margin-bottom: var(--spacer-default);
+  margin-bottom: var(--spacer-small);
   /* padding-top: var(--spacer-small); */
   /* padding-bottom: var(--spacer-big); */
 }

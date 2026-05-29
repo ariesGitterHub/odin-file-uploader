@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL") // needed for prisma studio GUI?
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id String @id @default(uuid())
+
+  firstName String @map("first_name")
+  lastName  String @map("last_name")
+
+  email        String @unique 
+  passwordHash String @map("password_hash")
+
+  role UserRole @default(USER)
+
+  storageUsedBytes BigInt @default(0) @map("storage_by_bytes")
+
+  emailVerified Boolean @default(false) @map("email_verified")// NOTE: many production apps use a timestamp here, but using a Boolean supports my use now
+
+  lastLoginAt DateTime? @map("last_login_at")// NOTE: ? means nullable fields
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  // Relations
+  folders       Folder[]
+  files File[]
+  sharedLinks   ShareLink[]
+
+  @@map("users") // NOTE: this lets me use singular Prisma model names AND use plural SQL table names; it is a common practice
+}
+
+model Folder {
+  id String @id @default(uuid())
+
+  userId  String @map("user_id")
+  user    User    @relation(fields: [userId], references: [id])
+
+  parentFolderId String? @map("parent_folder_id")
+  parentFolder Folder? @relation("FolderHierarchy", fields: [parentFolderId], references: [id])
+
+  childFolders Folder[] @relation("FolderHierarchy") // NOTE: "FolderHierarchy" string is just Prisma metadata that helps the ORM understand the self-referencing relationship
+
+  folderName String @db.VarChar(255) @map("folder_name")
+
+  color String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  // Relations
+  files File[]
+  sharedLinks   ShareLink[]
+
+  @@unique([userId, parentFolderId, folderName])
+
+  @@index([userId])
+  @@index([parentFolderId])
+
+  @@map("folders")
+}
+
+model File {
+  id String @id @default(uuid())
+
+  // Relations
+  users           User[]
+  folders         Folder[]
+  sharedLinks     ShareLink[]
+
+  @@map("uploadedFiles")
+}
+
+model ShareLink {
+  id String @id @default(uuid())
+
+  // Relations
+  users           User[]
+  folders         Folder[]
+  files           File[]
+
+  @@map("sharedlinks")
+}

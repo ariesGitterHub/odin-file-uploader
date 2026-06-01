@@ -265,6 +265,7 @@ nav {
   border: var(--border-black);
   border-radius: var(--border-radius-small);
   padding: var(--spacer-default);
+  margin-bottom: var(--spacer-default);
 }
 
 

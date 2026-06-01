@@ -9,13 +9,27 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = env("DATABASE_URL") // needed for prisma studio GUI?
+  // NOTE - below VS Code message: Your Prisma schema file is missing the datasource URL and the current workspace is pinned to Prisma 6. The datasource URL is required in Prisma 6, but no longer expected in Prisma 7. If you intend to use Prisma 7, press the button below to unpin the current workspace from Prisma 6. If you want to continue using Prisma 6, you can ignore this message.
+    url      = env("DATABASE_URL")
 }
 
 enum UserRole {
   USER
   ADMIN
 }
+
+enum PermissionType {
+  VIEW
+  EDIT
+  DOWNLOAD
+}
+
+// enum ExpiresTime {
+//   HOUR
+//   DAY
+//   WEEK
+//   MONTH
+// }
 
 model User {
   id String @id @default(uuid())
@@ -28,7 +42,7 @@ model User {
 
   role UserRole @default(USER)
 
-  storageUsedBytes BigInt @default(0) @map("storage_by_bytes")
+  storageUsedBytes BigInt @default(0) @map("storage_used_bytes")
 
   emailVerified Boolean @default(false) @map("email_verified")// NOTE: many production apps use a timestamp here, but using a Boolean supports my use now
 
@@ -38,10 +52,11 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  // Relations
+  // User Foreign Keys are used in these tables as Relations
   folders       Folder[]
-  files File[]
-  sharedLinks   ShareLink[]
+  files         File[]
+  versions      Version[]
+  shareLinks    ShareLink[]
 
   @@map("users") // NOTE: this lets me use singular Prisma model names AND use plural SQL table names; it is a common practice
 }
@@ -50,7 +65,7 @@ model Folder {
   id String @id @default(uuid())
 
   userId  String @map("user_id")
-  user    User    @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id]) // user this folder belongs to
 
   parentFolderId String? @map("parent_folder_id")
   parentFolder Folder? @relation("FolderHierarchy", fields: [parentFolderId], references: [id])
@@ -65,9 +80,9 @@ model Folder {
   updatedAt DateTime @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  // Relations
-  files File[]
-  sharedLinks   ShareLink[]
+  // Folder Foreign Keys are used in these tables as Relations
+  files         File[]
+  shareLinks   ShareLink[]
 
   @@unique([userId, parentFolderId, folderName])
 
@@ -80,21 +95,95 @@ model Folder {
 model File {
   id String @id @default(uuid())
 
-  // Relations
-  users           User[]
-  folders         Folder[]
-  sharedLinks     ShareLink[]
+  folderId  String @map("folder_id") // NOTE - requires every file to belong to a folder
+  folder    Folder @relation(fields: [folderId], references: [id]) // folder this file belongs in
 
-  @@map("uploadedFiles")
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id]) // user who uploaded this file
+
+  fileName String @db.VarChar(255) @map("file_name") // NOTE - new randomized file name to avoid collisions and hide actual name, a best practice
+  originalFileName String @db.VarChar(255) @map("original_file_name") // NOTE - what the original file is named
+  mimeType String // use enum for this??? NO! ❌
+  sizeBytes BigInt @map("size_bytes")
+
+  // currentVersionID String @map("current_version_id")
+  // version  Version @relation(fields: [currentVersionID], references: [id]) // current version of file
+  
+  cloudKey String @map("cloud_key") // storage provider key
+  cloudProvider String @map("cloud_provider") // TODO - create an ENUM for this later? `S3`, `CLOUDFLARE_R2`, etc
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  // File Foreign Keys are used in these tables as Relations
+  versions        Version[]
+  shareLinks     ShareLink[]
+
+  @@map("files")
+}
+
+model Version {
+  id String @id @default(uuid())
+
+  fileId  String @map("file_id")
+  file    File @relation(fields: [fileId], references: [id]) // file this file belongs in
+
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id]) // user this filer belongs to
+
+  fileName String @db.VarChar(255) @map("file_name") // NOTE - new randomized file name to avoid collisions and hide actual name, a best practice
+  originalFileName String @db.VarChar(255) @map("original_file_name") // NOTE - what the original file is named
+  mimeType String // use enum for this???
+  sizeBytes BigInt @map("size_bytes")
+  
+  versionNumber Int @map("version_number")
+  // currentVersionID String @map("current_version_id")
+  // version  Version @relation(fields: [currentVersionID], references: [id]) // current version of file
+  
+  cloudKey String @map("cloud_key") // storage provider key
+  // cloudProvider String @map("cloud_provider") // `S3`, `CLOUDFLARE_R2`, etc
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  // updatedAt DateTime @updatedAt @map("updated_at")
+  // deletedAt DateTime? @map("deleted_at")
+
+   @@unique([fileId, versionNumber])
+
+  @@map("versions")
 }
 
 model ShareLink {
   id String @id @default(uuid())
 
-  // Relations
-  users           User[]
-  folders         Folder[]
-  files           File[]
+  token String @unique // TODO & NOTE - Just remember Prisma won't automatically generate it. I'll need something like: crypto.randomUUID()
 
-  @@map("sharedlinks")
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id]) // user who owns this folder/file
+
+  folderId  String? @map("folder_id")
+  folder    Folder? @relation(fields: [folderId], references: [id]) // folder this file belongs in
+
+  fileId  String? @map("file_id")
+  file    File? @relation(fields: [fileId], references: [id]) // folder this file belongs in
+
+  permission PermissionType @default(VIEW)
+
+  passwordHash String? @map("password_hash") // TODO - is this needed? Wouldn't the link just be shared?
+
+  maxDownloads Int? @map("max_downloads")
+
+  isActive Boolean @default(true) @map("is_active")
+
+  expiresAt DateTime? @map("expires_at") // NOTE - use of Nullable ?, as links might never expire!
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // folderId IS NOT NULL AND fileId IS NULL OR folderId IS NULL AND fileId IS NOT NULL // TODO - what is the proper syntax for this? TODO - ad this to app code or elsewhere later
+
+  @@index([token]) // TODO - keep?
+
+  @@map("share_links")
 }
+
+// TODO - how to handle bucket + object key with cloud provider

@@ -9,7 +9,7 @@
         <h1>sign up</h1>
       </div>
       <!-- <form class="black" action="/app/sign-up" method="POST"> -->
-      <form class="element-container-col-start-center">
+      <form class="element-container-col-start-center" action="/app/sign-up" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <label for="first-name-sign-up">first name</label>

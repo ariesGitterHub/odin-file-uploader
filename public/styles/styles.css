@@ -176,7 +176,7 @@ nav {
 
 .nav-button {
   height: 2.25rem;
-  width: 5rem;
+  width: 3.5rem;
   background-color: var(--gray);
   font-size: var(--font-size-large);
   font-weight: 800;
@@ -223,6 +223,13 @@ nav {
   flex-direction: column;
   align-items: start;
   justify-content: center;
+}
+
+.element-container-col-center-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
 }
 
 /* --row-based */
@@ -272,7 +279,7 @@ nav {
 
 /* FORM ELEMENTS */
 form {
-  width: var(--form-width);
+  /* width: var(--form-width); */
 }
 
 label {
@@ -354,22 +361,22 @@ input {
   font-size: 2rem; /* adjust as needed */
 }
 
-.folder-emoji .hovered {
+/* .folder-emoji .hovered {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
   transition: opacity 0.1s ease-in-out;
-}
+} */
 
-.folder-emoji:hover .unhovered {
+/* .folder-emoji:hover .unhovered {
   opacity: 0;
   transition: opacity 0.1s ease-in-out;
-}
+} */
 
-.folder-emoji:hover .hovered {
+/* .folder-emoji:hover .hovered {
   opacity: 1;
-}
+} */
 
 
 
@@ -406,6 +413,10 @@ footer {
 
 .justify-content-center {
   justify-content: center;
+}
+
+.width-default {
+  width: var(--form-width);
 }
 
 

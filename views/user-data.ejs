@@ -3,7 +3,7 @@
   <head>
     <%- include('./partials/head.ejs') %>
   </head>
-  <body>
+  <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default">
       <div class="subtitle">
@@ -11,61 +11,49 @@
       </div>
       <div class="element-container-row-default">
         <div class="folder-card">
-          <span           
-            class="emoji folder-emoji"
-            role="img"
-            aria-label="Data folder"
-          >
-            <span class="unhovered">📁</span>
-            <span class="hovered">📂</span>
+          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+            <span class="unhovered">📄</span>
+            <!-- <span class="hovered">📂</span> -->
           </span>
           <p>Documents (0)</p>
         </div>
         <div class="folder-card">
-          <span           
-            class="emoji folder-emoji"
-            role="img"
-            aria-label="Data folder"
-          >
-            <span class="unhovered">📁</span>
-            <span class="hovered">📂</span>
+          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+            <span class="unhovered">📸</span>
+            <!-- <span class="hovered">🖼</span> -->
           </span>
           <p>Images (5)</p>
         </div>
         <div class="folder-card">
-          <span           
-            class="emoji folder-emoji"
-            role="img"
-            aria-label="Data folder"
-          >
-            <span class="unhovered">📁</span>
-            <span class="hovered">📂</span>
+          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+            <span class="unhovered">🎵</span>
+            <!-- <span class="hovered">🎶</span> -->
           </span>
           <p>Audio (3)</p>
         </div>
         <div class="folder-card">
-          <span           
-            class="emoji folder-emoji"
-            role="img"
-            aria-label="Data folder"
-          >
-            <span class="unhovered">📁</span>
-            <span class="hovered">📂</span>
+          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+            <span class="unhovered">📹</span>
+            <!-- <span class="hovered">🎞</span> -->
           </span>
           <p>Video (2)</p>
         </div>
         <div class="folder-card">
-          <span           
-            class="emoji folder-emoji"
-            role="img"
-            aria-label="Data folder"
-          >
-            <span class="unhovered">📁</span>
-            <span class="hovered">📂</span>
+          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+            <span class="unhovered">🗄</span>
+            <!-- <span class="hovered">🗃</span> -->
           </span>
           <p>Archives (13)</p>
         </div>
+        <div class="folder-card">
+          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+            <span class="unhovered">🗑</span>
+            <!-- <span class="hovered">🗃</span> -->
+          </span>
+          <p>Trash (13)</p>
+        </div>
       </div>
     </main>
+    <%- include('./partials/footer.ejs') %>
   </body>
 </html>

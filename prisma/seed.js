@@ -8,7 +8,8 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function seed() {
+    // await prisma.user.deleteMany() // Clear existing data first // TODO - Keep????
 
   // Temp password hashes for dev
     if (!process.env.MMM_FAST_PASSWORD) {
@@ -45,7 +46,7 @@ async function main() {
   console.log("Created user:", user.email);
 }
 
-main()
+seed()
   .then(async () => {
     await prisma.$disconnect();
   })

@@ -1,6 +1,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
-const pool = require("../db/pool");
+// const pool = require("../db/pool");
+const prisma = require("../lib/prisma");
 
 module.exports = (passport) => {
   passport.use(
@@ -11,27 +12,20 @@ module.exports = (passport) => {
       },
       async (email, password, done) => {
         try {
-          const { rows } = await pool.query(
-            `SELECT id, email, password_hash, permission_status, is_active
-             FROM users
-             WHERE email = $1`,
-            [email],
-          );
+          const user = await prisma.user.findUnique({ where: { email } });
 
-          if (!rows.length) {
-            return done(null, false, { message: "Invalid email or password." });
+          console.log("USER:", user);
+
+          if (!user) {
+            return done(null, false, { message: "Incorrect email" });
           }
 
-          const user = rows[0];
+          console.log("HASH:", user.passwordHash);
 
-          if (!user.is_active) {
-            return done(null, false, { message: "Account disabled." });
-          }
-
-          const isMatch = await bcrypt.compare(password, user.password_hash);
+          const isMatch = await bcrypt.compare(password, user.passwordHash);
 
           if (!isMatch) {
-            return done(null, false, { message: "Invalid email or password." });
+            return done(null, false, { message: "Invalid password." });
           }
 
           return done(null, user);
@@ -48,22 +42,18 @@ module.exports = (passport) => {
   });
 
   // DESERIALIZE USER (CREATES req.user)
+  // Source - https://stackoverflow.com/a/74549824
+  // Posted by Pompedup, modified by community. See post 'Timeline' for change history
+  // Retrieved 2026-06-09, License - CC BY-SA 4.0
+
   passport.deserializeUser(async (id, done) => {
     try {
-      const { rows } = await pool.query(
-        `SELECT u.id, u.email
-         FROM users u
-         WHERE u.id = $1`,
-        [id],
-      );
+      // You did well where
+      const user = await prisma.user.findFirst({ where: { id } });
 
-      if (!rows.length) {
-        return done(null, false);
-      }
-
-      return done(null, rows[0]);
-    } catch (err) {
-      return done(err);
+      done(null, user);
+    } catch (error) {
+      done(error);
     }
   });
-};
+};;

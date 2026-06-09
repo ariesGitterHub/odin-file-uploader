@@ -48,7 +48,14 @@ const { Router } = require("express");
 //   postMemberInviteDeclined,
 // } = require("../controllers/memberControllers");
 
-const { getHome, getSignUpPage, getLogInPage, getUserDataPage } = require("../controllers/appControllers");
+const {
+  getHomePage,
+  getSignUpPage,
+  postSignUpPage,
+  getLogInPage,
+  postLogInPage,
+  getUserDataPage,
+} = require("../controllers/appControllers");
 
 // const {
 //   getModalDataToFrontend,
@@ -62,7 +69,7 @@ const { getHome, getSignUpPage, getLogInPage, getUserDataPage } = require("../co
 const appRouter = Router();
 
 // // ROUTES: INDEX/HOME (index.ejs), ALSO USED FOR MAINTENANCE (maintenance.ejs)
-appRouter.get("/", getHome);
+appRouter.get("/", getHomePage);
 
 // // ****
 // // APIs
@@ -88,6 +95,7 @@ appRouter.get("/", getHome);
 
 // // ROUTES: SIGN UP PAGE (sign-up.ejs)
 appRouter.get("/sign-up", getSignUpPage);
+appRouter.post("/sign-up", postSignUpPage);
 // appRouter.post(
 //   "/sign-up",
 //   createUserValidatorSignUp,
@@ -101,6 +109,7 @@ appRouter.get("/sign-up", getSignUpPage);
 
 // // ROUTES: LOG IN PAGE (log-in.ejs)
 appRouter.get("/log-in", getLogInPage);
+appRouter.post("/log-in", postLogInPage);
 // appRouter.post("/log-in", rateLimiter, postLogInPage);
 
 // // ROUTES: LOG OUT BUTTON

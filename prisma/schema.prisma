@@ -36,7 +36,7 @@ enum FolderEmoji {
   VIDEO3      @map("🎞")
   ARCHIVE1    @map("🗄")
   ARCHIVE2    @map("🗃")
-  TRASH       @map("🗑️")
+  TRASH       @map("🗑")
   FOLDER1     @map("📁")
   FOLDER2     @map("📂")
   ART         @map("🎨️")
@@ -113,7 +113,7 @@ model Folder {
   childFolders Folder[] @relation("FolderHierarchy") // NOTE: "FolderHierarchy" string is just Prisma metadata that helps the ORM understand the self-referencing relationship
 
   folderName String @map("folder_name") @db.VarChar(255)
-  folderImage FolderEmoji @default(FOLDER1)
+  folderImage FolderEmoji @default(FOLDER1) @map("folder_image")
   color String?
 
   createdAt DateTime  @default(now()) @map("created_at")

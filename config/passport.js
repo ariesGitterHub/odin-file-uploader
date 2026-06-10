@@ -50,6 +50,7 @@ module.exports = (passport) => {
     try {
       // You did well where
       const user = await prisma.user.findFirst({ where: { id } });
+      console.log(user)
 
       done(null, user);
     } catch (error) {

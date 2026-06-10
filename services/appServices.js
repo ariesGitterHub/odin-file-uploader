@@ -24,14 +24,14 @@ async function createUser(userData) {
 async function createDefaultFolders(tx, userId) {
   return tx.folder.create({
     data: {
-        userId,
-        folderName: "Default",
-      },
+      userId,
+      folderName: "Default",
+    },
   });
 }
 
 // !!! TODO - add this to the relevant controllers where ensuring email uniqueness is needed.
-async function getUserByEmail(email) { 
+async function getUserByEmail(email) {
   return prisma.user.findUnique({
     where: {
       email,
@@ -39,7 +39,19 @@ async function getUserByEmail(email) {
   });
 }
 
+async function getUserFolders(userId) {
+  return prisma.folder.findMany({
+    where: {
+      userId, // UUID string is fine here
+    },
+    orderBy: {
+      folderName: "asc", // optional, for consistent display
+    },
+  });
+}
+
 module.exports = {
   createUser,
   getUserByEmail,
+  getUserFolders,
 };

@@ -2,9 +2,15 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { validationResult } = require("express-validator");
 
-const { createUser, getUserByEmail } = require("../services/appServices");
+const {
+  createUser,
+  getUserByEmail,
+  getUserFolders,
+} = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
+
+const folderEmojis = require("../utils/folderEmojis")
 
 async function getHomePage(req, res, next) {
   try {
@@ -236,8 +242,19 @@ async function getUserDataPage(req, res, next) {
     //   return res.redirect("/");
     // }
 
+    const userId = req.user.id;
+
+    const userFolders = await getUserFolders(userId);
+
+    // attach emoji for rendering
+    const foldersWithEmoji = userFolders.map((folder) => ({
+      ...folder,
+      emoji: folderEmojis[folder.folderImage], // Prisma enum value → emoji
+    }));
+
     res.render("user-data", {
       title: "User Data",
+      userFolders: foldersWithEmoji,
       errors: [],
       // passwordRules,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET

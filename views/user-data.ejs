@@ -11,49 +11,13 @@
       </div>
         <div class="element-container-row-default">
           <% userFolders.forEach(function(folder) { %> 
-          <div class="folder-card">
+          <a class="button-default folder-card" href="">
             <span class="emoji folder-emoji" role="img" aria-label="Data folder">
               <%= folder.emoji %>
             </span>
             <p><%= folder.folderName%></p>
-          </div>
+          </a>
           <% }) %>
-      <!--<div class="folder-card">
-          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-            <span class="unhovered">📄</span>
-          </span>
-          <p>Documents (0)</p>
-        </div>
-        <div class="folder-card">
-          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-            <span class="unhovered">📸</span>
-          </span>
-          <p>Images (5)</p>
-        </div>
-        <div class="folder-card">
-          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-            <span class="unhovered">🎵</span>
-          </span>
-          <p>Audio (3)</p>
-        </div>
-        <div class="folder-card">
-          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-            <span class="unhovered">📹</span>
-          </span>
-          <p>Video (2)</p>
-        </div>
-        <div class="folder-card">
-          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-            <span class="unhovered">🗄</span>
-          </span>
-          <p>Archives (13)</p>
-        </div>
-        <div class="folder-card">
-          <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-            <span class="unhovered">🗑</span>
-          </span>
-          <p>Trash (13)</p>
-        </div> -->
       </div>
     </main>
     <%- include('./partials/footer.ejs') %>

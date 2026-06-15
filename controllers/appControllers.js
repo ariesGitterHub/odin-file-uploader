@@ -10,7 +10,7 @@ const {
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
 
-const folderEmojis = require("../utils/folderEmojis")
+const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis")
 
 async function getHomePage(req, res, next) {
   try {
@@ -264,11 +264,28 @@ async function getUserDataPage(req, res, next) {
   }
 }
 
+// CONTROLLER: USER FOLDER PAGE (user-folder.ejs)
+
+async function getNewFolderPage(req, res, next) {
+  try {
+    res.render("new-folder", {
+      errors: [],
+      folderEmojisDropdown,
+      // passwordRules,
+      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getHomePage,
   getSignUpPage,
   postSignUpPage,
   getLogInPage,
   postLogInPage,
+  postLogOut,
   getUserDataPage,
+  getNewFolderPage,
 };

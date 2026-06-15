@@ -26,19 +26,13 @@ enum PermissionType {
 }
 
 enum FolderEmoji {
+  GENERAL     @map("📁")
   DOCUMENT    @map("📄")
-  IMAGE1      @map("📸")
-  IMAGE2      @map("🖼")
-  AUDIO1      @map("📻")
-  AUDIO2      @map("🎧")
-  VIDEO1      @map("📹")
-  VIDEO2      @map("🎬")
-  VIDEO3      @map("🎞")
-  ARCHIVE1    @map("🗄")
-  ARCHIVE2    @map("🗃")
-  TRASH       @map("🗑")
-  FOLDER1     @map("📁")
-  FOLDER2     @map("📂")
+  IMAGE      @map("📸")
+  AUDIO      @map("🎧")
+  VIDEO      @map("🎬")
+  ARCHIVE    @map("🗃️")
+  TRASH       @map("🗑️")
   ART         @map("🎨️")
   BACKUP      @map("💾")
   BOOK        @map("📚")
@@ -48,17 +42,19 @@ enum FolderEmoji {
   FAVORITE    @map("⭐")
   FINANCE     @map("💰")
   FITNESS     @map("🏃")
+  GAMING      @map("🕹️")
+  HUMOR       @map("😂")
   IDEA        @map("💡")
   LEARNING    @map("🧠")
   LIST        @map("📋")
-  PERSONAL    @map("🤍")
+  PERSONAL    @map("♥️")
   PROGRAMMING @map("💻")
   PROJECT     @map("🚧")
   PUZZLE      @map("🧩")
   RECEIPT     @map("🧾")
   RECIPE      @map("🍲")
+  RPG         @map("🗡️")  
   SCHOOL      @map("🎓")
-  SWORD       @map("🗡")
   VACATION    @map("🏖️")
   WORK        @map("💼")
 }
@@ -112,9 +108,11 @@ model Folder {
 
   childFolders Folder[] @relation("FolderHierarchy") // NOTE: "FolderHierarchy" string is just Prisma metadata that helps the ORM understand the self-referencing relationship
 
-  folderName String @map("folder_name") @db.VarChar(255)
-  folderImage FolderEmoji @default(FOLDER1) @map("folder_image")
-  color String?
+  folderName String @map("folder_name") @db.VarChar(100)
+  folderImage FolderEmoji @default(GENERAL) @map("folder_image")
+  // color String?
+  folderDescription String? @map("folder_description") @db.VarChar(255)
+
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body class="element-container-col-center-start flex-gap">
+    <%- include('./partials/header.ejs') %>
+    <main class="element-container-col-default frame-border-white">
+      <div class="subtitle">
+        <h2>create a new folder</h2>
+      </div>
+       <form class="element-container-col-start-center form-width" action="/app/new-folder" method="POST">
+        <%# CSRF Token - hidden input for forms %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <label for="folder-name-new-folder">folder name</label>
+        <input
+          id="folder-name-new-folder"
+          type="text"          
+          name="folder_name"
+          value="<%= formData?.folder_name || '' %>"
+          placeholder="enter new folder name"
+          required
+        />
+        <!-- TODO - This needs to be a drop down menu that uses the utils/folderEmojis -->
+        <label for="folder-image-new-folder">folder image</label>
+        <select
+          id="folder-image-new-folder"
+          class="width-default"
+          type="text"          
+          name="folder_image"
+          value="<%= formData?.folder_image || '' %>"
+          placeholder="NEEDS TO BE DROPDOWN"
+          required
+          >
+            <option value="" disabled <%= !formData?.folder_image ? "selected" : "" %>>choose folder image</option>
+            <% folderEmojisDropdown.forEach((emoji) => { %>
+              <option value="<%= emoji.value %>" <%= formData?.folder_image === emoji.name ? "selected" : "" %>>
+                <span class="emoji select-font-larger"><%= emoji.image %></span> - <%= emoji.name %>
+              </option>
+            <% }) %>
+        </select>
+        <label for="folder-parent-new-folder">choose parent folder</label>
+          <input
+            id="folder-parent-id-new-folder"
+            type="text"          
+            name="parent_folder_id"
+            value="<%= formData?.parent_folder_id || '' %>"
+            placeholder="NEEDS TO BE DROPDOWN"
+            required
+          />
+        <label class="capitalize" for="folder-description-new-folder">
+          folder description
+        </label>
+          <textarea id="folder-description-new-folder" name="folder_description"></textarea>
+        <div class="button-container-row-space-evenly margin-top">
+          <a class="button-default" href="/app/user-data">cancel</a>
+          <button class="button-default" type="submit">submit</button>
+        </div>
+      </form>
+    </main>
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

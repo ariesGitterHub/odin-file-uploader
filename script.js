@@ -57,15 +57,15 @@ async function main() {
   //   },
   // });
 
-  const id = "f8017ed3-544d-4a2f-ba7f-35e8daee7e3d"; // admin
+  const id = "794abafe-2c92-46ae-ad5f-953cb82abe01node "; // admin
   const createAdminFolders = await prisma.folder.createMany({
     data: [
-      { userId: id, folderName: "Documents", folderImage: "DOCUMENT" },
-      { userId: id, folderName: "Images", folderImage: "IMAGE1" },
-      { userId: id, folderName: "Audio", folderImage: "AUDIO2" },
-      { userId: id, folderName: "Video", folderImage: "VIDEO2" },
-      { userId: id, folderName: "Archive", folderImage: "ARCHIVE2" },
-      { userId: id, folderName: "Trash", folderImage: "TRASH" },
+      { userId: id, folderName: "1. Documents", folderImage: "DOCUMENT" },
+      { userId: id, folderName: "2. Images", folderImage: "IMAGE" },
+      { userId: id, folderName: "3. Audio", folderImage: "AUDIO" },
+      { userId: id, folderName: "4. Video", folderImage: "VIDEO" },
+      { userId: id, folderName: "5. Archive", folderImage: "ARCHIVE" },
+      { userId: id, folderName: "6. Trash", folderImage: "TRASH" },
     ],
   });
 

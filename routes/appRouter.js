@@ -54,7 +54,9 @@ const {
   postSignUpPage,
   getLogInPage,
   postLogInPage,
+  postLogOut,
   getUserDataPage,
+  getNewFolderPage,
 } = require("../controllers/appControllers");
 
 // const {
@@ -112,15 +114,15 @@ appRouter.get("/log-in", getLogInPage);
 appRouter.post("/log-in", postLogInPage);
 // appRouter.post("/log-in", rateLimiter, postLogInPage);
 
-// // ROUTES: LOG OUT BUTTON
-// appRouter.post(
-//   "/log-out",
-//   (req, res, next) => {
-//     console.log("👋 Logout form submitted, good bye!");
-//     next();
-//   },
-//   postLogOut,
-// );
+// ROUTES: LOG OUT BUTTON
+appRouter.post(
+  "/log-out",
+  (req, res, next) => {
+    console.log("👋 Logout form submitted, good bye!");
+    next();
+  },
+  postLogOut,
+);
 
 // // Admin Related
 
@@ -332,5 +334,6 @@ appRouter.post("/log-in", postLogInPage);
 // );
 
 appRouter.get("/user-data", getUserDataPage);
+appRouter.get("/new-folder", getNewFolderPage);
 
 module.exports = appRouter;

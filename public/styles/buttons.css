@@ -1,0 +1,77 @@
+.button-default {
+  all: unset; /* nukes browser defaults */
+  height: var(--button-default-h);
+  width: var(--button-default-w);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gray);
+  border: var(--border-default);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--box-shadow-black);
+  color: var(--black);
+  cursor: pointer;
+  font-family: var(--font-title);
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-heavy);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.button-default:hover {
+  /* background-color: var(--orange); */
+  /* background-color: transparent; */
+  background-color: var(--gold);
+  /* box-shadow: var(--box-shadow-black); */
+  color: var(--black);
+   /* transform: scale(1.125); */
+}
+
+.wide-button {
+width: var(--width-default-percent);
+margin: 0;
+font-size: var(--font-size-default);
+/* padding-left: 0.5rem;
+padding-right: 0.5rem; */
+padding: 0.25rem 0.5rem;
+}
+
+/* .narrow-button {
+width: fit-content;
+margin: 0;
+padding: 0;
+} */
+
+.nav-button {
+  height: var(--nav-button-default-h);
+  width: var(--nav-button-default-w);
+  background-color: var(--gray);
+  font-size: var(--font-size-large);
+  font-weight: 800;
+}
+
+
+.file-button {
+  /* height: var(--button-default-h); */
+  /* width: var(--button-default-h); */
+  height: fit-content;
+  width: fit-content;
+  background-color: var(--black);
+  border: var(--border-default);
+  color: var(--gold);
+  font-size: var(--font-size-default);
+}
+
+.file-button:hover {
+  /* background-color: var(--orange); */
+  /* background-color: transparent; */
+  background-color: var(--blue-bold);
+  /* box-shadow: var(--box-shadow-black); */
+  color: var(--white);
+   /* transform: scale(1.125); */
+}
+
+.fit-content-button {
+  width: fit-content;
+  padding: 0 var(--spacer-default);
+}

@@ -1,0 +1,65 @@
+/* Add these ad-hoc to various elements */
+.emoji {
+  font-family: var(--font-emoji) !important;
+}
+
+.file-width {
+  width: fit-content;  
+}
+
+.flex-gap {
+  gap: var(--spacer-default);
+}
+
+.form-width {
+  width: var(--form-width);  
+}
+
+.frame-border-white {
+  border: 0.5rem double var(--gray);
+  border-radius: var(--border-radius-big);
+  padding: var(--spacer-biggest);
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.margin-bottom {
+  margin-bottom: var(--spacer-default);
+}
+
+.margin-top {
+  margin-top: var(--spacer-default);
+}
+
+.width-default {
+  width: var(--width-default-percent);
+}
+
+
+.gray {
+  background-color: var(--black);
+  color: var(--white);
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+.light-gray {
+  width: 100%;
+  background-color: var(--gold);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--blue-bold);
+  padding: 0.5rem;
+}
+
+.folder-description {
+  font-style: var(--font-text);
+}
+
+
+/* .uppercase {
+  text-transform: uppercase;
+} */

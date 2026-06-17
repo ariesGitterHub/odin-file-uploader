@@ -1,0 +1,63 @@
+:root {
+  /* Colors */
+  --black: #0e0d0c;
+  --white: #ececea;
+
+  --gray: #c0c4cf;
+
+  --blue: #0d79f2;
+  --orange: #c18266;
+  --pink: #ba79b5;
+  --purple: #7e1d7e;
+  --gold: #ffd700;
+  --gold-lt: #eee208;
+  --gold-trans: #ffd70080;
+
+  --red-bold: #dc1919;
+  --blue-bold: #1818cc;
+  --yellow-bold: #ffdd00;
+
+  /* Borders */
+  --border-black: 2px solid var(--black);
+  --border-radius-circle: 50%;
+  --border-radius-big: 1rem;
+  --border-radius-biggest: 1.5rem;
+  --border-radius-default: 0.5rem;
+  --border-radius-small: 0.25rem;
+
+  /* Shadow Effects */
+  --box-shadow-gray: inset 0 0.25rem 0.75rem var(--gray);
+  /* --box-shadow-gray: inset 0 0.125rem 0.125rem var(--gray); */
+  /* --box-shadow-black: inset 0 0.125rem 0.125rem var(--black); */
+  /* --box-shadow-white: 0rem 1rem 3rem var(--white); */
+  --box-shadow-black: 0rem 0.5rem 1rem var(--black);
+  --text-shadow0: 0 1px 3px var(--red-bold), 0 1px 3px var(--blue-bold);
+  --text-shadow1: 0 1px 3px var(--yellow-bold), 0 1px 3px var(--blue-bold);
+
+  /* Element Sizing */
+  --button-default-h: 1.75rem;
+  --button-default-w: 5.5rem;  
+  --nav-button-default-h: 2.25rem;
+  --nav-button-default-w: 3.5rem;
+  /* --index-card-width: 325px; */
+  --index-card-width: 100%;
+  --form-width: 325px;
+  --folder-card-width: 8rem;
+  --width-default-percent: 100%;
+  --max-card-width: 650px;
+
+  /* Element Spacing */
+  --spacer-biggest: 1rem;
+  --spacer-big: 0.75rem;
+  --spacer-default: 0.5rem;
+  --spacer-medium: 0.25rem;
+  --spacer-small: 0.125rem;
+
+  /* Fonts */
+  --font-title: "Audiowide", sans-serif;
+  --font-text: "Roboto", sans-serif;
+  --font-emoji: "Noto Emoji", sans-serif;
+  --font-size-default: 1rem;
+  --font-size-large: 1.5rem;
+  --font-size-title: 2.5rem;
+}

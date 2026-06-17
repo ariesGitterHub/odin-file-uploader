@@ -9,7 +9,7 @@
         <h1>log in</h1>
       </div>
       <!-- <form class="black" action="/app/log-in" method="POST"> -->
-      <form class="element-container-col-start-center width-default" action="/app/log-in" method="POST">
+      <form class="element-container-col-start-center form-width" action="/app/log-in" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="element-container-row-start-center">
@@ -44,8 +44,8 @@
           required
         />
         <div class="button-container-row-space-evenly">
-          <a class="button-default" href="/app/">home</a>
-          <button class="button-default" type="submit">log in</button>
+          <a class="button-default wide-button" href="/app/">home</a>
+          <button class="button-default wide-button" type="submit">log in</button>
         </div>
       </form>
     </main>

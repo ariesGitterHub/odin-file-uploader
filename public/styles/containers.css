@@ -1,0 +1,109 @@
+
+.button-container-col {
+  width: var(--width-default-percent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacer-default);
+  margin: var(--spacer-default);
+}
+
+.button-container-row {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacer-default);
+   margin: var(--spacer-default);
+}
+
+.button-container-row-space-evenly {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: var(--spacer-default);
+  /* margin-top: var(--spacer-big); */
+   margin-top: var(--spacer-default);
+   margin-bottom: var(--spacer-default);
+}
+
+.button-container-row-space-between {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacer-default);
+  /* margin-top: var(--spacer-big); */
+   margin: var(--spacer-default);
+}
+
+/* --column-based */
+.element-container-col-default {
+  /* width: 600px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.element-container-col-start-center {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.element-container-col-center-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
+/* --row-based */
+
+
+.element-container-row-default {
+  width: var(--width-default-percent);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.element-container-row-center-start {
+  /* width: 1000px; */
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.element-container-row-space-evenly {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.element-container-row-space-between {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacer-medium);
+}
+
+.password-rules-container {
+  /* width: var(--width-default-percent); */
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: var(--spacer-small);
+  border: var(--border-black);
+  border-radius: var(--border-radius-small);
+  padding: var(--spacer-default);
+  margin-bottom: var(--spacer-big);
+}

@@ -1,0 +1,52 @@
+form {
+  /* width: var(--form-width); */
+  /* width: var(--width-default-percent); */
+  margin: 0;
+}
+
+label {
+  /* color: var(--gold); */
+  /* color: var(--purple); */
+  color: var(--black);
+  font-family: var(--font-title);
+  text-shadow: var(--text-shadow1);
+  text-transform: uppercase;
+}
+
+input {
+  height: 1.75rem;
+  width: var(--width-default-percent);
+  border-radius: var(--border-radius-small);
+  color: var(--black);
+  font-family: var(--font-text);
+  font-size: var(--font-size-default);
+  margin-bottom: var(--spacer-big);
+  padding-left: var(--spacer-small);
+}
+
+select {
+  height: 1.75rem;
+  width: var(--width-default-percent);
+  font-family: var(--font-text);
+  font-size: var(--font-size-default);
+  margin-bottom: var(--spacer-big);
+}
+
+#folder-image-new-folder option {
+  padding: var(--spacer-big);
+}
+
+.select-font-larger {
+  font-size: var(--font-size-large);
+}
+
+textarea {
+  height: 90px;
+  width: var(--width-default-percent);
+  font-family: var(--font-text);
+  font-size: var(--font-size-default);
+  margin-bottom: var(--spacer-default);
+  resize: vertical; /*Allows vertical resizing, remove if not needed */
+  padding: var(--spacer-small);
+  white-space: pre-line;
+}

@@ -56,6 +56,7 @@ const {
   postLogInPage,
   postLogOut,
   getUserDataPage,
+  getUserFolderPage,
   getNewFolderPage,
 } = require("../controllers/appControllers");
 
@@ -334,6 +335,7 @@ appRouter.post(
 // );
 
 appRouter.get("/user-data", getUserDataPage);
+appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/new-folder", getNewFolderPage);
 
 module.exports = appRouter;

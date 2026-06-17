@@ -1,0 +1,203 @@
+html,
+body {
+  min-height: 100vh;
+  min-width: 350px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  background: linear-gradient(05deg, var(--orange), var(--pink));
+  color: var(--black);
+  font-family: var(--font-text);
+  font-size: var(--font-size-default);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header & Nav */
+header {
+  margin-bottom: var(--spacer-small);
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  width: var(--width-default-percent);
+}
+
+nav {
+  border-bottom: 2px double var(--black);
+  padding-bottom: var(--spacer-biggest);
+}
+
+/* Titles & Subtitles */
+.page-title {
+  background: linear-gradient(180deg, var(--black), var(--purple));
+  margin-bottom: var(--spacer-default);
+  text-transform: uppercase;
+  -webkit-background-clip: text; /* Clips background to text shape */
+  -webkit-text-fill-color: transparent; /* Makes original text color transparent */
+}
+
+.title, .subtitle {
+  height: fit-content;
+  width: fit-content;
+  font-family: var(--font-title);
+  padding: var(--spacer-default);
+  text-transform: capitalize;
+}
+
+.title h1 {
+  color: var(--gold);
+  font-size: var(--font-size-title);
+  text-shadow: var(--text-shadow0);
+}
+
+.subtitle h2 {
+  /* color: var(--purple); */
+  color: var(--gold);
+  font-size: var(--font-size-large);
+  text-shadow: var(--text-shadow0);
+}
+
+/*  index.ejs */
+
+.index-card {
+  height: fit-content;
+  width: var(--index-card-width);
+  max-width: var(--max-card-width);
+  padding: var(--spacer-biggest);
+}
+
+.index-title {
+  font-family: var(--font-title);
+  font-size: var(--font-size-large);
+  font-weight: 800;
+  color: var(--gold);
+  text-shadow: var(--text-shadow0);
+  /* text-transform: uppercase; */
+}
+
+.index-image {
+  width: var(--card-width);
+  height: auto;
+  /* box-shadow: var(--box-shadow-white); */
+  box-shadow: var(--box-shadow-black);
+  opacity: .75;
+}
+
+/* user-data.ejs */
+
+.folder-card {
+  height: fit-content;
+  /* width: var(--folder-card-width); */
+  /* width: 35%; */
+  width: fit-content;
+  min-width: var(--folder-card-width);
+  /* max-width: calc(var(--folder-card-width) * 5); */
+  /* width: fit-content; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* background-color: var(--blue); */
+  /* background-color: transparent; */
+  border-radius: var(--border-radius-big);
+  /* box-shadow: var(--box-shadow-black); */
+  /* color: var(--black); */
+  font-weight: 800;
+  margin: var(--spacer-default);
+  padding: var(--spacer-default);
+  text-transform: none;
+  text-wrap: wrap;
+}
+
+.folder-card span {
+  font-size: 3rem;
+}
+
+.folder-card:hover {
+  /* background-color: var(--gold); */
+  transform: scale(1.125);
+}
+
+.folder-emoji {
+  /* display: inline-block; */
+  /* position: relative; */
+  /* cursor: pointer; */
+  font-size: 5rem; /* adjust as needed */
+}
+
+/* .folder-emoji .hovered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+} */
+
+/* .folder-emoji:hover .unhovered {
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+} */
+
+/* .folder-emoji:hover .hovered {
+  opacity: 1;
+} */
+
+/* user-folder.ejs */
+
+.current-folder-card {
+  width: 90%;
+  max-width: 1000px;
+  background-color: var(--black);
+  color: var(--white);
+  margin: 0.5rem;
+  /* margin: 1rem; */
+  padding: 0.5rem;
+}
+
+.current-folder-card h2 {
+  font-size: var(--font-size-default);
+  text-transform: uppercase;
+}
+
+.file-card {
+  width: 100%;
+  background-color: var(--gold);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--blue-bold);
+  padding: 0.5rem;
+}
+
+.folder-description {
+  font-family: var(--font-text);
+}
+
+/* footer.ejs */
+footer {
+  position: fixed;
+  bottom: 0;
+  color: var(--black);
+  font-family: var(--font-text);
+  font-size: var(--font-size-small);
+  margin: var(--spacer-biggest);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* misc */

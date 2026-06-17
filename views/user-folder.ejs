@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body class="element-container-col-center-start flex-gap">
+    <%- include('./partials/header.ejs') %>
+    <main class="element-container-col-default current-folder-card">
+      <div class="element-container-col-start-center width-default margin-bottom">
+        <div class="subtitle">
+          <h2> <span class="emoji">📁</span> documents (XXkb)</h2>
+          <p class="folder-description"> Word docs, txt files, etc.</p>
+        </div>
+        <!-- <div class="folder-description">
+          <p> Word docs, txt files, etc.</p>
+        </div>   -->
+        <div class="button-container-row-space-evenly">
+          <button class="button-default wide-button file-button">
+            <!-- <span class="emoji">🔗</span>  -->
+            edit folder
+          </button>
+          <button class="button-default wide-button file-button">
+            <!-- <span class="emoji">❌</span> -->
+            delete folder</button>
+        </div>        
+      </div>
+
+      <!-- Individual older views -->
+      <div class="file-card"> 
+        <%# userFolders.forEach(function(folder) { %> 
+        <h3>home-inspection.doc (56kb)</h3>
+        <div class="element-container-col-start-center">
+            <p>Created: 5/25/2021, 3:15PM</p>  
+            <p>Updated: 8/4/2026, 5:25PM</p>  
+        </div>
+        <div class="button-container-row-space-evenly">
+          <button class="button-default wide-button file-button">
+            <!-- <span class="emoji">🔗</span>  -->
+            share
+          </button>
+          <button class="button-default wide-button file-button">
+            <!-- <span class="emoji">⬇</span> -->
+            download</button>
+          <button class="button-default wide-button file-button">
+            <!-- <span class="emoji">❌</span> -->
+            delete</button>
+        </div>  
+        
+        <%# }) %>
+      </div>
+    </main>
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

@@ -11,6 +11,13 @@
   gap: var(--spacer-default);
 }
 
+.font-fancy {
+  font-family: var(--font-title);
+}
+.font-normal {
+  font-family: var(--font-text);
+}
+
 .form-width {
   width: var(--form-width);  
 }
@@ -37,29 +44,23 @@
   width: var(--width-default-percent);
 }
 
+.border-red {
+  border: 2px solid red;
+}
 
-.gray {
-  background-color: var(--black);
-  color: var(--white);
-  margin: 0.5rem;
+.border-green {
+  background-color: aqua;
+  border: 2px solid green;
+  
+}
+
+.border-purple {
+  border: 2px solid var(--purple);
   padding: 0.5rem;
 }
 
-.light-gray {
-  width: 100%;
-  background-color: var(--gold);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  color: var(--blue-bold);
-  padding: 0.5rem;
-}
-
-.folder-description {
-  font-style: var(--font-text);
-}
 
 
-/* .uppercase {
+.uppercase {
   text-transform: uppercase;
-} */
+}

@@ -19,6 +19,7 @@
 
   /* Borders */
   --border-black: 2px solid var(--black);
+  --border-gold: 2px solid var(--gold);
   --border-radius-circle: 50%;
   --border-radius-big: 1rem;
   --border-radius-biggest: 1.5rem;
@@ -57,6 +58,7 @@
   --font-title: "Audiowide", sans-serif;
   --font-text: "Roboto", sans-serif;
   --font-emoji: "Noto Emoji", sans-serif;
+  --font-size-small: 0.75rem;
   --font-size-default: 1rem;
   --font-size-large: 1.5rem;
   --font-size-title: 2.5rem;

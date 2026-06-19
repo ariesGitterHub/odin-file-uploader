@@ -18,6 +18,15 @@
    margin: var(--spacer-default);
 }
 
+.button-container-row-center-start {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: var(--spacer-default);
+   margin: var(--spacer-default);
+}
+
 .button-container-row-space-evenly {
   width: var(--width-default-percent);
   display: flex;
@@ -106,4 +115,14 @@
   border-radius: var(--border-radius-small);
   padding: var(--spacer-default);
   margin-bottom: var(--spacer-big);
+}
+
+.file-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-self: start;
+  justify-content: start;
+  gap: var(--spacer-default);
+  flex-wrap: wrap;
 }

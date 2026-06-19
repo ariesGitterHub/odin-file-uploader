@@ -51,15 +51,36 @@ padding: 0;
 }
 
 
-.file-button {
+.folder-button, .file-button {
   /* height: var(--button-default-h); */
   /* width: var(--button-default-h); */
   height: fit-content;
   width: fit-content;
   background-color: var(--black);
-  border: var(--border-default);
+  border: var(--border-gold);
   color: var(--gold);
-  font-size: var(--font-size-default);
+  font-size: var(--font-size-small);
+  padding: 0.25rem 0.5rem;
+}
+
+.folder-button {
+  width: fit-content;
+  flex-direction: column;
+  background-color: var(--black);
+  border: var(--border-gold);
+  color: var(--gold);
+  /* font-size: var(--font-size-default); */
+}
+
+.file-button {
+  background-color: var(--gold-lt);
+  border: var(--border-gold);
+  color: var(--blue-bold);
+  /* font-size: var(--font-size-small); */
+}
+
+.file-button .emoji {
+font-size: 2rem;
 }
 
 .file-button:hover {

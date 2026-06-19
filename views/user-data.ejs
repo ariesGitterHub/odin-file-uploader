@@ -7,7 +7,7 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default">
       <div class="subtitle">
-        <h2>your current folders</h2>
+        <h2>Current folders for <%= user.firstName %></h2>
       </div>
         <div class="element-container-row-default">
           <% userFolders.forEach(function(folder) { %> 

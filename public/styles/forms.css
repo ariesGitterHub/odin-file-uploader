@@ -18,7 +18,7 @@ input {
   width: var(--width-default-percent);
   border-radius: var(--border-radius-small);
   color: var(--black);
-  font-family: var(--font-text);
+  /* font-family: var(--font-text); */
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-big);
   padding-left: var(--spacer-small);
@@ -27,7 +27,7 @@ input {
 select {
   height: 1.75rem;
   width: var(--width-default-percent);
-  font-family: var(--font-text);
+  /* font-family: var(--font-text); */
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-big);
 }
@@ -43,7 +43,7 @@ select {
 textarea {
   height: 90px;
   width: var(--width-default-percent);
-  font-family: var(--font-text);
+  /* font-family: var(--font-text); */
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-default);
   resize: vertical; /*Allows vertical resizing, remove if not needed */

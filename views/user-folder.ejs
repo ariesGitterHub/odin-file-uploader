@@ -5,49 +5,83 @@
   </head>
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
-    <main class="element-container-col-default current-folder-card">
-      <div class="element-container-col-start-center width-default margin-bottom">
+    <main class="element-container-col-default current-folder-card flex-gap">
+      <div class="element-container-col-start-center width-default">
         <div class="subtitle">
           <h2> <span class="emoji">📁</span> documents (XXkb)</h2>
-          <p class="folder-description"> Word docs, txt files, etc.</p>
+          <p class="font-normal"> Word docs, txt files, etc.</p>
         </div>
         <!-- <div class="folder-description">
           <p> Word docs, txt files, etc.</p>
         </div>   -->
         <div class="button-container-row-space-evenly">
-          <button class="button-default wide-button file-button">
+          <button class="button-default  folder-button">
+            <!-- <span class="emoji">🔗</span>  -->
+            share folder
+          </button>
+          <button class="button-default w folder-button">
             <!-- <span class="emoji">🔗</span>  -->
             edit folder
           </button>
-          <button class="button-default wide-button file-button">
+          <button class="button-default  folder-button">
             <!-- <span class="emoji">❌</span> -->
             delete folder</button>
         </div>        
       </div>
 
+      <div class="file-container">
       <!-- Individual older views -->
-      <div class="file-card"> 
-        <%# userFolders.forEach(function(folder) { %> 
-        <h3>home-inspection.doc (56kb)</h3>
-        <div class="element-container-col-start-center">
-            <p>Created: 5/25/2021, 3:15PM</p>  
-            <p>Updated: 8/4/2026, 5:25PM</p>  
-        </div>
+       <div class="border-purple file-card">
+        <h3 class="font-normal">work-type.doc (56kb)</h3>
+        <div class="element-container-row-center-start flex-gap">
+          <div class="file-date">created: ssssss</div>
+          <div class="file-date">updated: dddddd</div>
+        </div>  
         <div class="button-container-row-space-evenly">
           <button class="button-default wide-button file-button">
             <!-- <span class="emoji">🔗</span>  -->
-            share
+            <span>share</span>
           </button>
           <button class="button-default wide-button file-button">
             <!-- <span class="emoji">⬇</span> -->
-            download</button>
+            <span>download</span>
+          </button>
           <button class="button-default wide-button file-button">
             <!-- <span class="emoji">❌</span> -->
-            delete</button>
+            <span>delete</span>
+          </button>
+        </div>
+       </div>
+
+              <div class="border-purple file-card">
+        <h3 class="font-normal">home-inspection-type-from-MARS.doc (56kb)</h3>
+        <div class="element-container-row-center-start flex-gap">
+          <div class="file-date">created: ssssss</div>
+          <div class="file-date">updated: dddddd</div>
         </div>  
-        
-        <%# }) %>
+        <div class="button-container-row-space-evenly">
+          <button class="button-default file-button">
+            <!-- <span class="emoji">🔗</span>  -->
+            <span>share</span>
+          </button>
+          <button class="button-default file-button">
+            <!-- <span class="emoji">⬇</span> -->
+            <span>download</span>
+          </button>
+          <button class="button-default file-button">
+            <!-- <span class="emoji">❌</span> -->
+            <span>delete</span>
+          </button>
+        </div>
+       </div>
+
       </div>
+
+
+
+      
+
+
     </main>
     <%- include('./partials/footer.ejs') %>
   </body>

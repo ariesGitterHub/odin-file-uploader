@@ -115,7 +115,8 @@ app.use(csrfErrorHandler);
 
 // *** 404 handler
 app.use((req, res, next) => {
-  const err = new Error("Not Found");
+  // const err = new Error("Not Found");
+  const err = new Error();
   err.status = 404;
   next(err);
 });

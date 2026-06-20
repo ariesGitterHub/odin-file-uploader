@@ -6,7 +6,8 @@ const {
   createUser,
   getUserByEmail,
   getUserFolders,
-  getFolderFilesCount
+  getFolderFilesCount,
+  getFilesByFolder,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -278,38 +279,56 @@ async function getUserDataPage(req, res, next) {
 }
 
 // CONTROLLER: USER FOLDER PAGE (user-folder.ejs) // TODO - needs slug/params
+// async function getUserFolderPage(req, res, next) {
+//   try {
+//     const folderId = (req.params.folderId);
+
+//     const folder = await getFilesByFolder(folderId);
+
+//     const foldersWithEmoji = await Promise.all(folder.map((folder) => ({
+//       ...folder,
+//       emoji: folderEmojis[folder.folderImage],
+//     })));
+
+//     res.render("user-folder", {
+//       title: folder.folderName,
+//       folder: foldersWithEmoji,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// }
+
 async function getUserFolderPage(req, res, next) {
   try {
-    // if (await isMaintenanceMode()) {
-    //   return res.redirect("/");
-    // }
+    const folderId = req.params.folderId;
 
-    // const userId = req.user.id;
+    const folder = await getFilesByFolder(folderId);
 
-    // const userFolders = await getUserFolders(userId);
-
-    // attach emoji for rendering
-    // const foldersWithEmoji = userFolders.map((folder) => ({
-    //   ...folder,
-    //   emoji: folderEmojis[folder.folderImage], // Prisma enum value → emoji
-    // }));
+    const folderWithEmoji = {
+      ...folder,
+      emoji: folderEmojis[folder.folderImage],
+    };
 
     res.render("user-folder", {
-      title: "User Folder", // TODO - add slug/params here
-      // userFolders: foldersWithEmoji,
-      // errors: [],
-      // passwordRules,
-      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+      title: folderWithEmoji.folderName,
+      folder: folderWithEmoji,
     });
   } catch (err) {
     next(err);
   }
 }
 
+// async function getUserFilesByFolderPage(res, req, next) {
+
+
+// }
+
 // CONTROLLER: NEW FOLDER PAGE (user-folder.ejs)
 async function getNewFolderPage(req, res, next) {
   try {
     res.render("new-folder", {
+      title: "Create Folder",
       errors: [],
       folderEmojisDropdown,
       // passwordRules,

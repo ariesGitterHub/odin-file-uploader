@@ -6,12 +6,12 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default">
-      <div class="subtitle">
-        <h2>Current folders for <%= user.firstName %></h2>
-      </div>
+      <!-- <div> -->
+        <h2 class="subtitle">Current folders for <%= user.firstName %></h2>
+      <!-- </div> -->
         <div class="element-container-row-default">
           <% userFolders.forEach(function(folder) { %> 
-          <a class="button-default folder-card" href="">
+          <a class="button-default folder-card" href="/app/user-folder/<%= folder.id %>">
             <span class="emoji folder-emoji" role="img" aria-label="Data folder">
               <%= folder.emoji %>
             </span>

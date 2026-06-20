@@ -61,9 +61,33 @@ async function getFolderFilesCount(folderId) {
   })
 }
 
+async function getFilesByFolder(folderId) {
+  // return prisma.file.findMany({
+  //   where: {
+  //     folderId,
+  //   },
+  //   orderBy: {
+  //     fileName: "asc", // optional, for consistent display
+  //   },
+  // });
+  return prisma.folder.findUnique({
+  where: {
+    id: folderId,
+  },
+  include: {
+    files: {
+      orderBy: {
+        fileName: "asc",
+      },
+    },
+  },
+});
+}
+
 module.exports = {
   createUser,
   getUserByEmail,
   getUserFolders,
   getFolderFilesCount,
+  getFilesByFolder,
 };

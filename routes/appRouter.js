@@ -335,7 +335,8 @@ appRouter.post(
 // );
 
 appRouter.get("/user-data", getUserDataPage);
-appRouter.get("/user-folder", getUserFolderPage);
+// appRouter.get("/user-folder", getUserFolderPage);
+appRouter.get("/user-folder/:folderId", getUserFolderPage);
 appRouter.get("/new-folder", getNewFolderPage);
 
 module.exports = appRouter;

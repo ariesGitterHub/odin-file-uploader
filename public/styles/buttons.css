@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   background-color: var(--gray);
   border: var(--border-default);
   border-radius: var(--border-radius-small);
@@ -55,7 +56,7 @@ padding: 0;
   /* height: var(--button-default-h); */
   /* width: var(--button-default-h); */
   height: fit-content;
-  width: fit-content;
+  /* width: fit-content; */
   background-color: var(--black);
   border: var(--border-gold);
   color: var(--gold);
@@ -65,7 +66,8 @@ padding: 0;
 
 .folder-button {
   width: fit-content;
-  flex-direction: column;
+  /* flex-direction: row; */
+  /* flex-wrap: wrap; */
   background-color: var(--black);
   border: var(--border-gold);
   color: var(--gold);
@@ -73,6 +75,7 @@ padding: 0;
 }
 
 .file-button {
+  width: 100%;
   background-color: var(--gold-lt);
   border: var(--border-gold);
   color: var(--blue-bold);

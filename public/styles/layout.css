@@ -55,6 +55,8 @@ nav {
   height: fit-content;
   width: fit-content;
   font-family: var(--font-title);
+  /* margin: 0;
+  padding: 0; */
   padding: var(--spacer-default);
   /* text-transform: uppercase; */
 }
@@ -62,10 +64,11 @@ nav {
 .title h1 {
   color: var(--gold);
   font-size: var(--font-size-title);
+  text-align: center;
   text-shadow: var(--text-shadow0);
 }
 
-.subtitle h2 {
+.subtitle {
   /* color: var(--purple); */
   color: var(--gold);
   font-size: var(--font-size-large);
@@ -139,7 +142,8 @@ nav {
   /* display: inline-block; */
   /* position: relative; */
   /* cursor: pointer; */
-  font-size: 5rem; /* adjust as needed */
+  font-size: 4rem; /* adjust as needed */
+  margin: 0.125rem;
 }
 
 /* .folder-emoji .hovered {
@@ -166,6 +170,7 @@ nav {
   width: fit-content;
   /* max-width: 650px; */
   background-color: var(--black);
+
   border-radius: var(--border-radius-default);
   color: var(--white);
   margin: 0.5rem;
@@ -173,31 +178,57 @@ nav {
   padding: 0.5rem;
 }
 
-.current-folder-card h2 {
+/* .current-folder-card h2 {
   font-size: var(--font-size-default);
   text-transform: uppercase;
-}
+} */
 
-.folder-description {
-  /* font-family: var(--font-text); */
-}
 
-.file-card {
+.current-file-card {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-self: start;
   justify-content: start;
   gap: var(--spacer-default);
+  border: 2px solid var(--purple);
+  border-radius: var(--border-radius-default);
+  padding: 0.5rem;
 }
 
-.file-date {
+.current-folder-container {
+    border: 2px solid var(--white);
+  border-radius: var(--border-radius-default);
+  padding: 0.5rem;
+}
+
+.current-folder-emoji {
+  font-size: 1.5rem;
+}
+
+.current-folder-name {
+font-family: var(--font-title);
+font-size: 1.5rem;
+text-transform: uppercase;
+}
+
+.current-folder-description {
+font-family: var(--font-text);
+}
+
+.current-folder-empty {
+  color: var(--gray);
+  font-family: var(--font-title);
+}
+
+.file-details {
   width: fit-content;
   background-color: var(--gray);
   border-radius: var(--border-radius-default);
   color: var(--blue-bold);
   font-family: var(--font-text);
   padding: var(--spacer-small) var(--spacer-default);
+  font-size: small;
 }
 
 /* footer.ejs */

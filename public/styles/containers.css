@@ -19,7 +19,7 @@
 }
 
 .button-container-row-center-start {
-  width: var(--width-default-percent);
+  /* width: var(--width-default-percent); */
   display: flex;
   align-items: center;
   justify-content: start;
@@ -104,6 +104,14 @@
   gap: var(--spacer-medium);
 }
 
+.element-container-row-start-start {
+  width: var(--width-default-percent);
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  gap: var(--spacer-medium);
+}
+
 .password-rules-container {
   /* width: var(--width-default-percent); */
   display: flex;
@@ -126,3 +134,4 @@
   gap: var(--spacer-default);
   flex-wrap: wrap;
 }
+

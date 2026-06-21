@@ -28,10 +28,10 @@ enum PermissionType {
 enum FolderEmoji {
   GENERAL     @map("📁")
   DOCUMENT    @map("📄")
-  IMAGE      @map("📸")
-  AUDIO      @map("🎧")
-  VIDEO      @map("🎬")
-  ARCHIVE    @map("🗃️")
+  IMAGE       @map("📸")
+  AUDIO       @map("🎧")
+  VIDEO       @map("🎬")
+  ARCHIVE     @map("🗃️")
   TRASH       @map("🗑️")
   ART         @map("🎨️")
   BACKUP      @map("💾")
@@ -53,7 +53,7 @@ enum FolderEmoji {
   PUZZLE      @map("🧩")
   RECEIPT     @map("🧾")
   RECIPE      @map("🍲")
-  RPG         @map("🗡️")  
+  RPG         @map("🗡️")
   SCHOOL      @map("🎓")
   VACATION    @map("🏖️")
   WORK        @map("💼")
@@ -108,11 +108,10 @@ model Folder {
 
   childFolders Folder[] @relation("FolderHierarchy") // NOTE: "FolderHierarchy" string is just Prisma metadata that helps the ORM understand the self-referencing relationship
 
-  folderName String @map("folder_name") @db.VarChar(100)
-  folderImage FolderEmoji @default(GENERAL) @map("folder_image")
+  folderName        String      @map("folder_name") @db.VarChar(100)
+  folderImage       FolderEmoji @default(GENERAL) @map("folder_image")
   // color String?
-  folderDescription String? @map("folder_description") @db.VarChar(255)
-
+  folderDescription String?     @map("folder_description") @db.VarChar(255)
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
@@ -137,10 +136,12 @@ model File {
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // user who uploaded this file
 
-  fileName         String @map("file_name") @db.VarChar(255) // NOTE - new randomized file name to avoid collisions and hide actual name, a best practice
+  // fileName         String @map("file_name") @db.VarChar(255) // NOTE - new randomized file name to avoid collisions and hide actual name, a best practice
   originalFileName String @map("original_file_name") @db.VarChar(255) // NOTE - what the original file is named
-  mimeType         String // use enum for this??? NO! ❌
-  sizeBytes        BigInt @map("size_bytes")
+
+  mimeType  String  @map("mime_type") // Use enum for this??? NO! ❌
+  // extension String? @db.VarChar(20) // Not using right now
+  sizeBytes BigInt  @map("size_bytes")
 
   // currentVersionID String @map("current_version_id")
   // version  Version @relation(fields: [currentVersionID], references: [id]) // current version of file

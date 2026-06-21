@@ -61,28 +61,56 @@ async function getFolderFilesCount(folderId) {
   })
 }
 
+// async function getFilesByFolder(folderId) {
+//   return prisma.folder.findUnique({
+//   where: {
+//     id: folderId,
+//   },
+//   include: {
+//     files: {
+//       orderBy: {
+//         originalFileName: "asc",
+//       },
+//     },
+//   },
+// });
+// }
+
+// REMINDER - (because I forget), only pull what I need from db...
 async function getFilesByFolder(folderId) {
-  // return prisma.file.findMany({
-  //   where: {
-  //     folderId,
-  //   },
-  //   orderBy: {
-  //     fileName: "asc", // optional, for consistent display
-  //   },
-  // });
   return prisma.folder.findUnique({
-  where: {
-    id: folderId,
-  },
-  include: {
-    files: {
-      orderBy: {
-        fileName: "asc",
+    where: { id: folderId },
+    select: {
+      id: true,
+      folderName: true,
+      folderImage: true,
+      files: {
+        select: {
+          id: true,
+          originalFileName: true,
+          mimeType: true,
+          sizeBytes: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        orderBy: {
+          originalFileName: "asc",
+        },
       },
     },
-  },
-});
+  });
 }
+
+// I use queryRaw below to correct case-insensitive alphabetical sorting, as it gives full control over SQL behavior and avoids Prisma’s collation limitations... plus it is my first time using it. Good for future reference. NOTE too that using below also changes the API and now file.originalFilename becomes file.original_file_name
+
+// async function getFilesByFolder(folderId: string) {
+//   return prisma.$queryRaw`
+//     SELECT *
+//     FROM "files"
+//     WHERE "folder_id" = ${folderId} -- NOTE - using: WHERE folder_id without quotes would risk SQL injection!
+//     ORDER BY LOWER("original_file_name") ASC
+//   `;
+// }
 
 module.exports = {
   createUser,

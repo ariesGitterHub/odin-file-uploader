@@ -18,8 +18,7 @@
   --yellow-bold: #ffdd00;
 
   /* Borders */
-  --border-black: 2px solid var(--black);
-  --border-gold: 2px solid var(--gold);
+  --border-solid-default: 2px solid;
   --border-radius-circle: 50%;
   --border-radius-big: 1rem;
   --border-radius-biggest: 1.5rem;

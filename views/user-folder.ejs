@@ -8,7 +8,7 @@
     <main class="element-container-col-default current-folder-card flex-gap">
       <div class="element-container-col-start-center width-default current-folder-container">
         
-          <!-- <div class="current-folder-emoji"><span class="emoji"><%= folder.emoji %></span></div> -->
+          <!-- <div class="current-folder-emoji"><span class="emoji"><%#= folder.emoji %></span></div> -->
         <div class="element-container-col-start-center">
           <div class="element-container-row-start-start">  
             <div class="current-folder-emoji">
@@ -44,12 +44,23 @@
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>
-        <div class="border-purple current-file-card">
-          <h3 class="font-normal"><%= file.fileName %></h3>
+        <div class="file-card">
+          <h3 class="file-name"><%= file.originalFileName %></h3>
           <div class="element-container-row-center-start flex-gap">
-            <div class="file-details">size: (<%= file.sizeBytes %>)</div>
-            <div class="file-details">created: <%= file.createdAt %></div>
-            <div class="file-details">updated: <%= file.updatedAt %></div>
+            <!-- <div class="file-details"><strong>size</strong> <%#= file.sizeBytes %></div> -->
+            <div class="file-details"><strong>size</strong> <%= file.sizeLabel %> </div>
+            <div class="file-details"><strong>type</strong> <%= file.mimeType %></div>
+          </div>  
+          <div class="element-container-row-center-start flex-gap">
+            <!-- <div class="file-details"><strong>size</strong> <%#= file.sizeBytes %></div> -->
+            <% if (file.createdAtLabel === file.updatedAtLabel) { %>
+            <div class="file-details"><strong>created</strong> <%= file.createdAtLabel %></div>
+            <% } else { %> 
+              <div class="file-details"><strong>created</strong> <%= file.createdAtLabel %></div>
+              <div class="file-details"><strong>updated</strong> <%= file.updatedAtLabel %></div>              
+            <% } %>
+            
+
           </div>  
           <div class="button-container-row-space-evenly">
             <button class="button-default wide-button file-button">

@@ -119,7 +119,7 @@
   align-items: start;
   justify-content: center;
   gap: var(--spacer-small);
-  border: var(--border-black);
+  border: var(--border-solid-default);
   border-radius: var(--border-radius-small);
   padding: var(--spacer-default);
   margin-bottom: var(--spacer-big);

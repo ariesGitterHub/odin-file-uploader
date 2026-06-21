@@ -13,6 +13,8 @@ const {
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
 
 const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis")
+const { formatBytes } = require("../utils/formatBytes");
+const { formatRelativeDate, formatExactDate } = require("../utils/formatDate");
 
 async function getHomePage(req, res, next) {
   try {
@@ -305,11 +307,37 @@ async function getUserFolderPage(req, res, next) {
 
     const folder = await getFilesByFolder(folderId);
 
+    // const foldersWithEmoji = folder.map((folder) => ({
+    //   ...folder,
+    //   emoji: folderEmojis[folder.folderImage],
+    // }));
+
+    const filesWithFormattedSize = folder.files.map((f) => ({
+        ...f,
+        sizeLabel: formatBytes(f.sizeBytes),
+        createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
+        updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
+      }))
+      .sort((a, b) => // orders by alpha where asc cannot as prisma's asc sees "T" and "t" as different
+        a.originalFileName.localeCompare(b.originalFileName, undefined, {
+          sensitivity: "base",
+        }),
+      );;
+   
+
+    // THIS IS INTERESTING (!), adding files to folderWithEmoji
     const folderWithEmoji = {
       ...folder,
       emoji: folderEmojis[folder.folderImage],
+      files: filesWithFormattedSize,
     };
 
+console.log({
+  folderImage: folder.folderImage,
+  // emoji: folderEmojis[folder.folderImage],
+  emoji: folderEmojis[folder.folderImage] || "📂",
+  folderEmojisKeys: Object.keys(folderEmojis),
+});
     res.render("user-folder", {
       title: folderWithEmoji.folderName,
       folder: folderWithEmoji,

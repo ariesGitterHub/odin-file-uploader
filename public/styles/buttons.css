@@ -58,7 +58,7 @@ padding: 0;
   height: fit-content;
   /* width: fit-content; */
   background-color: var(--black);
-  border: var(--border-gold);
+  border: var(--border-solid-default);
   color: var(--gold);
   font-size: var(--font-size-small);
   padding: 0.25rem 0.5rem;
@@ -69,16 +69,32 @@ padding: 0;
   /* flex-direction: row; */
   /* flex-wrap: wrap; */
   background-color: var(--black);
-  border: var(--border-gold);
-  color: var(--gold);
+  border: var(--border-solid-default);
+  border-color: var(--gray);
+  color: var(--gray);
   /* font-size: var(--font-size-default); */
 }
 
-.file-button {
+.folder-button:hover {
+  background-color: var(--pink);
+  border-color: var(--pink);
+  color: var(--black);
+  /* transform: scale(1.05); */
+}
+
+/* .file-button {
   width: 100%;
   background-color: var(--gold-lt);
-  border: var(--border-gold);
+  border: var(--border-solid-default);
   color: var(--blue-bold);
+} */
+
+.file-button {
+  width: 100%;
+  background-color: var(--black);
+  border: var(--border-solid-default);
+  border-color: var(--gray);
+  color: var(--gray);
   /* font-size: var(--font-size-small); */
 }
 
@@ -87,12 +103,10 @@ font-size: 2rem;
 }
 
 .file-button:hover {
-  /* background-color: var(--orange); */
-  /* background-color: transparent; */
-  background-color: var(--blue-bold);
-  /* box-shadow: var(--box-shadow-black); */
-  color: var(--white);
-   /* transform: scale(1.125); */
+  background-color: var(--orange);
+  border-color: var(--orange);
+  color: var(--black);
+  /* transform: scale(1.05); */
 }
 
 .fit-content-button {

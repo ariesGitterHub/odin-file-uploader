@@ -230,6 +230,11 @@ font-family: var(--font-text);
   font-family: var(--font-text);
 }
 
+.file-card:hover, .file-card:hover .file-name, .file-card:hover .file-button {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
 .file-details {
   width: fit-content;
   background-color: var(--gray);

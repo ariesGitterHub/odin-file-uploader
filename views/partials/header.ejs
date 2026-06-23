@@ -1,8 +1,15 @@
 <header class="sticky-header element-container-col-default flex-gap">
   <%- include('./title.ejs') %>
   <nav class="element-container-row-default flex-gap" aria-label="user menu">
+    <!-- TODO - this home link is temporary -->
     <a class="button-default nav-button" href="/app">
-      <span class="emoji" role="img" aria-label="TEMP home link"> 🏠 </span>
+      <span class="emoji" role="img" aria-label="TEMP!!!! home link"> 🏠 </span>
+    </a>
+    <a class="button-default nav-button" href="/app/user-data">
+      <span class="emoji" role="img" aria-label="User folders link"> 🗄 </span>
+    </a>
+    <a class="button-default nav-button" href="/app/profile">
+      <span class="emoji" role="img" aria-label="User profile link"> 👤 </span>
     </a>
     <a class="button-default nav-button" href="/app/new-folder">
       <span class="emoji" role="img" aria-label="New folder link"> +📁 </span>
@@ -10,9 +17,6 @@
     <a class="button-default nav-button" href="/app/new-file">
       <span class="emoji" role="img" aria-label="Upload file link"> +📄 </span>
     </a>    
-    <a class="button-default nav-button" href="/app/profile">
-      <span class="emoji" role="img" aria-label="User profile link"> 👤 </span>
-    </a>
      <form action="/app/log-out" method="POST">
       <%# CSRF Token - hidden input for forms %>
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">

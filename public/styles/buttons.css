@@ -51,12 +51,13 @@ padding: 0;
   font-weight: 800;
 }
 
-
 .folder-button, .file-button {
   /* height: var(--button-default-h); */
   /* width: var(--button-default-h); */
   height: fit-content;
   /* width: fit-content; */
+  /* width: var(--width-default-percent); */
+  width: 5rem;
   background-color: var(--black);
   border: var(--border-solid-default);
   color: var(--gold);
@@ -65,19 +66,19 @@ padding: 0;
 }
 
 .folder-button {
-  width: fit-content;
+  /* width: 100%; */
   /* flex-direction: row; */
   /* flex-wrap: wrap; */
   background-color: var(--black);
   border: var(--border-solid-default);
-  border-color: var(--gray);
-  color: var(--gray);
-  /* font-size: var(--font-size-default); */
+  border-color: var(--pink);
+  color: var(--pink);
+  font-size: var(--font-size-default);
 }
 
 .folder-button:hover {
   background-color: var(--pink);
-  border-color: var(--pink);
+  /* border-color: var(--pink); */
   color: var(--black);
   /* transform: scale(1.05); */
 }
@@ -90,11 +91,11 @@ padding: 0;
 } */
 
 .file-button {
-  width: 100%;
+  /* width: 100%; */
   background-color: var(--black);
   border: var(--border-solid-default);
-  border-color: var(--gray);
-  color: var(--gray);
+  border-color: var(--orange);
+  color: var(--orange);
   /* font-size: var(--font-size-small); */
 }
 
@@ -104,7 +105,7 @@ font-size: 2rem;
 
 .file-button:hover {
   background-color: var(--orange);
-  border-color: var(--orange);
+  /* border-color: var(--orange); */
   color: var(--black);
   /* transform: scale(1.05); */
 }

@@ -1,3 +1,9 @@
+@media (min-width: 590px) {
+  .folder-button, .file-button {
+    width: var(--width-default-percent);
+}
+}
+
 @media (min-width: 800px) {
   :root {
     /* --card-width: 350px;

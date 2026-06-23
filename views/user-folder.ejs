@@ -22,7 +22,8 @@
         </div>  
         
 
-        <div class="button-container-row-center-start">
+        <!-- <div class="button-container-row-center-start"> -->
+        <div class="button-container-row-space-evenly">
           <button class="button-default  folder-button">
             <!-- <span class="emoji">🔗</span>  -->
             share folder
@@ -53,11 +54,10 @@
           </div>  
           <div class="element-container-row-center-start flex-gap">
             <!-- <div class="file-details"><strong>size</strong> <%#= file.sizeBytes %></div> -->
-            <% if (file.createdAtLabel === file.updatedAtLabel) { %>
             <div class="file-details"><strong>created</strong> <%= file.createdAtLabel %></div>
-            <% } else { %> 
-              <div class="file-details"><strong>created</strong> <%= file.createdAtLabel %></div>
-              <div class="file-details"><strong>updated</strong> <%= file.updatedAtLabel %></div>              
+            <!-- TODO - check below when I am able to make updates -->
+            <% if (file.createdAtLabel !== file.updatedAtLabel) { %>
+            <div class="file-details"><strong>updated</strong> <%= file.updatedAtLabel %></div>
             <% } %>
             
 
@@ -65,15 +65,15 @@
           <div class="button-container-row-space-evenly">
             <button class="button-default wide-button file-button">
               <!-- <span class="emoji">🔗</span>  -->
-              <span>share</span>
+              <span>share file</span>
             </button>
             <button class="button-default wide-button file-button">
               <!-- <span class="emoji">⬇</span> -->
-              <span>download</span>
+              <span>download file</span>
             </button>
             <button class="button-default wide-button file-button">
               <!-- <span class="emoji">❌</span> -->
-              <span>delete</span>
+              <span>delete file</span>
             </button>
           </div>
         </div>

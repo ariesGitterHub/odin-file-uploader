@@ -125,13 +125,4 @@
   margin-bottom: var(--spacer-big);
 }
 
-.file-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-self: start;
-  justify-content: start;
-  gap: var(--spacer-default);
-  flex-wrap: wrap;
-}
 

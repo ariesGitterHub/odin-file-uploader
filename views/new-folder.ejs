@@ -25,10 +25,8 @@
         <label for="folder-image-new-folder">folder image</label>
         <select
           id="folder-image-new-folder"
-          class="form-width"
-          type="text"          
+          class="form-width"      
           name="folder_image"
-          value="<%= formData?.folder_image || '' %>"
           required
           >
             <option value="" disabled <%= !formData?.folder_image ? "selected" : "" %>>choose folder image</option>
@@ -39,15 +37,21 @@
             <% }) %>
         </select>
         <!-- TODO - scratch using this here, use only on new file...-->
-        <!-- <label for="folder-parent-new-folder">choose parent folder</label>
-          <input
-            id="folder-parent-id-new-folder"
-            type="text"          
+        <label for="folder-parent-new-folder">choose parent folder</label>
+          <select
+            id="folder-parent-id-new-folder"        
             name="parent_folder_id"
-            value="<%#= formData?.parent_folder_id || '' %>"
-            placeholder="NEEDS TO BE DROPDOWN"
-            required
-          /> -->
+          >
+          <option value="" <%= !formData?.parent_folder_id ? "selected" : "" %>>None (no parent folder)
+          </option>
+          <% userFolders.forEach((folder) => { %> 
+            <option value="<%= folder.id %>"
+            <%= formData?.parent_folder_id === folder.id ? "selected" : "" %>>
+              <!-- <span class="select-font-larger"><%#= folder.folderName %></span> -->
+              <%= folder.folderName %>
+            </option>
+          <% }) %>
+        </select>
         <label class="capitalize" for="folder-description-new-folder">
           folder description
         </label>

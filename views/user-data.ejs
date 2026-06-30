@@ -7,10 +7,16 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default">
       <!-- <div> -->
-        <h2 class="subtitle">Current folders for <%= user.firstName %></h2>
+        <!-- <h2 class="subtitle">Current root folders for <%#= user.firstName %></h2> -->
       <!-- </div> -->
+       <div>
+
+       </div>
         <div class="element-container-row-default">
           <% userFolders.forEach(function(folder) { %> 
+            <!-- Be safe against both null and undefined, use ==, not === because: null == undefined // true-->
+          <%# if (folder.parentFolderId == null) { %> 
+          
           <a class="button-default folder-card" href="/app/user-folder/<%= folder.id %>">
             <span class="emoji folder-emoji" role="img" aria-label="Data folder">
               <%= folder.emoji %>
@@ -18,6 +24,7 @@
             <p><%= folder.folderName%></p>
             <p>(<%= folder.fileCount %> files)</p>
           </a>
+          <%# } %>
           <% }) %>
       </div>
     </main>

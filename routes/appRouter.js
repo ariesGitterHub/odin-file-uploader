@@ -58,6 +58,8 @@ const {
   getUserDataPage,
   getUserFolderPage,
   getNewFolderPage,
+  postNewFolderPage,
+  getNewFilePage,
 } = require("../controllers/appControllers");
 
 // const {
@@ -338,5 +340,7 @@ appRouter.get("/user-data", getUserDataPage);
 // appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/user-folder/:folderId", getUserFolderPage);
 appRouter.get("/new-folder", getNewFolderPage);
+appRouter.post("/new-folder", postNewFolderPage);
+appRouter.get("/new-file", getNewFilePage);
 
 module.exports = appRouter;

@@ -53,6 +53,24 @@ async function getUserFolders(userId) {
   });
 }
 
+async function createNewFolder({
+  userId,
+  parentFolderId = null,
+  folderName,
+  folderImage,
+  folderDescription = null,
+}) {
+  return prisma.folder.create({
+    data: {
+      userId,
+      parentFolderId,
+      folderName,
+      folderImage,
+      folderDescription,
+    },
+  });
+}
+
 async function getFolderFilesCount(folderId) {
   return prisma.file.count({
     where: {
@@ -82,8 +100,15 @@ async function getFilesByFolder(folderId) {
     where: { id: folderId },
     select: {
       id: true,
+      parentFolderId: true,
       folderName: true,
       folderImage: true,
+      parentFolder: {
+        select: {
+          id: true,
+          folderName: true,
+        },
+      },
       files: {
         select: {
           id: true,
@@ -101,6 +126,22 @@ async function getFilesByFolder(folderId) {
   });
 }
 
+async function getChildFoldersById(parentFolderId) {
+  return prisma.folder.findMany({
+    where: {
+      parentFolderId,
+    },
+    select: {
+      id: true,
+      parentFolderId: true,
+      folderName: true,
+      folderImage: true,
+    },
+    orderBy: {
+      folderName: "asc",
+    },
+  });
+}
 // I use queryRaw below to correct case-insensitive alphabetical sorting, as it gives full control over SQL behavior and avoids Prisma’s collation limitations... plus it is my first time using it. Good for future reference. NOTE too that using below also changes the API and now file.originalFilename becomes file.original_file_name
 
 // async function getFilesByFolder(folderId: string) {
@@ -116,6 +157,8 @@ module.exports = {
   createUser,
   getUserByEmail,
   getUserFolders,
+  createNewFolder,
   getFolderFilesCount,
   getFilesByFolder,
+  getChildFoldersById,
 };

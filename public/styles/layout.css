@@ -169,7 +169,7 @@ nav {
   /* width: 90%; */
   width: fit-content;
   /* max-width: 650px; */
-  background-color: var(--black);
+  /* background-color: var(--black); */
 
   border-radius: var(--border-radius-default);
   color: var(--white);
@@ -184,23 +184,31 @@ nav {
 } */
 
 
-.current-folder-container {
+.current-parent-folder {
+   /* background-color: var(--black); */
   border: var(--border-solid-default);
-  border-color: var(--pink);
+  /* border-color: var(--pink); */
+  border-color: var(--none);
   border-radius: var(--border-radius-default);
+  /* color: var(--pink); */
+  color: var(--black);
   padding: 0.5rem;
 }
 
 .current-folder-emoji span {
-  color: var(--pink);
   font-size: 1.5rem;
 }
 
 .current-folder-name {
-  color: var(--pink);
 font-family: var(--font-title);
 font-size: 1.5rem;
 text-transform: uppercase;
+}
+
+
+.current-folder-parent {
+  font-family: var(--font-text);
+  text-transform: uppercase;
 }
 
 .current-folder-description {
@@ -212,6 +220,25 @@ font-family: var(--font-text);
   font-family: var(--font-title);
 }
 
+.current-folder-items {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  justify-content: start;
+  gap: var(--spacer-default);
+  flex-wrap: wrap;
+  /* background-color: var(--black); */
+}
+
+.folder-items {
+
+}
+
+.file-items {
+  
+}
+
 .file-card {
   width: 100%;
   display: flex;
@@ -219,6 +246,7 @@ font-family: var(--font-text);
   align-self: start;
   justify-content: start;
   gap: var(--spacer-default);
+  background-color: var(--black);
   border: var(--border-solid-default);
   border-color: var(--orange);
   border-radius: var(--border-radius-default);

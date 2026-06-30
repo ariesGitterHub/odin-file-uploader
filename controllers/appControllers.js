@@ -6,8 +6,10 @@ const {
   createUser,
   getUserByEmail,
   getUserFolders,
+  createNewFolder,
   getFolderFilesCount,
   getFilesByFolder,
+  getChildFoldersById,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -250,18 +252,18 @@ async function getUserDataPage(req, res, next) {
 
     const userFolders = await getUserFolders(userId);
 
+    // Prevent folders with parentFolderIds from showing up as these show be shown in folder views.
+    const rootFolders = userFolders.filter(
+      (folder) => folder.parentFolderId === null,
+    );
+
     const foldersWithCounts = await Promise.all(
-      userFolders.map(async (folder) => ({
+      // userFolders.map(async (folder) => ({
+      rootFolders.map(async (folder) => ({
         ...folder,
         fileCount: await getFolderFilesCount(folder.id),
       })),
     );
-
-    // attach emoji for rendering
-    // const foldersWithEmoji = userFolders.map((folder) => ({
-    //   ...folder,
-    //   emoji: folderEmojis[folder.folderImage], // Prisma enum value → emoji
-    // }));
 
     const foldersWithEmoji = foldersWithCounts.map((folder) => ({
       ...folder,
@@ -307,10 +309,30 @@ async function getUserFolderPage(req, res, next) {
 
     const folder = await getFilesByFolder(folderId);
 
+    if (!folder) {
+      return res.status(404).render("404");
+    }
+
+    const childFolders = await getChildFoldersById(folderId);
+
+    const foldersWithCounts = await Promise.all(
+      // userFolders.map(async (folder) => ({
+      childFolders.map(async (folder) => ({
+        ...folder,
+        fileCount: await getFolderFilesCount(folder.id),
+      })),
+    );
+
+    const foldersWithEmoji = foldersWithCounts.map((folder) => ({
+      ...folder,
+      emoji: folderEmojis[folder.folderImage],
+    }));
+    
     // const foldersWithEmoji = folder.map((folder) => ({
     //   ...folder,
     //   emoji: folderEmojis[folder.folderImage],
     // }));
+    
 
     const filesWithFormattedSize = folder.files.map((f) => ({
         ...f,
@@ -341,6 +363,8 @@ console.log({
     res.render("user-folder", {
       title: folderWithEmoji.folderName,
       folder: folderWithEmoji,
+      // childFolders,
+      childFolders: foldersWithEmoji,
     });
   } catch (err) {
     next(err);
@@ -352,13 +376,81 @@ console.log({
 
 // }
 
-// CONTROLLER: NEW FOLDER PAGE (user-folder.ejs)
+// CONTROLLER: NEW FOLDER PAGE (new-folder.ejs)
 async function getNewFolderPage(req, res, next) {
   try {
+    const userId = req.user.id;
+
+    const userFolders = await getUserFolders(userId);
+
+    // const parentFolderId = req.body.parent_folder_id || null; // ADD TO POST!
+
     res.render("new-folder", {
       title: "Create Folder",
       errors: [],
       folderEmojisDropdown,
+      userFolders,
+      // passwordRules,
+      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function postNewFolderPage(req, res, next) {
+  try {
+    const userId = req.user.id;
+
+    const userFolders = await getUserFolders(userId);
+
+    // 1. Extract form data
+    const { folder_name, parent_folder_id, folder_image, folder_description } =
+      req.body;
+
+    // 2. Normalize parent folder and folder description (important for NULL support)
+    const normalizedParentFolderId = parent_folder_id || null;
+    const normalizedFolderDescription = folder_description || null;
+
+    // 3. Basic validation
+    const errors = [];
+
+    if (!folder_name || folder_name.trim() === "") {
+      errors.push("Folder name is required");
+    }
+
+    if (errors.length > 0) {
+      return res.status(400).render("new-folder", {
+        title: "Create Folder",
+        errors,
+        userFolders,
+        folderEmojisDropdown,
+        formData: req.body, // keep user input
+      });
+    }
+
+    // 4. Create folder (service layer)
+    await createNewFolder({
+      userId,
+      parentFolderId: normalizedParentFolderId,
+      folderName: folder_name.trim(),
+      folderImage: folder_image,
+      folderDescription: normalizedFolderDescription,
+    });
+
+    // 5. Redirect after success
+    return res.redirect("/app/user-data");
+  } catch (err) {
+    next(err);
+  }
+}
+// CONTROLLER: NEW FILE PAGE (new-file.ejs)
+async function getNewFilePage(req, res, next) {
+  try {
+    res.render("new-file", {
+      title: "Upload File",
+      errors: [],
+      // folderEmojisDropdown,
       // passwordRules,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
     });
@@ -377,4 +469,6 @@ module.exports = {
   getUserDataPage,
   getUserFolderPage,
   getNewFolderPage,
+  postNewFolderPage,
+  getNewFilePage,
 };

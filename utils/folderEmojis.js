@@ -10,7 +10,7 @@ const folderEmojis = {
   ART: "🎨️",
   BACKUP: "💾",
   BOOK: "📚",
-  DRAFT: "✍️",
+  DRAFT: "✍",
   EVENT: "🎂",
   FAMILY: "👪",
   FAVORITE: "⭐",

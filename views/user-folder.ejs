@@ -6,7 +6,7 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default current-folder-card flex-gap">
-      <div class="element-container-col-start-center width-default current-folder-container">
+      <div class="element-container-col-start-center width-default current-parent-folder">
         
           <!-- <div class="current-folder-emoji"><span class="emoji"><%#= folder.emoji %></span></div> -->
         <div class="element-container-col-start-center">
@@ -18,28 +18,43 @@
               <h2 class="current-folder-name"><%= folder.folderName %></h2>
             </div>
           </div>  
-            <p class="current-folder-description font-normal"><%= folder.folderDescription %></p>
+          <div class="current-folder-parent">
+            <% if (folder.parentFolderId === null) { %> 
+              <p>Root/<%= folder.folderName %></p>
+            <% } else { %> 
+              <p><%= folder.parentFolder.folderName %>/<%= folder.folderName %></p>
+            <% } %>
+          </div>
+          <div class="current-folder-description">
+            <p><%= folder.folderDescription %></p>            
+          </div>
         </div>  
-        
-
-        <!-- <div class="button-container-row-center-start"> -->
-        <div class="button-container-row-space-evenly">
-          <button class="button-default  folder-button">
-            <!-- <span class="emoji">🔗</span>  -->
-            share folder
-          </button>
-          <button class="button-default w folder-button">
-            <!-- <span class="emoji">🔗</span>  -->
-            edit folder
-          </button>
-          <button class="button-default  folder-button">
-            <!-- <span class="emoji">❌</span> -->
-            delete folder</button>
-        </div>        
+      <%- include('./partials/folder-buttons.ejs') %>
       </div>
 
-      <div class="file-container">
-        <% if (folder.files.length === 0) { %>
+
+      <div class="current-folder-items">
+        <div class="element-container-col-start-center folder-items">
+          <p><%= folder.folderName %> is the parent folder.</p>
+          <%= folder.id %> is the parent folder id.</p>
+          <% if (childFolders.length === 0) { %> 
+            <p>Nada</p>
+          <% } else { %> 
+          <p>Something</p>
+          <% childFolders.forEach(childFolder => { %> 
+            <%#= childFolder.folderName %>
+            <a class="button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
+            <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+              <%= childFolder.emoji %>
+            </span>
+            <p><%= childFolder.folderName%></p>
+            <p>(<%= childFolder.fileCount %> files)</p>
+          </a>
+            <% }) %>
+            <% } %>
+        </div>
+        <div class="file-items">
+          <% if (folder.files.length === 0) { %>
           <div class="current-folder-empty">
             <h3>There are no files in this folder. <span class="emoji">😐</span></h3>
           </div>
@@ -59,26 +74,13 @@
             <% if (file.createdAtLabel !== file.updatedAtLabel) { %>
             <div class="file-details"><strong>updated</strong> <%= file.updatedAtLabel %></div>
             <% } %>
-            
-
           </div>  
-          <div class="button-container-row-space-evenly">
-            <button class="button-default wide-button file-button">
-              <!-- <span class="emoji">🔗</span>  -->
-              <span>share file</span>
-            </button>
-            <button class="button-default wide-button file-button">
-              <!-- <span class="emoji">⬇</span> -->
-              <span>download file</span>
-            </button>
-            <button class="button-default wide-button file-button">
-              <!-- <span class="emoji">❌</span> -->
-              <span>delete file</span>
-            </button>
-          </div>
+        <%- include('./partials/file-buttons.ejs') %>
         </div>
         <% }) %>  
-        <% } %>      
+        <% } %>
+        </div>
+              
       </div>
 
 

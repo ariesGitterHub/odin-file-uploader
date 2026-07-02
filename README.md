@@ -1,0 +1,1 @@
+npx prisma migrate reset: The command is specifically designed to reset your database and reapply all migrations. This process will result in the complete loss of all existing data in the database. It is crucial to note that this command is intended for use in development environments only.

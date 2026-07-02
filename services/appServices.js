@@ -103,6 +103,7 @@ async function getFilesByFolder(folderId) {
       parentFolderId: true,
       folderName: true,
       folderImage: true,
+      folderDescription: true, // TODO - forgot to add this initially.
       parentFolder: {
         select: {
           id: true,

@@ -22,7 +22,7 @@
             <% if (folder.parentFolderId === null) { %> 
               <p>Root/<%= folder.folderName %></p>
             <% } else { %> 
-              <p><%= folder.parentFolder.folderName %>/<%= folder.folderName %></p>
+              <p>Root/<%= folder.parentFolder.folderName %>/<%= folder.folderName %></p>
             <% } %>
           </div>
           <div class="current-folder-description">

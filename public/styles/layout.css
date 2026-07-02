@@ -212,7 +212,7 @@ text-transform: uppercase;
 }
 
 .current-folder-description {
-font-family: var(--font-text);
+  font-family: var(--font-text);
 }
 
 .current-folder-empty {

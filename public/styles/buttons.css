@@ -78,7 +78,7 @@ padding: 0;
 
 .folder-button:hover {
   background-color: var(--pink);
-  /* border-color: var(--pink); */
+  border-color: var(--black);
   color: var(--black);
   /* transform: scale(1.05); */
 }

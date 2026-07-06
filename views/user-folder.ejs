@@ -20,13 +20,13 @@
           </div>  
           <div class="current-folder-parent">
             <% if (folder.parentFolderId === null) { %> 
-              <p>Root/<%= folder.folderName %></p>
+              <p> <strong>Path:</strong> /<%= folder.folderName %></p>
             <% } else { %> 
               <p>Root/<%= folder.parentFolder.folderName %>/<%= folder.folderName %></p>
             <% } %>
           </div>
           <div class="current-folder-description">
-            <p><%= folder.folderDescription %></p>            
+            <p><strong>Folder Description:</strong> <%= folder.folderDescription %></p>            
           </div>
         </div>  
       <%- include('./partials/folder-buttons.ejs') %>
@@ -34,13 +34,15 @@
 
 
       <div class="current-folder-items">
-        <div class="element-container-col-start-center folder-items">
-          <p><%= folder.folderName %> is the parent folder.</p>
-          <%= folder.id %> is the parent folder id.</p>
+        <div class="subfolder-section-title">
+          <h3>available subfolders</h3>
+        </div>
+        <div class="subfolder-item-section">
           <% if (childFolders.length === 0) { %> 
-            <p>Nada</p>
+            <div class="current-folder-subfolder-items-empty">
+              <h4>There are no current subfolders. <span class="emoji">😕</span></h4>
+            </div>
           <% } else { %> 
-          <p>Something</p>
           <% childFolders.forEach(childFolder => { %> 
             <%#= childFolder.folderName %>
             <a class="button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
@@ -53,10 +55,13 @@
             <% }) %>
             <% } %>
         </div>
-        <div class="file-items">
+        <div class="file-section-title">
+          <h3>available files</h3>
+        </div>
+        <div class="file-item-section">
           <% if (folder.files.length === 0) { %>
-          <div class="current-folder-empty">
-            <h3>There are no files in this folder. <span class="emoji">😐</span></h3>
+          <div class="current-folder-file-items-empty">
+            <h4>There are no current files. <span class="emoji">🙁</span></h4>
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>

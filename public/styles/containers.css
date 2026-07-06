@@ -85,8 +85,17 @@
 .element-container-row-center-start {
   /* width: 1000px; */
   display: flex;
+  /* flex-wrap: wrap; */
   align-items: center;
   justify-content: start;
+}
+
+.element-container-row-start-center {
+  /* width: 1000px; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: center;
 }
 
 .element-container-row-space-evenly {

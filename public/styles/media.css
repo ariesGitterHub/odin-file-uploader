@@ -1,6 +1,13 @@
-@media (min-width: 590px) {
+@media (min-width: 500px) {
   .folder-button, .file-button {
     width: var(--width-default-percent);
+}
+}
+
+@media (min-width: 600px) {
+.file-card {
+  /* width: 100%; */
+  width: fit-content;
 }
 }
 
@@ -15,7 +22,7 @@
 
     display: flex;
     flex-direction: row;
-    align-self: start;
+    align-items: start;
     justify-content: start;
     gap: var(--spacer-default);
     flex-wrap: wrap;

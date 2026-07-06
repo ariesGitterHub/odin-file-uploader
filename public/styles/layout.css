@@ -108,34 +108,35 @@ nav {
   height: fit-content;
   /* width: var(--folder-card-width); */
   /* width: 35%; */
-  width: fit-content;
+  /* width: fit-content; */
   min-width: var(--folder-card-width);
+  max-width: 12rem;
   /* max-width: calc(var(--folder-card-width) * 5); */
   /* width: fit-content; */
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
   /* background-color: var(--blue); */
   /* background-color: transparent; */
   border-radius: var(--border-radius-big);
   /* box-shadow: var(--box-shadow-black); */
   /* color: var(--black); */
   font-weight: 800;
-  margin: var(--spacer-default);
+  /* margin: var(--spacer-default); */
   padding: var(--spacer-default);
   text-transform: none;
   text-wrap: wrap;
 }
 
 .folder-card span {
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 .folder-card:hover {
   /* background-color: var(--gold); */
-  transform: scale(1.125);
+  /* transform: scale(1.125); */
 }
 
 .folder-emoji {
@@ -208,42 +209,107 @@ text-transform: uppercase;
 
 .current-folder-parent {
   font-family: var(--font-text);
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .current-folder-description {
   font-family: var(--font-text);
 }
 
-.current-folder-empty {
-  color: var(--gray);
+.current-folder-subfolder-items-empty, .current-folder-file-items-empty {
   font-family: var(--font-title);
+}
+
+.current-folder-subfolder-items-empty{
+  color: var(--gray);
+}
+
+.current-folder-file-items-empty {
+  color: var(--orange);
 }
 
 .current-folder-items {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
-  align-self: start;
+  align-items: start;
   justify-content: start;
   gap: var(--spacer-default);
-  flex-wrap: wrap;
   /* background-color: var(--black); */
 }
 
-.folder-items {
-
+.subfolder-section-title, .file-section-title {
+  width: 20rem;
+  background-color: var(--black);
+  border: 2px solid var(--black);
+  border-top-left-radius: var(--spacer-biggest);
+  border-top-right-radius: var(--spacer-biggest);
+  font-family: var(--font-title);
+  margin-bottom: 0;
+  padding: var(--spacer-default);
+  text-transform: uppercase;
 }
 
-.file-items {
-  
+.subfolder-section-title {
+  color: var(--gray);
 }
+
+.file-section-title {
+  color: var(--orange);
+}
+
+.subfolder-item-section, .file-item-section {
+  width: 100%;
+  display: flex;
+ flex-wrap: wrap;    
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+   gap: 0.5rem;
+  background-color: var(--black);
+  /* border-top-left-radius: var(--spacer-biggest); */
+  border-top-right-radius: var(--spacer-biggest);
+  border-bottom-right-radius: var(--spacer-biggest);
+  border-bottom-left-radius: var(--spacer-biggest);
+  margin-top: -0.25rem;
+  padding: var(--spacer-big);
+}
+
+.subfolder-item-section {
+  /* background-color: blue; */
+}
+
+.file-item-section {
+  /* width: 100%; */
+  /* gap: 0.5rem; */
+  /* background-color: purple; */
+}
+
+/* .file-section-outer-border-div {
+  border: var(--border-solid-default);
+  border-color: var(--white);
+} */
+
+/* .file-section-title {
+  background-color: var(--black);
+  border: 2px solid var(--black);
+  border-top-left-radius: var(--spacer-biggest);
+  border-top-right-radius: var(--spacer-biggest);
+  color: var(--orange);
+  font-family: var(--font-title);
+  padding: var(--spacer-default);
+  text-transform: uppercase;
+} */
+
+
 
 .file-card {
   width: 100%;
+  /* width: fit-content; */
   display: flex;
   flex-direction: column;
-  align-self: start;
+  align-items: start;
   justify-content: start;
   gap: var(--spacer-default);
   background-color: var(--black);

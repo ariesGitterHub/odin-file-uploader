@@ -5,14 +5,14 @@
   </head>
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
-    <main class="element-container-col-default">
+    <main class="element-container-col-default flex-gap">
       <!-- <div> -->
         <!-- <h2 class="subtitle">Current root folders for <%#= user.firstName %></h2> -->
       <!-- </div> -->
        <div>
 
        </div>
-        <div class="element-container-row-default">
+        <div class="element-container-row-start-center flex-gap">
           <% userFolders.forEach(function(folder) { %> 
             <!-- Be safe against both null and undefined, use ==, not === because: null == undefined // true-->
           <%# if (folder.parentFolderId == null) { %> 

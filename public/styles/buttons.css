@@ -7,7 +7,7 @@
   justify-content: center;
   flex-wrap: wrap;
   background-color: var(--gray);
-  border: var(--border-default);
+  /* border: var(--border-default); */
   border-radius: var(--border-radius-small);
   box-shadow: var(--box-shadow-black);
   color: var(--black);

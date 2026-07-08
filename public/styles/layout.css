@@ -164,6 +164,8 @@ nav {
   opacity: 1;
 } */
 
+
+
 /* user-folder.ejs */
 
 .current-folder-card {
@@ -240,7 +242,7 @@ text-transform: uppercase;
 }
 
 .subfolder-section-title, .file-section-title {
-  width: 20rem;
+  width: 13rem;
   background-color: var(--black);
   border: 2px solid var(--black);
   border-top-left-radius: var(--spacer-biggest);
@@ -264,7 +266,7 @@ text-transform: uppercase;
   display: flex;
  flex-wrap: wrap;    
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   justify-content: start;
    gap: 0.5rem;
   background-color: var(--black);
@@ -340,12 +342,43 @@ text-transform: uppercase;
   font-size: small;
 }
 
+/* new-file.ejs */
+
+#file-upload {
+  height: fit-content;
+  width: 100%;
+  background-color: var(--black);
+  border: 2px solid var(--white);
+  border-radius: var(--spacer-small);   
+  color: var(--white);
+  cursor: pointer;    
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+#file-upload::file-selector-button {
+  background-color: var(--blue);
+  border: none;
+  border-radius: var(--spacer-small);    
+  color: var(--white);   
+  cursor: pointer;   
+  font-weight: bold;    
+  margin-right: var(--spacer-default);
+  padding: 0.5rem 1rem;
+  transition: background 0.2s;
+}
+
+#file-upload::file-selector-button:hover {
+    background-color: var(--gold);
+    color: var(--black);
+}
+
 /* footer.ejs */
 footer {
   position: fixed;
   bottom: 0;
   color: var(--black);
-  /* font-family: var(--font-text); */
+  font-family: var(--font-text);
   font-size: var(--font-size-small);
   margin: var(--spacer-biggest);
   text-align: center;

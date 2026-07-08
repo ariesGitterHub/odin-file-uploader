@@ -6,38 +6,52 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border-white">
-      <!-- <div class="subtitle"> -->
         <h2 class="subtitle">Upload a New File</h2>
-      <!-- </div> -->
        <form class="element-container-col-start-center form-width" action="/app/new-file" method="POST" enctype="multipart/form-data">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <label for="file-name-new-file">file name</label>
+        <!-- <label for="file-name-new-file">file name</label>
         <input
           id="file-name-new-file"
           type="text"          
           name="file"
-          value="<%= formData?.file_name || '' %>"
+          value="<%#= formData?.file_name || '' %>"
           placeholder="enter new file name"
           required
-        />
-        <!-- TODO - scratch using this here, use only on new file...-->
-        <label for="file-parent-new-file">choose parent folder</label>
+        /> -->
+
+        <!-- TODO - use a file input -->
+
+         <label for="file-upload">Choose a file</label>
           <input
-            id="folder-parent-id-new-file"
-            type="text"          
-            name="parent_folder_id"
-            value="<%#= formData?.parent_folder_id || '' %>"
-            placeholder="NEEDS TO BE DROPDOWN"
+            id="file-upload"
+            type="file"
+            name="file"
             required
           />
-        <!-- <label class="capitalize" for="folder-description-new-folder">
-          folder description
-        </label> -->
-          <!-- <textarea id="folder-description-new-folder" name="folder_description"></textarea> -->
+
+        <label for="folder-parent-new-folder">store in folder</label>
+          <select
+            id="folder-parent-id-new-folder"        
+            name="parent_folder_id"
+            required
+          >
+             <option
+                value=""
+                disabled
+                <%= !formData?.parent_folder_id ? "selected" : "" %>>
+                select a folder for your file
+              </option>
+          <% userFolders.forEach((folder) => { %> 
+            <option value="<%= folder.id %>"
+            <%= formData?.parent_folder_id === folder.id ? "selected" : "" %>>
+              <%= folder.folderName %>
+            </option>
+          <% }) %>
+        </select>
         <div class="button-container-row-space-evenly margin-top">
           <a class="button-default" href="/app/user-data">cancel</a>
-          <button class="button-default" type="submit">submit</button>
+          <button class="button-default" type="submit">upload</button>
         </div>
       </form>
     </main>

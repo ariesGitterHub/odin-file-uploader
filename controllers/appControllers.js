@@ -5,6 +5,7 @@ const { validationResult } = require("express-validator");
 const {
   createUser,
   getUserByEmail,
+  getUserProfile,
   getUserFolders,
   createNewFolder,
   getFolderFilesCount,
@@ -50,7 +51,7 @@ async function getSignUpPage(req, res, next) {
 
 // This code is from a similar prior project that did not use Prisma ORM
 async function postSignUpPage(req, res, next) {
-  console.log("POST /sign-up", req.body);
+  // console.log("POST /sign-up", req.body);
   try {
     const errors = validationResult(req);
 
@@ -200,7 +201,7 @@ async function postLogInPage(req, res, next) {
     if (err) {
       return next(err);
     }
-    console.log(req.user);
+    // console.log(req.user);
     
 
     if (!user) {
@@ -354,12 +355,12 @@ async function getUserFolderPage(req, res, next) {
       files: filesWithFormattedSize,
     };
 
-console.log({
-  folderImage: folder.folderImage,
-  // emoji: folderEmojis[folder.folderImage],
-  emoji: folderEmojis[folder.folderImage] || "📂",
-  folderEmojisKeys: Object.keys(folderEmojis),
-});
+// console.log({
+//   folderImage: folder.folderImage,
+//   // emoji: folderEmojis[folder.folderImage],
+//   emoji: folderEmojis[folder.folderImage] || "📂",
+//   folderEmojisKeys: Object.keys(folderEmojis),
+// });
     res.render("user-folder", {
       title: folderWithEmoji.folderName,
       folder: folderWithEmoji,
@@ -371,10 +372,29 @@ console.log({
   }
 }
 
-// async function getUserFilesByFolderPage(res, req, next) {
+// CONTROLLER: USER PROFILE PAGE (user-profile.ejs)
 
+async function getUserProfilePage(req, res, next) {
+  try {
+    const userId = req.user.id;
 
-// }
+    const userProfile = await getUserProfile(userId);
+
+    res.render("user-profile", {
+      title: "Change Your Profile",
+      errors: [],
+      userProfile,
+      passwordRules,
+      formData: {
+        first_name: userProfile.firstName,
+        last_name: userProfile.lastName,
+        email: userProfile.email,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+}
 
 // CONTROLLER: NEW FOLDER PAGE (new-folder.ejs)
 async function getNewFolderPage(req, res, next) {
@@ -447,11 +467,15 @@ async function postNewFolderPage(req, res, next) {
 // CONTROLLER: NEW FILE PAGE (new-file.ejs)
 async function getNewFilePage(req, res, next) {
   try {
+    const userId = req.user.id;
+
+    const userFolders = await getUserFolders(userId);
     res.render("new-file", {
       title: "Upload File",
       errors: [],
       // folderEmojisDropdown,
       // passwordRules,
+      userFolders,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
     });
   } catch (err) {
@@ -468,6 +492,7 @@ module.exports = {
   postLogOut,
   getUserDataPage,
   getUserFolderPage,
+  getUserProfilePage,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,

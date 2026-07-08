@@ -9,7 +9,7 @@ const prisma = require("../lib/prisma");
 // }
 
 async function createUser(userData) {
-  console.log("createUser called with:", userData);
+  // console.log("createUser called with:", userData);
   return prisma.$transaction(async (tx) => {
     const user = await tx.user.create({
       data: userData,
@@ -29,6 +29,20 @@ async function getUserByEmail(email) {
     },
   });
 }
+
+// TODO - getUserProfile START HERE!!!
+async function getUserProfile(userId) {
+  return prisma.user.findUnique({
+    where: { id: userId, },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+    },
+  });
+}
+
 
 // USER SERVICES
 
@@ -157,6 +171,7 @@ async function getChildFoldersById(parentFolderId) {
 module.exports = {
   createUser,
   getUserByEmail,
+  getUserProfile,
   getUserFolders,
   createNewFolder,
   getFolderFilesCount,

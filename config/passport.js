@@ -14,13 +14,13 @@ module.exports = (passport) => {
         try {
           const user = await prisma.user.findUnique({ where: { email } });
 
-          console.log("USER:", user);
+          // console.log("USER:", user);
 
           if (!user) {
             return done(null, false, { message: "Incorrect email" });
           }
 
-          console.log("HASH:", user.passwordHash);
+          // console.log("HASH:", user.passwordHash);
 
           const isMatch = await bcrypt.compare(password, user.passwordHash);
 
@@ -46,15 +46,33 @@ module.exports = (passport) => {
   // Posted by Pompedup, modified by community. See post 'Timeline' for change history
   // Retrieved 2026-06-09, License - CC BY-SA 4.0
 
+  // I don't need all of users table...
+  // passport.deserializeUser(async (id, done) => {
+  //   try {
+  //     const user = await prisma.user.findFirst({ where: { id } });
+  //     console.log("Passport.js says user is:", user)
+
+  //     done(null, user);
+  //   } catch (error) {
+  //     done(error);
+  //   }
+  // });
+
+  // Note - better approach...
   passport.deserializeUser(async (id, done) => {
     try {
-      // You did well where
-      const user = await prisma.user.findFirst({ where: { id } });
-      console.log(user)
+      const user = await prisma.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          email: true,
+        },
+      });
+      console.log("Passport.js says user is:", user);
 
       done(null, user);
     } catch (error) {
       done(error);
     }
   });
-};;
+};

@@ -58,6 +58,7 @@ const {
   getUserDataPage,
   getUserFolderPage,
   getUserProfilePage,
+  postUserProfilePage,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,
@@ -341,6 +342,7 @@ appRouter.get("/user-data", getUserDataPage);
 // appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/user-folder/:folderId", getUserFolderPage);
 appRouter.get("/user-profile", getUserProfilePage);
+appRouter.post("/user-profile", postUserProfilePage);
 appRouter.get("/new-folder", getNewFolderPage);
 appRouter.post("/new-folder", postNewFolderPage);
 appRouter.get("/new-file", getNewFilePage);

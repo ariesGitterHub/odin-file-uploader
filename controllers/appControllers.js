@@ -4,6 +4,7 @@ const { validationResult } = require("express-validator");
 
 const {
   createUser,
+  updateUser,
   getUserByEmail,
   getUserProfile,
   getUserFolders,
@@ -396,6 +397,63 @@ async function getUserProfilePage(req, res, next) {
   }
 }
 
+async function postUserProfilePage(req, res, next) {
+  // console.log("POST /user-profile", req.body);
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const formattedErrors = [];
+      const seen = new Set();
+
+      errors.array().forEach((err) => {
+        if (!seen.has(err.path)) {
+          formattedErrors.push({
+            field: err.path,
+            message: err.msg,
+          });
+          seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
+        }
+      });
+
+      return res.render("user-profile", {
+        title: "Change Your Profile",
+        errors: formattedErrors,
+        formData: req.body || {},
+        passwordRules,
+        csrfToken: req.csrfToken(),
+      });
+    }
+
+    const { first_name, last_name, email, password } = req.body;
+
+    const updateData = {};
+
+    if (first_name.trim()) {
+      updateData.firstName = first_name.trim();
+    }
+
+    if (last_name.trim()) {
+      updateData.lastName = last_name.trim();
+    }
+
+    if (email.trim()) {
+      updateData.email = email.trim().toLowerCase();
+    }
+
+    if (password) {
+      updateData.passwordHash = await bcrypt.hash(password, 12);
+    }
+
+    await updateUser(req.user.id, updateData);
+
+    return res.redirect("/app/user-data");
+  } catch (err) {
+    console.error("Error during user profile update:", err);
+    next(err);
+  }
+}
+
 // CONTROLLER: NEW FOLDER PAGE (new-folder.ejs)
 async function getNewFolderPage(req, res, next) {
   try {
@@ -493,6 +551,7 @@ module.exports = {
   getUserDataPage,
   getUserFolderPage,
   getUserProfilePage,
+  postUserProfilePage,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,

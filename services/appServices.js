@@ -8,6 +8,7 @@ const prisma = require("../lib/prisma");
 //   });
 // }
 
+// For sign-up.ejs page
 async function createUser(userData) {
   // console.log("createUser called with:", userData);
   return prisma.$transaction(async (tx) => {
@@ -15,9 +16,19 @@ async function createUser(userData) {
       data: userData,
     });
 
-    await createDefaultFolders(tx, user.id);
+    await createDefaultFolders(tx, user.id); // Adds a default folder for new users to get them started
 
     return user;
+  });
+}
+
+// For user-profile.ejs page
+async function updateUser(userId, userData) {
+  return prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: userData,
   });
 }
 
@@ -30,7 +41,6 @@ async function getUserByEmail(email) {
   });
 }
 
-// TODO - getUserProfile START HERE!!!
 async function getUserProfile(userId) {
   return prisma.user.findUnique({
     where: { id: userId, },
@@ -42,7 +52,6 @@ async function getUserProfile(userId) {
     },
   });
 }
-
 
 // USER SERVICES
 
@@ -170,6 +179,7 @@ async function getChildFoldersById(parentFolderId) {
 
 module.exports = {
   createUser,
+  updateUser,
   getUserByEmail,
   getUserProfile,
   getUserFolders,

@@ -5,7 +5,7 @@
     <a class="button-default nav-button" href="/app">
       <span class="emoji" role="img" aria-label="TEMP!!!! home link"> 🏠 </span>
     </a>
-      <a class="button-default nav-button" href="/app/admin">
+    <a class="button-default nav-button" href="/app/admin">
       <span class="emoji" role="img" aria-label="TODO - wire up link"> ⚙ </span>
     </a>
     <a class="button-default nav-button" href="/app/user-data">
@@ -19,10 +19,10 @@
     </a>
     <a class="button-default nav-button" href="/app/new-file">
       <span class="emoji" role="img" aria-label="Upload file link"> +📄 </span>
-    </a>    
-     <form action="/app/log-out" method="POST">
+    </a>
+    <form action="/app/log-out" method="POST">
       <%# CSRF Token - hidden input for forms %>
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
       <button class="button-default nav-button" type="submit">
         <span class="emoji emoji-nav-size" role="img" aria-label="Log out">
           📴

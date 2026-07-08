@@ -7,8 +7,6 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default current-folder-card flex-gap">
       <div class="element-container-col-start-center width-default current-parent-folder">
-        
-          <!-- <div class="current-folder-emoji"><span class="emoji"><%#= folder.emoji %></span></div> -->
         <div class="element-container-col-start-center">
           <div class="element-container-row-start-start">  
             <div class="current-folder-emoji">
@@ -17,22 +15,22 @@
             <div>
               <h2 class="current-folder-name"><%= folder.folderName %></h2>
             </div>
-          </div>  
-          <div class="current-folder-parent">
-            <% if (folder.parentFolderId === null) { %> 
-              <p> <strong>Path:</strong> /<%= folder.folderName %></p>
-            <% } else { %> 
-              <p>Root/<%= folder.parentFolder.folderName %>/<%= folder.folderName %></p>
-            <% } %>
-          </div>
-          <div class="current-folder-description">
-            <p><strong>Folder Description:</strong> <%= folder.folderDescription %></p>            
+          </div> 
+          <div class="current-folder-details">
+            <div class="folder-or-file-details">
+              <% if (folder.parentFolderId === null) { %> 
+                <strong>Virtual Path:</strong> /<span class="lowercase"><%= folder.folderName %></span>
+              <% } else { %> 
+                <strong>Virtual Path:</strong> /<span class="lowercase"><%= folder.parentFolder.folderName %>/<%= folder.folderName %></span>
+              <% } %>
+            </div>
+            <div class="folder-or-file-details <%= folder.folderDescription ? '' : 'hidden' %>">
+              <strong>Description:</strong> <%= folder.folderDescription %>          
+            </div>
           </div>
         </div>  
       <%- include('./partials/folder-buttons.ejs') %>
       </div>
-
-
       <div class="current-folder-items">
         <div class="subfolder-section-title">
           <h3><span class="emoji"><%= folder.emoji %></span> subfolders</h3>
@@ -40,11 +38,10 @@
         <div class="subfolder-item-section">
           <% if (childFolders.length === 0) { %> 
             <div class="current-folder-subfolder-items-empty">
-              <h4>There are no current subfolders. <span class="emoji">😕</span></h4>
+              <h4>There are no current subfolders.</h4>
             </div>
           <% } else { %> 
           <% childFolders.forEach(childFolder => { %> 
-            <%#= childFolder.folderName %>
             <a class="button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
             <span class="emoji folder-emoji" role="img" aria-label="Data folder">
               <%= childFolder.emoji %>
@@ -61,23 +58,21 @@
         <div class="file-item-section">
           <% if (folder.files.length === 0) { %>
           <div class="current-folder-file-items-empty">
-            <h4>There are no current files. <span class="emoji">🙁</span></h4>
+            <h4>There are no current files.</h4>
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>
         <div class="file-card">
           <h3 class="file-name"><%= file.originalFileName %></h3>
           <div class="element-container-row-center-start flex-gap">
-            <!-- <div class="file-details"><strong>size</strong> <%#= file.sizeBytes %></div> -->
-            <div class="file-details"><strong>size</strong> <%= file.sizeLabel %> </div>
-            <div class="file-details"><strong>type</strong> <%= file.mimeType %></div>
+            <div class="folder-or-file-details"><strong>size</strong> <%= file.sizeLabel %> </div>
+            <div class="folder-or-file-details"><strong>type</strong> <%= file.mimeType %></div>
           </div>  
           <div class="element-container-row-center-start flex-gap">
-            <!-- <div class="file-details"><strong>size</strong> <%#= file.sizeBytes %></div> -->
-            <div class="file-details"><strong>created</strong> <%= file.createdAtLabel %></div>
+            <div class="folder-or-file-details"><strong>created</strong> <%= file.createdAtLabel %></div>
             <!-- TODO - check below when I am able to make updates -->
             <% if (file.createdAtLabel !== file.updatedAtLabel) { %>
-            <div class="file-details"><strong>updated</strong> <%= file.updatedAtLabel %></div>
+            <div class="folder-or-file-details"><strong>updated</strong> <%= file.updatedAtLabel %></div>
             <% } %>
           </div>  
         <%- include('./partials/file-buttons.ejs') %>
@@ -85,7 +80,6 @@
         <% }) %>  
         <% } %>
         </div>
-              
       </div>
 
 

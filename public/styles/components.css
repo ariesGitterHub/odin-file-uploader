@@ -32,6 +32,16 @@
   justify-content: center;
 }
 
+/* Make hidden, an old fav */
+
+.hidden {
+  display: none;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
 .margin-bottom {
   margin-bottom: var(--spacer-default);
 }

@@ -1,4 +1,4 @@
-// This is your Prisma schema file,
+// This is my Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 // Get a free hosted Postgres database in seconds: `npx create-db`
@@ -58,13 +58,6 @@ enum FolderEmoji {
   VACATION    @map("🏖️")
   WORK        @map("💼")
 }
-
-// enum ExpiresTime {
-//   HOUR
-//   DAY
-//   WEEK
-//   MONTH
-// }
 
 model User {
   id String @id @default(uuid())
@@ -139,9 +132,9 @@ model File {
   // fileName         String @map("file_name") @db.VarChar(255) // NOTE - new randomized file name to avoid collisions and hide actual name, a best practice
   originalFileName String @map("original_file_name") @db.VarChar(255) // NOTE - what the original file is named
 
-  mimeType  String  @map("mime_type") // Use enum for this??? NO! ❌
+  mimeType  String @map("mime_type") // Use enum for this??? NO! ❌
   // extension String? @db.VarChar(20) // Not using right now
-  sizeBytes BigInt  @map("size_bytes")
+  sizeBytes BigInt @map("size_bytes")
 
   // currentVersionID String @map("current_version_id")
   // version  Version @relation(fields: [currentVersionID], references: [id]) // current version of file

@@ -6,9 +6,7 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border-white">
-      <!-- <div class="subtitle"> -->
-        <h2 class="subtitle">Create a New Folder</h2>
-      <!-- </div> -->
+      <h2 class="subtitle">Create a New Folder</h2>
        <form class="element-container-col-start-center form-width" action="/app/new-folder" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -46,8 +44,7 @@
           </option>
           <% userFolders.forEach((folder) => { %> 
             <option value="<%= folder.id %>"
-            <%= formData?.parent_folder_id === folder.id ? "selected" : "" %>>
-              <!-- <span class="select-font-larger"><%#= folder.folderName %></span> -->
+            <%= formData?.parent_folder_id === folder.id ? "selected" : "" %>
               <%= folder.folderName %>
             </option>
           <% }) %>

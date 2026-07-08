@@ -46,7 +46,7 @@
         />
 
         <div class="element-container-row-start-center">
-          <label for="password-user-profile">password</label>
+          <label for="password-user-profile">change password</label>
           <% if (errors && errors.some(e => e.field === 'password')) { %>
             <% errors.filter(e => e.field === 'password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
@@ -60,7 +60,7 @@
           placeholder="leave blank to keep existing password"
         />
         <div class="element-container-row-start-center">
-          <label for="confirm-password-user-profile">confirm</label> 
+          <label for="confirm-password-user-profile">confirm change password</label> 
           <% if (errors && errors.some(e => e.field === 'confirm_password')) { %>
             <% errors.filter(e => e.field === 'confirm_password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>

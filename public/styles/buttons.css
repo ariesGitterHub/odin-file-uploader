@@ -77,9 +77,9 @@ padding: 0;
 }
 
 .folder-button:hover {
-  background-color: var(--pink);
-  border-color: var(--black);
-  color: var(--black);
+  background-color: var(--blue-bold);
+  border-color: var(--gold);
+  color: var(--gold);
   /* transform: scale(1.05); */
 }
 

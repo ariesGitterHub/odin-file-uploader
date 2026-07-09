@@ -57,7 +57,7 @@ const inviteCodeValidator = check("invite_code").custom((value) => {
   return true;
 });
 
-// Export them as groups
+// Export as group
 module.exports = {
   createUserValidatorSignUp: [
     emailValidator,
@@ -65,9 +65,9 @@ module.exports = {
     confirmPasswordValidator,
     inviteCodeValidator,
   ],
-  createUserValidatorAdminCreate: [
-    emailValidator,
-    passwordValidator,
-    confirmPasswordValidator,
-  ],
+  // createUserValidatorAdminCreate: [
+  //   emailValidator,
+  //   passwordValidator,
+  //   confirmPasswordValidator,
+  // ],
 };

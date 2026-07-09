@@ -6,6 +6,7 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap">
+      <h2 class="subtitle">Root Folders</h2>
       <div class="element-container-row-start-center flex-gap">
         <% userFolders.forEach(function(folder) { %>          
         <a class="button-default folder-card" href="/app/user-folder/<%= folder.id %>">

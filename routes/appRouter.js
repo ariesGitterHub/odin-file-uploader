@@ -55,6 +55,7 @@ const {
   getLogInPage,
   postLogInPage,
   postLogOut,
+  getAdminPage,
   getUserDataPage,
   getUserFolderPage,
   getUserProfilePage,
@@ -137,7 +138,9 @@ appRouter.post(
   postLogOut,
 );
 
-// // Admin Related
+// ROUTES: ADMIN PAGE
+
+appRouter.get("/admin", getAdminPage);
 
 // // ROUTES: ADMIN PAGE (admin.ejs)
 // appRouter.get("/admin", requireRole("admin"), getAdminPage);

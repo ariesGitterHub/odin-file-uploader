@@ -7,6 +7,7 @@ const {
   updateUser,
   // getUserByEmail,
   getUserProfile,
+  getUserProfiles, // admin
   getUserFolders,
   createNewFolder,
   getFolderFilesCount,
@@ -241,6 +242,39 @@ async function postLogOut(req, res, next) {
   } catch (err) {
     next(err);
   }
+}
+
+// CONTROLLER: ADMIN PAGE (admin.ejs)
+async function getAdminPage(req, res, next) { 
+  try {
+    const userProfiles = await getUserProfiles();
+
+    const usersWithFormattedSize = userProfiles
+      .map((f) => ({
+        ...f,
+        storageUsed: formatBytes(f.storageUsedBytes),
+        createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
+        updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
+      }))
+      .sort(
+        (
+          a,
+          b, // orders by alpha where asc cannot as prisma's asc sees "T" and "t" as different
+        ) =>
+          a.firstName.localeCompare(b.firstName, undefined, {
+            sensitivity: "base",
+          }),
+      );
+
+    res.render("admin", {
+      title: "Admin",
+      userProfiles: usersWithFormattedSize,
+      errors: [],
+      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+    });
+  } catch (error) {
+  
+}
 }
 
 // CONTROLLER: USER DATA PAGE (user-data.ejs)
@@ -548,6 +582,7 @@ module.exports = {
   getLogInPage,
   postLogInPage,
   postLogOut,
+  getAdminPage,
   getUserDataPage,
   getUserFolderPage,
   getUserProfilePage,

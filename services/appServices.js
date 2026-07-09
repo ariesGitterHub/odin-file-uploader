@@ -78,6 +78,50 @@ async function getUserProfile(userId) {
   });
 }
 
+// ADMIN SERVICES
+
+// async function getUserProfiles({ page = 1, limit = 50 }) { // NOTE - added pagination as an example for future reference
+//   return prisma.user.findMany({
+//     skip: (page - 1) * limit,
+//     take: limit,
+//     select: {
+//       id: true,
+//       role: true,
+//       firstName: true,
+//       lastName: true,
+//       email: true,
+//       emailVerified: true,
+//       storageUsedBytes: true,
+//       createdAt: true,
+//       updatedAt: true,
+//       lastLoginAt: true,
+//     },
+//     orderBy: {
+//       createdAt: "desc",
+//     },
+//   });
+// }
+
+async function getUserProfiles() {
+  return prisma.user.findMany({
+    select: {
+      id: true,
+      role: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      emailVerified: true,
+      storageUsedBytes: true,
+      createdAt: true,
+      updatedAt: true,
+      lastLoginAt: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}
+
 // USER SERVICES
 
 async function createDefaultFolders(tx, userId) {
@@ -209,6 +253,7 @@ module.exports = {
   checkIfEmailExistsForSignUp,
   checkIfEmailAlreadyExists,
   getUserProfile,
+  getUserProfiles, // admin
   getUserFolders,
   createNewFolder,
   getFolderFilesCount,

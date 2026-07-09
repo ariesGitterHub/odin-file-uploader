@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body class="element-container-col-center-start flex-gap">
+    <%- include('./partials/header.ejs') %>
+    <main class="element-container-col-default flex-gap">
+      <h2 class="subtitle">Admin Overview</h2>     
+        <div class="current-user-section-title">
+          <h3>current users</h3>
+        </div>
+        <div class="user-section">
+          <% if (userProfiles.length === 0) { %>
+          <div class="current-user-section-empty">
+            <h4>There are no current users.</h4>
+          </div>
+          <% } else { %> 
+        <% userProfiles.forEach(userProfile => { %>
+        <div class="user-card">
+          <h3 class="user-name"><%= userProfile.firstName %> <%= userProfile.lastName %></h3>
+          <div class="element-container-row-center-start flex-gap">
+            <div class="user-details"><strong>role</strong> <%= userProfile.role %> </div>
+          </div>  
+          <div class="element-container-row-center-start flex-gap">
+            <div class="user-details"><strong>created</strong> <%= userProfile.createdAtLabel %></div>
+            <!-- TODO - check below when I am able to make updates -->
+            <% if (userProfile.createdAtLabel !== userProfile.updatedAtLabel) { %>
+            <div class="user-details"><strong>updated</strong> <%= userProfile.updatedAtLabel %></div>
+            <% } %>
+          </div>  
+        <%- include('./partials/admin-buttons.ejs') %>
+        </div>
+        <% }) %>  
+        <% } %>
+        </div>
+      </div>
+
+
+
+      
+
+
+    </main>
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

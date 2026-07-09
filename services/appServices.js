@@ -33,10 +33,35 @@ async function updateUser(userId, userData) {
 }
 
 // !!! TODO - add this to the relevant controllers where ensuring email uniqueness is needed.
-async function getUserByEmail(email) {
+// async function getUserByEmail(email) {
+//   return prisma.user.findUnique({
+//     where: {
+//       email,
+//     },
+//   });
+// }
+
+async function checkIfEmailExistsForSignUp(email) {
   return prisma.user.findUnique({
     where: {
       email,
+    },
+    select: {
+      id: true,
+    },
+  });
+}
+
+async function checkIfEmailAlreadyExists(email, targetId) {
+  return prisma.user.findFirst({
+    where: {
+      email,
+      NOT: {
+        id: targetId,
+      },
+    },
+    select: {
+      id: true,
     },
   });
 }
@@ -180,7 +205,9 @@ async function getChildFoldersById(parentFolderId) {
 module.exports = {
   createUser,
   updateUser,
-  getUserByEmail,
+  // getUserByEmail,
+  checkIfEmailExistsForSignUp,
+  checkIfEmailAlreadyExists,
   getUserProfile,
   getUserFolders,
   createNewFolder,

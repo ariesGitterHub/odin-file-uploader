@@ -16,7 +16,6 @@
           type="text"          
           name="first_name"
           value="<%= formData?.first_name || '' %>"
-          placeholder="change first name"
         />
         <label for="last-name-user-profile">last name</label>
         <input
@@ -24,7 +23,6 @@
           type="text"          
           name="last_name"
           value="<%= formData?.last_name || '' %>"
-          placeholder="change last name"
         />
         <div class="element-container-row-start-center">
           <label for="email-user-profile">email</label>
@@ -39,11 +37,10 @@
           type="email"            
           name="email"
           value="<%= formData?.email || '' %>"
-          placeholder="enter email address"
         />
 
         <div class="element-container-row-start-center">
-          <label for="password-user-profile">change password</label>
+          <label for="password-user-profile">password</label>
           <% if (errors && errors.some(e => e.field === 'password')) { %>
             <% errors.filter(e => e.field === 'password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
@@ -57,7 +54,7 @@
           placeholder="leave blank to keep existing password"
         />
         <div class="element-container-row-start-center">
-          <label for="confirm-password-user-profile">confirm change password</label> 
+          <label for="confirm-password-user-profile">confirm password</label> 
           <% if (errors && errors.some(e => e.field === 'confirm_password')) { %>
             <% errors.filter(e => e.field === 'confirm_password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>

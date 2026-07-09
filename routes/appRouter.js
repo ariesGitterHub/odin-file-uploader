@@ -64,6 +64,14 @@ const {
   getNewFilePage,
 } = require("../controllers/appControllers");
 
+const {
+  createUserValidatorSignUp,
+} = require("../middleware/validateCreateUser");
+
+const {
+  createUserUpdateValidator,
+} = require("../middleware/validateUpdateUser");
+
 // const {
 //   getModalDataToFrontend,
 //   getUserId,
@@ -102,17 +110,17 @@ appRouter.get("/", getHomePage);
 
 // // ROUTES: SIGN UP PAGE (sign-up.ejs)
 appRouter.get("/sign-up", getSignUpPage);
-appRouter.post("/sign-up", postSignUpPage);
-// appRouter.post(
-//   "/sign-up",
-//   createUserValidatorSignUp,
-//   sanitizeUserFields([
-//     { name: "first_name", type: "string" },
-//     { name: "last_name", type: "string" },
-//   ]),
-//   rateLimiter,
-//   postSignUpPage,
-// );
+// appRouter.post("/sign-up", postSignUpPage);
+appRouter.post(
+  "/sign-up",
+  createUserValidatorSignUp,
+  // sanitizeUserFields([
+  //   { name: "first_name", type: "string" },
+  //   { name: "last_name", type: "string" },
+  // ]),
+  // rateLimiter,
+  postSignUpPage,
+);
 
 // // ROUTES: LOG IN PAGE (log-in.ejs)
 appRouter.get("/log-in", getLogInPage);
@@ -342,7 +350,16 @@ appRouter.get("/user-data", getUserDataPage);
 // appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/user-folder/:folderId", getUserFolderPage);
 appRouter.get("/user-profile", getUserProfilePage);
-appRouter.post("/user-profile", postUserProfilePage);
+appRouter.post(
+  "/user-profile",
+  createUserUpdateValidator,
+  // sanitizeUserFields([
+  //   { name: "first_name", type: "string" },
+  //   { name: "last_name", type: "string" },
+  // ]),
+  // rateLimiter,
+  postUserProfilePage,
+);
 appRouter.get("/new-folder", getNewFolderPage);
 appRouter.post("/new-folder", postNewFolderPage);
 appRouter.get("/new-file", getNewFilePage);

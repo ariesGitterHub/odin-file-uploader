@@ -5,7 +5,7 @@ const { validationResult } = require("express-validator");
 const {
   createUser,
   updateUser,
-  getUserByEmail,
+  // getUserByEmail,
   getUserProfile,
   getUserFolders,
   createNewFolder,
@@ -87,7 +87,7 @@ async function postSignUpPage(req, res, next) {
     await createUser({
       firstName: first_name,
       lastName: last_name,
-      email: email.toLowerCase(),
+      email: email.trim().toLowerCase(),
       passwordHash: password_hash,
     });
 

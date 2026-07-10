@@ -1,4 +1,65 @@
 /* Add these ad-hoc to various elements */
+
+/* .capitalize {
+  text-transform: capitalize;
+} */
+
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  gap: var(--spacer-default);
+  background-color: var(--black);
+  border: var(--border-solid-default);
+  /* border-color: var(--orange); */
+  border-radius: var(--border-radius-default);
+  padding: 0.5rem;
+}
+
+.card-name {
+  /* color: var(--orange); */
+  font-family: var(--font-text);
+}
+
+.folder-color {
+  color: var(--gray); 
+}
+
+.file-border {
+  border-color: var(--orange);
+}
+
+.file-color {
+  color: var(--orange); 
+}
+
+.admin-border {
+  border-color: var(--blue);
+}
+
+.admin-color {
+  color: var(--blue); 
+}
+
+.card:hover,
+.card:hover .card-name,
+.card:hover .card-button {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.details-backdrop {
+  width: fit-content;
+  background-color: var(--gray);
+  border-radius: var(--border-radius-default);
+  color: var(--black);
+  font-family: var(--font-text);
+  padding: var(--spacer-small) var(--spacer-default);
+  font-size: small;
+}
+
 .emoji {
   font-family: var(--font-emoji) !important;
 }
@@ -11,9 +72,14 @@
   gap: var(--spacer-default);
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .font-fancy {
   font-family: var(--font-title);
 }
+
 .font-normal {
   font-family: var(--font-text);
 }
@@ -50,26 +116,16 @@
   margin-top: var(--spacer-default);
 }
 
-.width-default {
-  width: var(--width-default-percent);
+.margin-left-right {
+  margin: 0 var(--spacer-default);
 }
-
-.border-red {
-  border: 2px solid red;
-}
-
-.border-green {
-  background-color: aqua;
-  border: 2px solid green; 
-}
-
-/* .border-purple {
-  border: 2px solid var(--purple);
-  padding: 0.5rem;
-} */
-
-
 
 .uppercase {
   text-transform: uppercase;
 }
+
+.width-default-percent {
+  width: var(--width-default-percent);
+}
+
+

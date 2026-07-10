@@ -5,8 +5,8 @@
   </head>
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
-    <main class="element-container-col-default current-folder-card flex-gap">
-      <div class="element-container-col-start-center width-default current-parent-folder">
+    <main class="element-container-col-default current-folder-container flex-gap">
+      <div class="element-container-col-start-center width-default current-parent-folder-container">
         <div class="element-container-col-start-center">
           <div class="element-container-row-start-start">  
             <div class="current-folder-emoji">
@@ -17,14 +17,14 @@
             </div>
           </div> 
           <div class="current-folder-details">
-            <div class="folder-or-file-details">
+            <div class="details-backdrop">
               <% if (folder.parentFolderId === null) { %> 
                 <strong>Virtual Path:</strong> /<span class="lowercase"><%= folder.folderName %></span>
               <% } else { %> 
                 <strong>Virtual Path:</strong> /<span class="lowercase"><%= folder.parentFolder.folderName %>/<%= folder.folderName %></span>
               <% } %>
             </div>
-            <div class="folder-or-file-details <%= folder.folderDescription ? '' : 'hidden' %>">
+            <div class="details-backdrop <%= folder.folderDescription ? '' : 'hidden' %>">
               <strong>Description:</strong> <%= folder.folderDescription %>          
             </div>
           </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="subfolder-item-section">
           <% if (childFolders.length === 0) { %> 
-            <div class="current-folder-subfolder-items-empty">
+            <div class="font-normal folder-color">
               <h4>There are no current subfolders.</h4>
             </div>
           <% } else { %> 
@@ -57,22 +57,22 @@
         </div>
         <div class="file-item-section">
           <% if (folder.files.length === 0) { %>
-          <div class="current-folder-file-items-empty">
+          <div class="font-normal file-color">
             <h4>There are no current files.</h4>
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>
-        <div class="file-card">
-          <h3 class="file-name"><%= file.originalFileName %></h3>
+        <div class="card file-border">
+          <h3 class="card-name file-color"><%= file.originalFileName %></h3>
           <div class="element-container-row-center-start flex-gap">
-            <div class="folder-or-file-details"><strong>size</strong> <%= file.sizeLabel %> </div>
-            <div class="folder-or-file-details"><strong>type</strong> <%= file.mimeType %></div>
+            <div class="details-backdrop"><strong>size</strong> <%= file.sizeLabel %> </div>
+            <div class="details-backdrop"><strong>type</strong> <%= file.mimeType %></div>
           </div>  
           <div class="element-container-row-center-start flex-gap">
-            <div class="folder-or-file-details"><strong>created</strong> <%= file.createdAtLabel %></div>
+            <div class="details-backdrop"><strong>created</strong> <%= file.createdAtLabel %></div>
             <!-- TODO - check below when I am able to make updates -->
             <% if (file.createdAtLabel !== file.updatedAtLabel) { %>
-            <div class="folder-or-file-details"><strong>updated</strong> <%= file.updatedAtLabel %></div>
+            <div class="details-backdrop"><strong>updated</strong> <%= file.updatedAtLabel %></div>
             <% } %>
           </div>  
         <%- include('./partials/file-buttons.ejs') %>

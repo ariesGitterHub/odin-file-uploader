@@ -28,14 +28,12 @@
    /* transform: scale(1.125); */
 }
 
-.wide-button {
+/* .wide-button {
 width: var(--width-default-percent);
 margin: 0;
 font-size: var(--font-size-default);
-/* padding-left: 0.5rem;
-padding-right: 0.5rem; */
 padding: 0.25rem 0.5rem;
-}
+} */
 
 /* .narrow-button {
 width: fit-content;
@@ -51,12 +49,12 @@ padding: 0;
   font-weight: 800;
 }
 
-.folder-button, .file-button {
+.folder-button, .card-button {
   /* height: var(--button-default-h); */
   /* width: var(--button-default-h); */
   height: fit-content;
-  width: fit-content;
-  /* width: var(--width-default-percent); */
+  /* width: fit-content; */
+  width: var(--width-default-percent);
   /* width: 6.125rem; */
   background-color: var(--black);
   border: var(--border-solid-default);
@@ -77,35 +75,35 @@ padding: 0;
 }
 
 .folder-button:hover {
-  background-color: var(--blue-bold);
+  background-color: var(--purple);
   border-color: var(--gold);
   color: var(--gold);
   /* transform: scale(1.05); */
 }
 
-/* .file-button {
+/* .card-button {
   width: 100%;
   background-color: var(--gold-lt);
   border: var(--border-solid-default);
   color: var(--blue-bold);
 } */
 
-.file-button {
+.card-button {
   /* width: 100%; */
   background-color: var(--black);
   border: var(--border-solid-default);
-  border-color: var(--orange);
-  color: var(--orange);
+  /* border-color: var(--orange); */
+  /* color: var(--orange); */
   /* font-size: var(--font-size-small); */
 }
 
-.folder-button .emoji, .file-button .emoji {
+.folder-button .emoji, .card-button .emoji {
 font-size: 1.5rem;
 }
 
-/* Also see file-card:hover for more of hover css! */
-.file-button:hover {
-  background-color: var(--blue-bold);
+/* Also see card:hover for more of hover css! */
+.card-button:hover {
+  background-color: var(--purple);
   /* border-color: var(--orange); */
   color: var(--black);
   /* transform: scale(1.05); */

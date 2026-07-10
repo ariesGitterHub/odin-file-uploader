@@ -10,9 +10,9 @@
       <form class="element-container-col-start-center form-width" action="/app/new-file" method="POST" enctype="multipart/form-data">
       <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <!-- <label for="file-name-new-file">file name</label>
+        <!-- <label for="card-name-new-file">file name</label>
         <input
-          id="file-name-new-file"
+          id="card-name-new-file"
           type="text"          
           name="file"
           value="<%#= formData?.file_name || '' %>"

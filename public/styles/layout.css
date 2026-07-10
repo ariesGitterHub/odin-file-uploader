@@ -1,7 +1,8 @@
 html,
 body {
   min-height: 100vh;
-  min-width: 350px;
+  /* min-width: 350px; */
+  min-width: 325px;
   margin: 0;
   padding: 0;
 }
@@ -124,23 +125,6 @@ nav {
 
 /* user-folder.ejs */
 
-.current-folder-card {
-  width: fit-content;
-  min-width: 380px;
-  border-radius: var(--border-radius-default);
-  color: var(--white);
-  margin: 0.5rem;
-  padding: 0.5rem;
-}
-
-.current-parent-folder {
-  border: var(--border-solid-default);
-  border-color: var(--none);
-  border-radius: var(--border-radius-default);
-  color: var(--black);
-  padding: 0.5rem;
-}
-
 .current-folder-emoji span {
   font-size: 1.5rem;
 }
@@ -159,19 +143,6 @@ nav {
   justify-content: start;
   gap: var(--spacer-default);
   font-family: var(--font-text);
-}
-
-.current-folder-subfolder-items-empty,
-.current-folder-file-items-empty {
-  font-family: var(--font-title);
-}
-
-.current-folder-subfolder-items-empty {
-  color: var(--gray);
-}
-
-.current-folder-file-items-empty {
-  color: var(--orange);
 }
 
 .current-folder-items {
@@ -223,42 +194,6 @@ nav {
   padding: var(--spacer-big);
 }
 
-.file-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  gap: var(--spacer-default);
-  background-color: var(--black);
-  border: var(--border-solid-default);
-  border-color: var(--orange);
-  border-radius: var(--border-radius-default);
-  padding: 0.5rem;
-}
-
-.file-name {
-  color: var(--orange);
-  font-family: var(--font-text);
-}
-
-.file-card:hover,
-.file-card:hover .file-name,
-.file-card:hover .file-button {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-.folder-or-file-details {
-  width: fit-content;
-  background-color: var(--gray);
-  border-radius: var(--border-radius-default);
-  color: var(--black);
-  font-family: var(--font-text);
-  padding: var(--spacer-small) var(--spacer-default);
-  font-size: small;
-}
-
 /* new-file.ejs */
 
 #file-upload {
@@ -289,6 +224,9 @@ nav {
   background-color: var(--gold);
   color: var(--black);
 }
+
+/* admin.ejs */
+
 
 /* footer.ejs */
 

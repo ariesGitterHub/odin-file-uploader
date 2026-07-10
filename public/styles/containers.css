@@ -1,3 +1,4 @@
+/* button containers */
 
 .button-container-col {
   width: var(--width-default-percent);
@@ -47,6 +48,27 @@
   /* margin-top: var(--spacer-big); */
    margin: var(--spacer-default);
 }
+
+/* folder containers */
+
+.current-folder-container {
+  width: fit-content;
+  /* min-width: 380px; */
+  border-radius: var(--border-radius-default);
+  color: var(--white);
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+.current-parent-folder-container {
+  border: var(--border-solid-default);
+  border-color: var(--none);
+  border-radius: var(--border-radius-default);
+  color: var(--black);
+  padding: 0.5rem;
+}
+
+/* element containers - general */
 
 /* --column-based */
 .element-container-col-default {

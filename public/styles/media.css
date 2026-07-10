@@ -1,11 +1,11 @@
-@media (min-width: 500px) {
-  .folder-button, .file-button {
+/* @media (min-width: 500px) {
+  .folder-button, .card-button {
     width: var(--width-default-percent);
 }
-}
+} */
 
 @media (min-width: 600px) {
-.file-card {
+.card {
   /* width: 100%; */
   width: fit-content;
 }
@@ -28,11 +28,11 @@
     flex-wrap: wrap;
   } */
 
-  .current-file-card {
+  .current-card {
   width: fit-content;
 }
 
-.current-folder-card {
+.current-folder-container {
   width: 90%;
   /* width: fit-content; */
   max-width: 1520px;

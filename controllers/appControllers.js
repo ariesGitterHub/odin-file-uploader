@@ -255,6 +255,7 @@ async function getAdminPage(req, res, next) {
         storageUsed: formatBytes(f.storageUsedBytes),
         createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
         updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
+        lastLoginAtLabel: formatExactDate(f.lastLoginAt), // or whatever your date field is
       }))
       .sort(
         (

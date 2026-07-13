@@ -1,18 +1,28 @@
 <div class="button-container-row-space-evenly">
   <!-- Share -->
-  <button class="button-default folder-button">
-    <span class="emoji">🔗</span>
-  </button>
+  <form action="" method="">        
+    <button class="button-default folder-button">
+      <span class="emoji">🔗</span>
+    </button>    
+  </form>
   <!-- Download -->
-  <button class="button-default folder-button">
-    <span class="emoji">⬇</span>
-  </button>
+  <form action="" method="">
+    <button class="button-default folder-button">
+      <span class="emoji">⬇</span>
+    </button>    
+  </form>
   <!-- Edit -->
-  <button class="button-default folder-button">
-    <span class="emoji">✏</span>
-  </button>
+  <form action="" method="">
+    <button class="button-default folder-button">
+      <span class="emoji">✏</span>
+    </button>    
+  </form>
   <!-- Delete -->
-  <button class="button-default folder-button">
-    <span class="emoji">❌</span>
-  </button>
+  <form action="/app/delete-your-folder/<%= folder.id %>" method="POST">
+    <%# CSRF Token - hidden input for forms %>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="button-default folder-button" type="submit">
+      <span class="emoji">❌</span>
+    </button>
+  </form>
 </div>

@@ -97,7 +97,7 @@ model Folder {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // user this folder belongs to
 
   parentFolderId String? @map("parent_folder_id")
-  parentFolder   Folder? @relation("FolderHierarchy", fields: [parentFolderId], references: [id])
+  parentFolder   Folder? @relation("FolderHierarchy", fields: [parentFolderId], references: [id], onDelete: Cascade)
 
   childFolders Folder[] @relation("FolderHierarchy") // NOTE: "FolderHierarchy" string is just Prisma metadata that helps the ORM understand the self-referencing relationship
 
@@ -124,7 +124,7 @@ model File {
   id String @id @default(uuid())
 
   folderId String @map("folder_id") // NOTE - requires every file to belong to a folder
-  folder   Folder @relation(fields: [folderId], references: [id]) // folder this file belongs in
+  folder   Folder @relation(fields: [folderId], references: [id], onDelete: Cascade) // folder this file belongs in
 
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // user who uploaded this file
@@ -157,7 +157,7 @@ model Version {
   id String @id @default(uuid())
 
   fileId String @map("file_id")
-  file   File   @relation(fields: [fileId], references: [id]) // file this file belongs in
+  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade) // file this file belongs in
 
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // user this filer belongs to
@@ -191,10 +191,10 @@ model ShareLink {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // user who owns this folder/file
 
   folderId String? @map("folder_id")
-  folder   Folder? @relation(fields: [folderId], references: [id]) // folder this file belongs in
+  folder   Folder? @relation(fields: [folderId], references: [id], onDelete: Cascade) // folder this file belongs in
 
   fileId String? @map("file_id")
-  file   File?   @relation(fields: [fileId], references: [id]) // folder this file belongs in
+  file   File?   @relation(fields: [fileId], references: [id], onDelete: Cascade) // folder this file belongs in
 
   permission PermissionType @default(VIEW)
 

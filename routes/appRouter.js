@@ -58,8 +58,10 @@ const {
   getAdminPage,
   getUserDataPage,
   getUserFolderPage,
+  deleteUserFolderPage,
   getUserProfilePage,
   postUserProfilePage,
+  deleteUserProfileAndAllUserData,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,
@@ -352,9 +354,10 @@ appRouter.get("/admin", getAdminPage);
 appRouter.get("/user-data", getUserDataPage);
 // appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/user-folder/:folderId", getUserFolderPage);
+appRouter.post("/delete-your-folder/:folderId", deleteUserFolderPage);
 appRouter.get("/user-profile", getUserProfilePage);
 appRouter.post(
-  "/user-profile",
+  "/delete-your-account",
   createUserUpdateValidator,
   // sanitizeUserFields([
   //   { name: "first_name", type: "string" },
@@ -363,6 +366,7 @@ appRouter.post(
   // rateLimiter,
   postUserProfilePage,
 );
+appRouter.post("/user-profile", deleteUserProfileAndAllUserData);
 appRouter.get("/new-folder", getNewFolderPage);
 appRouter.post("/new-folder", postNewFolderPage);
 appRouter.get("/new-file", getNewFilePage);

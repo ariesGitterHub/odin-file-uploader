@@ -13,6 +13,8 @@ const {
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
+  deleteYourAccount,
+  deleteYourFolder,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -408,6 +410,28 @@ async function getUserFolderPage(req, res, next) {
   }
 }
 
+async function deleteUserFolderPage(req, res, next) {
+  try {
+    const folderId = req.params.folderId;
+    // console.log("folderId:", folderId); 
+    const folder = await getFilesByFolder(folderId);
+    // console.log("folder:", folder);
+    if (!folder) {
+      return res.status(404).render("404");
+    }
+
+    if (folder.userId !== req.user.id) {
+      return res.sendStatus(403);
+    }
+
+    await deleteYourFolder(folderId);
+
+    res.redirect("/app/user-data")
+  } catch (err) {
+    next(err);
+  }
+}
+
 // CONTROLLER: USER PROFILE PAGE (user-profile.ejs)
 
 async function getUserProfilePage(req, res, next) {
@@ -485,6 +509,27 @@ async function postUserProfilePage(req, res, next) {
     return res.redirect("/app/user-data");
   } catch (err) {
     console.error("Error during user profile update:", err);
+    next(err);
+  }
+}
+
+async function deleteUserProfileAndAllUserData(req, res, next) { // This cascades to all user data
+    if (!req.user) {
+    return res.redirect("/app/log-in");
+  }
+
+  try {
+    // Block admins from deleting their own accounts
+    if (req.user.role === "ADMIN") {
+      const err = new Error("Admins cannot delete their own accounts.");
+      err.status = 403;
+      err.code = "ADMIN_SELF_DELETE_BLOCKED"; // FIX: structured error
+      return next(err);
+    }
+
+    await deleteYourAccount(req.user.id);
+    return res.redirect("/app");
+  } catch (err) {
     next(err);
   }
 }
@@ -586,8 +631,10 @@ module.exports = {
   getAdminPage,
   getUserDataPage,
   getUserFolderPage,
+  deleteUserFolderPage,
   getUserProfilePage,
   postUserProfilePage,
+  deleteUserProfileAndAllUserData,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,

@@ -1,7 +1,7 @@
 form {
-  /* width: var(--form-width); */
-  /* width: var(--width-default-percent); */
-  margin: 0;
+
+  /* NOTE - "display: contents" is especially nice because it makes the form "disappear" from the layout while still functioning for form submission. Browser support is generally good, though there are a few edge cases with accessibility tools. */
+    display: contents;
 }
 
 label {

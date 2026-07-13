@@ -192,6 +192,7 @@ async function getFilesByFolder(folderId) {
     where: { id: folderId },
     select: {
       id: true,
+      userId: true,
       parentFolderId: true,
       folderName: true,
       folderImage: true,
@@ -246,6 +247,25 @@ async function getChildFoldersById(parentFolderId) {
 //   `;
 // }
 
+// DELETE DATA
+async function deleteYourAccount(userId) {
+  return prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+}
+
+async function deleteYourFolder(folderId) {
+  // console.log("appServices, folderId = ", folderId);
+  return prisma.folder.delete({
+    where: {
+      id: folderId,
+    },
+  });
+}
+
+
 module.exports = {
   createUser,
   updateUser,
@@ -259,4 +279,6 @@ module.exports = {
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
+  deleteYourAccount,
+  deleteYourFolder,
 };

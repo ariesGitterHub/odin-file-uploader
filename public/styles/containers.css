@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacer-default);
-   margin: var(--spacer-default);
+  margin: var(--spacer-default);
 }
 
 .button-container-row-center-start {

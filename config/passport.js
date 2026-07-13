@@ -28,6 +28,14 @@ module.exports = (passport) => {
             return done(null, false, { message: "Invalid password." });
           }
 
+          // Update last login date
+          await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              lastLoginAt: new Date(),
+            },
+          });
+
           return done(null, user);
         } catch (err) {
           return done(err);

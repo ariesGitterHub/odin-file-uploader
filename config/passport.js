@@ -74,6 +74,7 @@ module.exports = (passport) => {
         select: {
           id: true,
           email: true,
+          role: true,
         },
       });
       console.log("Passport.js says user is:", user);

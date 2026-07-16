@@ -56,13 +56,14 @@ const {
   postLogInPage,
   postLogOut,
   getAdminPage,
+  deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,
   deleteUserFolderPage,
   deleteUserFile,
   getUserProfilePage,
   postUserProfilePage,
-  deleteUserProfileAndAllUserData,
+  deleteUserProfileByUser,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,
@@ -80,7 +81,7 @@ const {
 //   getModalDataToFrontend,
 //   getUserId,
 //   getYourProfilePage,
-//   deleteYourAccount,
+//   deleteUserAccount,
 //   getEditProfilePage,
 //   postEditProfilePage,
 //   postYourProfilePageAvatar,
@@ -144,6 +145,7 @@ appRouter.post(
 // ROUTES: ADMIN PAGE
 
 appRouter.get("/admin", getAdminPage);
+appRouter.post("/admin/delete-user/:userId", deleteUserProfileByAdmin);
 
 // // ROUTES: ADMIN PAGE (admin.ejs)
 // appRouter.get("/admin", requireRole("admin"), getAdminPage);
@@ -289,7 +291,7 @@ appRouter.get("/admin", getAdminPage);
 // appRouter.post(
 //   "/your-profile/delete-your-account",
 //   requireRole("guest"),
-//   deleteYourAccount,
+//   deleteUserAccount,
 // );
 
 // // ROUTE: EDIT PROFILE PAGE (edit-profile.ejs)
@@ -368,7 +370,7 @@ appRouter.post(
   // rateLimiter,
   postUserProfilePage,
 );
-appRouter.post("/user-profile", deleteUserProfileAndAllUserData);
+appRouter.post("/user-profile", deleteUserProfileByUser);
 appRouter.get("/new-folder", getNewFolderPage);
 appRouter.post("/new-folder", postNewFolderPage);
 appRouter.get("/new-file", getNewFilePage);

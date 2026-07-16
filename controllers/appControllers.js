@@ -14,9 +14,10 @@ const {
   getFilesByFolder,
   getChildFoldersById,
   getFileById,
-  deleteYourAccount,
-  deleteYourFolder,
-  deleteYourFile,
+  deleteUser,
+  deleteFolder,
+  deleteFile,
+  // deleteUserByAdmin,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -250,6 +251,11 @@ async function postLogOut(req, res, next) {
 
 // CONTROLLER: ADMIN PAGE (admin.ejs)
 async function getAdminPage(req, res, next) { 
+
+    if (req.user.role !== "ADMIN") {
+      return res.sendStatus(403);
+    }
+    
   try {
     const userProfiles = await getUserProfiles();
 
@@ -282,6 +288,43 @@ async function getAdminPage(req, res, next) {
   
 }
 }
+
+// NOTE - pretty much similar to deleteUserProfileByUser
+async function deleteUserProfileByAdmin(req, res, next) {
+  // This cascades to all user data
+  // TODO - clean this up
+  //  if (!req.user) {
+  //    return res.redirect("/app/log-in");
+  //  }
+
+  if (req.user.role !== "ADMIN") {
+    return res.sendStatus(403);
+  }
+
+  try {
+    const { userId } = req.body;
+    // const userProfiles = await getUserProfiles();
+
+    // const userId = userProfiles.id
+
+    // Block admins from deleting their own accounts
+
+    // if (userProfiles.role === "ADMIN") {
+    //   const err = new Error("Admins cannot delete their own accounts.");
+    //   err.status = 403;
+    //   err.code = "ADMIN_SELF_DELETE_BLOCKED"; // FIX: structured error
+    //   return next(err);
+    // }
+    // if (req.user.id !== userProfile.id) {
+      await deleteUser(userId);
+      return res.redirect("/app/admin");      
+    // }
+   
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 // CONTROLLER: USER DATA PAGE (user-data.ejs)
 async function getUserDataPage(req, res, next) {
@@ -429,7 +472,7 @@ async function deleteUserFolderPage(req, res, next) {
       return res.sendStatus(403);
     }
 
-    await deleteYourFolder(folderId);
+    await deleteFolder(folderId);
 
     res.redirect("/app/user-data")
   } catch (err) {
@@ -455,7 +498,7 @@ async function deleteUserFolderPage(req, res, next) {
 //       return res.sendStatus(403);
 //     }
 
-//     await deleteYourFile(fileId);
+//     await deleteUserFile(fileId);
 
 //     res.redirect("/app/user-folder/${folderId}");
 //   } catch (err) {
@@ -482,7 +525,7 @@ async function deleteUserFolderPage(req, res, next) {
 //       return res.sendStatus(403);
 //     }
 
-//     await deleteYourFile(fileId);
+//     await deleteUserFile(fileId);
 
 //     res.redirect(`/app/user-folder/${folderId}`);
 //   } catch (err) {
@@ -507,7 +550,7 @@ async function deleteUserFile(req, res, next) {
       return res.sendStatus(403);
     }
 
-    await deleteYourFile(fileId);
+    await deleteFile(fileId);
 
     res.redirect(`/app/user-folder/${folderId}`);
   } catch (err) {
@@ -521,6 +564,10 @@ async function getUserProfilePage(req, res, next) {
     const userId = req.user.id;
 
     const userProfile = await getUserProfile(userId);
+
+    if (!req.user) {
+      return res.redirect("/app/log-in")
+    }
 
     res.render("user-profile", {
       title: "Change Your Profile",
@@ -596,7 +643,7 @@ async function postUserProfilePage(req, res, next) {
   }
 }
 
-async function deleteUserProfileAndAllUserData(req, res, next) { // This cascades to all user data
+async function deleteUserProfileByUser(req, res, next) { // This cascades to all user data
     if (!req.user) {
     return res.redirect("/app/log-in");
   }
@@ -610,7 +657,7 @@ async function deleteUserProfileAndAllUserData(req, res, next) { // This cascade
       return next(err);
     }
 
-    await deleteYourAccount(req.user.id);
+    await deleteUser(req.user.id);
     return res.redirect("/app");
   } catch (err) {
     next(err);
@@ -713,13 +760,14 @@ module.exports = {
   postLogInPage,
   postLogOut,
   getAdminPage,
+  deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,
   deleteUserFolderPage,
   deleteUserFile,
   getUserProfilePage,
   postUserProfilePage,
-  deleteUserProfileAndAllUserData,
+  deleteUserProfileByUser,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,

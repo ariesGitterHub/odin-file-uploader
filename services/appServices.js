@@ -263,7 +263,7 @@ async function getFileById(fileId) {
 // }
 
 // DELETE DATA
-async function deleteYourAccount(userId) {
+async function deleteUser(userId) {
   return prisma.user.delete({
     where: {
       id: userId,
@@ -271,7 +271,7 @@ async function deleteYourAccount(userId) {
   });
 }
 
-async function deleteYourFolder(folderId) {
+async function deleteFolder(folderId) {
   // console.log("appServices, folderId = ", folderId);
   return prisma.folder.delete({
     where: {
@@ -280,13 +280,21 @@ async function deleteYourFolder(folderId) {
   });
 }
 
-async function deleteYourFile(fileId) {
+async function deleteFile(fileId) {
   return prisma.file.delete({
     where: {
       id: fileId,
     },
   })
 }
+
+// async function deleteUserByAdmin(userId) {
+//   return prisma.user.delete({
+//     where: {
+//       id: userId,
+//     },
+//   })
+// }
 
 
 module.exports = {
@@ -303,7 +311,8 @@ module.exports = {
   getFilesByFolder,
   getChildFoldersById,
   getFileById,
-  deleteYourAccount,
-  deleteYourFolder,
-  deleteYourFile,
+  deleteUser,
+  deleteFolder,
+  deleteFile,
+  // deleteUserByAdmin,
 };

@@ -4,7 +4,13 @@
     <span class="emoji">✏</span>
   </button>
   <!-- Delete -->
-  <button class="button-default card-button admin-border admin-color">
+  <form action="/app/admin/delete-user/<%= userProfile.id %>" method="POST">
+  <%# CSRF Token - hidden input for forms %>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input type="hidden" name="userId" value="<%= userProfile.id %>">
+  <button class="button-default card-button admin-border admin-color" type="submit">
     <span class="emoji">❌</span>
-  </button>
+  </button> 
+  <p><%= userProfile.id %></p> 
+  </form>
 </div>

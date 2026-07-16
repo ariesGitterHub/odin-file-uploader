@@ -16,7 +16,14 @@
     <span class="emoji">✏</span>
   </button>
   <!-- Delete -->
-  <button class="button-default card-button file-border file-color">
-    <span class="emoji">❌</span>
-  </button>
+  <form action="/app/user-folder/<%= folder.id %>/delete-your-file/<%= file.id %>" method="POST">
+    <%# CSRF Token - hidden input for forms %>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="button-default card-button file-border file-color" type="submit">
+      <span class="emoji">❌</span>
+    </button>
+    <!-- TODO - delete p els below -->
+    <!-- <p><%#= file.id %></p> -->
+    <!-- <p><%#= folder.id %></p> -->
+  </form>
 </div>

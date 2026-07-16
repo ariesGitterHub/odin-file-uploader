@@ -55,7 +55,7 @@ enum FolderEmoji {
   RECIPE      @map("🍲")
   RPG         @map("🗡️")
   SCHOOL      @map("🎓")
-  VACATION    @map("🏖️")
+  VACATION    @map("⛱️️")
   WORK        @map("💼")
 }
 

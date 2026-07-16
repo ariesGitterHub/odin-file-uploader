@@ -36,6 +36,10 @@ select {
   padding: var(--spacer-big);
 }
 
+/* #folder-parent-id-new-folder option {
+  color: red;
+} */
+
 .select-font-larger {
   font-size: var(--font-size-large);
 }

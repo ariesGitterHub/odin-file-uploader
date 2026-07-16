@@ -13,8 +13,10 @@ const {
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
+  getFileById,
   deleteYourAccount,
   deleteYourFolder,
+  deleteYourFile,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -274,6 +276,7 @@ async function getAdminPage(req, res, next) {
       userProfiles: usersWithFormattedSize,
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
+      csrfToken: req.csrfToken(),
     });
   } catch (error) {
   
@@ -315,6 +318,7 @@ async function getUserDataPage(req, res, next) {
       errors: [],
       // passwordRules,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
+      csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -404,6 +408,7 @@ async function getUserFolderPage(req, res, next) {
       folder: folderWithEmoji,
       // childFolders,
       childFolders: foldersWithEmoji,
+      csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -413,9 +418,9 @@ async function getUserFolderPage(req, res, next) {
 async function deleteUserFolderPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
-    // console.log("folderId:", folderId); 
+
     const folder = await getFilesByFolder(folderId);
-    // console.log("folder:", folder);
+
     if (!folder) {
       return res.status(404).render("404");
     }
@@ -432,6 +437,83 @@ async function deleteUserFolderPage(req, res, next) {
   }
 }
 
+// async function deleteUserFile(req, res, next) {
+//   try {
+//     const folderId = req.params.folderId;
+
+//     const folder = await getFilesByFolder(folderId);
+
+//     const fileId = folder.file.id
+
+//     const file = await getFileById(fileId);
+
+//     if (!file) {
+//       return res.status(404).render("404");
+//     }
+
+//     if (file.userId !== req.user.id) {
+//       return res.sendStatus(403);
+//     }
+
+//     await deleteYourFile(fileId);
+
+//     res.redirect("/app/user-folder/${folderId}");
+//   } catch (err) {
+//     next(err);
+//   }
+// }
+
+// async function deleteUserFile(req, res, next) {
+//   try {
+//     // const { folderId, fileId } = req.params;
+//     const folderId = req.params.folderId;
+
+//     const folder = await getFilesByFolder(folderId);
+
+//     const fileId = folder.files.id;
+
+//     const file = getFileById(fileId)
+
+//     if (!file) {
+//       return res.status(404).render("404");
+//     }
+
+//     if (file.userId !== req.user.id) {
+//       return res.sendStatus(403);
+//     }
+
+//     await deleteYourFile(fileId);
+
+//     res.redirect(`/app/user-folder/${folderId}`);
+//   } catch (err) {
+//     next(err);
+//   }
+// }
+
+async function deleteUserFile(req, res, next) {
+  try {
+    const { folderId, fileId } = req.params;
+    // const folderId = req.params.folderId;
+
+    const folder = await getFilesByFolder(folderId);
+
+    const file = await getFileById(fileId);
+
+    if (!file) {
+      return res.status(404).render("404");
+    }
+
+    if (file.userId !== req.user.id) {
+      return res.sendStatus(403);
+    }
+
+    await deleteYourFile(fileId);
+
+    res.redirect(`/app/user-folder/${folderId}`);
+  } catch (err) {
+    next(err);
+  }
+}
 // CONTROLLER: USER PROFILE PAGE (user-profile.ejs)
 
 async function getUserProfilePage(req, res, next) {
@@ -450,6 +532,7 @@ async function getUserProfilePage(req, res, next) {
         last_name: userProfile.lastName,
         email: userProfile.email,
       },
+      csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -615,6 +698,7 @@ async function getNewFilePage(req, res, next) {
       // passwordRules,
       userFolders,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
+      csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -632,6 +716,7 @@ module.exports = {
   getUserDataPage,
   getUserFolderPage,
   deleteUserFolderPage,
+  deleteUserFile,
   getUserProfilePage,
   postUserProfilePage,
   deleteUserProfileAndAllUserData,

@@ -7,7 +7,7 @@ const folderEmojis = {
   VIDEO: "🎬",
   ARCHIVE: "🗃",
   TRASH: "🗑",
-  ART: "🎨️",
+  ART: "🎨",
   BACKUP: "💾",
   BOOK: "📚",
   DRAFT: "✍",
@@ -29,7 +29,7 @@ const folderEmojis = {
   RECIPE: "🍲",
   RPG: "🗡",
   SCHOOL: "🎓",
-  VACATION: "🏖️",
+  VACATION: "⛱",
   WORK: "💼",
 };
 
@@ -42,7 +42,7 @@ const folderEmojisDropdown = [
   { value: "VIDEO", name: "Video", image: "🎬" },
   { value: "ARCHIVE", name: "Archive", image: "🗃️" },
   { value: "TRASH", name: "Trash", image: "🗑️" },
-  { value: "ART", name: "Art", image: "🎨️" },
+  { value: "ART", name: "Art", image: "🎨" },
   { value: "BACKUP", name: "Backup", image: "💾" },
   { value: "BOOK", name: "Books", image: "📚" },
   { value: "DRAFT", name: "Drafts", image: "✍️" },
@@ -64,7 +64,7 @@ const folderEmojisDropdown = [
   { value: "RECIPE", name: "Recipes", image: "🍲" },
   { value: "RPG", name: "RPGs", image: "🗡️" },
   { value: "SCHOOL", name: "School", image: "🎓" },
-  { value: "VACATION", name: "Vacation", image: "🏖️" },
+  { value: "VACATION", name: "Vacation", image: "⛱️" },
   { value: "WORK", name: "Work", image: "💼" },
 ];
 

@@ -59,6 +59,7 @@ const {
   getUserDataPage,
   getUserFolderPage,
   deleteUserFolderPage,
+  deleteUserFile,
   getUserProfilePage,
   postUserProfilePage,
   deleteUserProfileAndAllUserData,
@@ -355,6 +356,7 @@ appRouter.get("/user-data", getUserDataPage);
 // appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/user-folder/:folderId", getUserFolderPage);
 appRouter.post("/delete-your-folder/:folderId", deleteUserFolderPage);
+appRouter.post("/user-folder/:folderId/delete-your-file/:fileId", deleteUserFile);
 appRouter.get("/user-profile", getUserProfilePage);
 appRouter.post(
   "/delete-your-account",

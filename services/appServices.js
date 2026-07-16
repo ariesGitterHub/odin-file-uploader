@@ -236,6 +236,21 @@ async function getChildFoldersById(parentFolderId) {
     },
   });
 }
+
+//  Is this used?
+async function getFileById(fileId) {
+  return prisma.file.findUnique({
+    where: {
+      id: fileId,
+    },
+    select: {
+      id: true,
+      userId: true,
+      folderId: true,
+    },
+  });
+}
+
 // I use queryRaw below to correct case-insensitive alphabetical sorting, as it gives full control over SQL behavior and avoids Prisma’s collation limitations... plus it is my first time using it. Good for future reference. NOTE too that using below also changes the API and now file.originalFilename becomes file.original_file_name
 
 // async function getFilesByFolder(folderId: string) {
@@ -265,6 +280,14 @@ async function deleteYourFolder(folderId) {
   });
 }
 
+async function deleteYourFile(fileId) {
+  return prisma.file.delete({
+    where: {
+      id: fileId,
+    },
+  })
+}
+
 
 module.exports = {
   createUser,
@@ -279,6 +302,8 @@ module.exports = {
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
+  getFileById,
   deleteYourAccount,
   deleteYourFolder,
+  deleteYourFile,
 };

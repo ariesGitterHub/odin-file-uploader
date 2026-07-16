@@ -20,6 +20,9 @@
               <div class="details-backdrop"><strong>role</strong>  </div>
             </div>   -->
             <div class="element-container-row-center-start flex-gap flex-wrap">
+              <div class="details-backdrop"><strong>email</strong> <%= userProfile.email %></div>
+            </div>  
+            <div class="element-container-row-center-start flex-gap flex-wrap">
               <div class="details-backdrop"><strong>created</strong> <%= userProfile.createdAtLabel %></div>
               <!-- TODO - check below when I am able to make updates -->
               <% if (userProfile.createdAtLabel !== userProfile.updatedAtLabel) { %>

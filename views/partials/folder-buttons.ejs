@@ -12,11 +12,9 @@
     </button>    
   </form>
   <!-- Edit -->
-  <form action="" method="">
-    <button class="button-default folder-button">
+    <a class="button-default folder-button" href="/app/edit-folder/<%= folder.id %>">
       <span class="emoji">✏</span>
-    </button>    
-  </form>
+    </a>    
   <!-- Delete -->
   <form action="/app/delete-your-folder/<%= folder.id %>" method="POST">
     <%# CSRF Token - hidden input for forms %>

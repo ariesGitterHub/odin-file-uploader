@@ -32,6 +32,16 @@ async function updateUser(userId, userData) {
   });
 }
 
+// For user-folder.ejs page
+async function updateFolder(folderId, folderData) {
+  return prisma.folder.update({
+    where: {
+      id: folderId,
+    },
+    data: folderData,
+  });
+}
+
 // !!! TODO - add this to the relevant controllers where ensuring email uniqueness is needed.
 // async function getUserByEmail(email) {
 //   return prisma.user.findUnique({
@@ -102,6 +112,7 @@ async function getUserProfile(userId) {
 //   });
 // }
 
+// For admin.ejs
 async function getUserProfiles() {
   return prisma.user.findMany({
     select: {
@@ -133,6 +144,14 @@ async function createDefaultFolders(tx, userId) {
   });
 }
 
+
+async function getUserFolder(folderId) {
+  return prisma.folder.findUnique({
+    where: {
+      id: folderId,
+    },
+  });
+} 
 
 async function getUserFolders(userId) {
   return prisma.folder.findMany({
@@ -300,11 +319,13 @@ async function deleteFile(fileId) {
 module.exports = {
   createUser,
   updateUser,
+  updateFolder,
   // getUserByEmail,
   checkIfEmailExistsForSignUp,
   checkIfEmailAlreadyExists,
   getUserProfile,
   getUserProfiles, // admin
+  getUserFolder,
   getUserFolders,
   createNewFolder,
   getFolderFilesCount,

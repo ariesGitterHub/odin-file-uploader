@@ -5,9 +5,11 @@ const { validationResult } = require("express-validator");
 const {
   createUser,
   updateUser,
+  updateFolder,
   // getUserByEmail,
   getUserProfile,
   getUserProfiles, // admin
+  getUserFolder,
   getUserFolders,
   createNewFolder,
   getFolderFilesCount,
@@ -337,7 +339,7 @@ async function getUserDataPage(req, res, next) {
 
     const userFolders = await getUserFolders(userId);
 
-    // Prevent folders with parentFolderIds from showing up as these show be shown in folder views.
+    // Prevent folders with parentFolderIds from showing up as these should be shown in folder views.
     const rootFolders = userFolders.filter(
       (folder) => folder.parentFolderId === null,
     );
@@ -457,6 +459,40 @@ async function getUserFolderPage(req, res, next) {
     next(err);
   }
 }
+
+async function getEditFolderPage(req, res, next) {
+  try {
+    const folderId = req.params.folderId;
+    const userId = req.user.id;
+
+    const folder = await getUserFolder(folderId);
+
+    const userFolders = await getUserFolders(userId);
+
+    // if (folder.userId !== userId) {
+    //   return res.status(403).render("forbidden");
+    // }
+
+    // if (!folder) {
+    //   return res.status(404).render("404");
+    // }
+
+
+    res.render("edit-folder", {
+      title: "Edit Folder",
+      errors: [],
+      folder,
+      userFolders,
+      folderEmojisDropdown,
+      formData: folder, // NOTE & REMINDER: req.body is not used in GET
+      csrfToken: req.csrfToken(),
+    });
+
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 async function deleteUserFolderPage(req, res, next) {
   try {
@@ -763,6 +799,7 @@ module.exports = {
   deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,
+  getEditFolderPage,
   deleteUserFolderPage,
   deleteUserFile,
   getUserProfilePage,

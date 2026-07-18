@@ -75,19 +75,13 @@
             <div class="details-backdrop"><strong>updated</strong> <%= file.updatedAtLabel %></div>
             <% } %>
           </div>  
-        <%#- include('./partials/file-buttons.ejs') %>
-        <%- include('./partials/file-buttons.ejs', { folder, file }) %>
-        </div>
-        <% }) %>  
-        <% } %>
+          <%#- include('./partials/file-buttons.ejs') %>
+          <%- include('./partials/file-buttons.ejs', { folder, file }) %>
+          </div>
+          <% }) %>  
+          <% } %>
         </div>
       </div>
-
-
-
-      
-
-
     </main>
     <%- include('./partials/footer.ejs') %>
   </body>

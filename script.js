@@ -57,8 +57,8 @@ async function main() {
   //   },
   // });
 
-  const userId = "38e18108-f4fd-4884-868b-078c41b84d79"; // admin
-  const folderId = "880f3074-d907-430d-8712-5505976a1d96"; // documents folder
+  const userId = "a495d790-5820-419b-bf3a-31a11a681ae5"; // admin
+  const folderId = "c93ac9d1-9183-4952-a56a-325d8b3ae1b2"; // documents folder
 
   // const createAdminFolders = await prisma.folder.createMany({
   //   data: [
@@ -84,7 +84,7 @@ async function main() {
   //       userId: userId,
   //       folderName: "Video",
   //       folderImage: "VIDEO",
-  //       folderDescription: "All your viseo files go here...",
+  //       folderDescription: "All your video files go here...",
   //     },
   //     {
   //       userId: userId,
@@ -141,7 +141,7 @@ async function main() {
   console.log(createDocumentFiles);
     
   // console.log(deleteUser);
-  // console.log("Created folder:", folder);
+  // console.log("Created folder:", folder);node sc
   // console.log(createFolders);
   
 }

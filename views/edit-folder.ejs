@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body class="element-container-col-center-start flex-gap">
+    <%- include('./partials/header.ejs') %>
+    <main class="element-container-col-default frame-border-white">
+      <h2 class="subtitle">Edit Existing Folder</h2>
+       <form class="element-container-col-start-center form-width" action="/app/edit-folder/<% folder.id %>" method="POST">
+        <%# CSRF Token - hidden input for forms %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <label for="folder-name-edit-folder">folder name</label>
+        <input
+          id="folder-name-edit-folder"
+          type="text"          
+          name="folder_name"
+          value="<%= folder.folderName %>"
+          placeholder="enter new folder name"
+          required
+        />
+        <!-- TODO - This needs to be a drop down menu that uses the utils/folderEmojis -->
+        <label for="folder-image-edit-folder">folder image</label>
+        <select
+          id="folder-image-edit-folder"
+          class="form-width"      
+          name="folder_image"
+          required
+          >
+            <option value="" disabled <%= !folder.folderImage ? "selected" : "" %>>choose folder image</option>
+            <% folderEmojisDropdown.forEach((emoji) => { %>
+              <option value="<%= emoji.value %>" <%= folder.folderImage === emoji.value ? "selected" : "" %>>
+                <span class="emoji select-font-larger"><%= emoji.image %></span> - <%= emoji.name %>
+              </option>
+            <% }) %>
+        </select>
+        <label for="folder-parent-edit-folder">choose new parent folder</label>
+          <select
+            id="folder-parent-id-edit-folder"     
+            name="parent_folder_id"
+          >
+            <option value="" <%= !folder.parentFolderId ? "selected" : "" %>>
+              None (no parent folder)
+            </option>
+            <% userFolders.forEach((userFolder) => { %> 
+              <option value="<%= userFolder.id %>"
+              <%= folder.parentFolderId === userFolder.id ? "selected" : "" %>>
+                <%= userFolder.folderName %>
+              </option>
+              <p>folder <%= folder.id %></p>
+              <p>userFolder <%= userFolder.parentFolderId %></p>
+            <% }) %>
+          </select>
+        <label class="capitalize" for="folder-description-edit-folder">
+          folder description
+        </label>
+          <textarea id="folder-description-edit-folder" name="folder_description"><%= folder.folderDescription %></textarea>
+        <div class="button-container-row-space-evenly margin-top">
+          <a class="button-default" href="/app/user-folder/<%= folder.id %>">cancel</a>
+          <button class="button-default" type="submit">create</button>
+        </div>
+      </form>
+    </main>
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

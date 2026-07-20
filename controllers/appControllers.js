@@ -470,16 +470,17 @@ async function getEditFolderPage(req, res, next) {
 
     const folder = await getUserFolder(folderId);
 
-    const userFolders = await getUserFolders(userId);
+   
+
+    if (!folder) {
+          return res.status(404).render("404");
+        }
 
     if (folder.userId !== userId) {
       return res.status(403).render("forbidden");
     }
 
-    if (!folder) {
-      return res.status(404).render("404");
-    }
-
+    const userFolders = await getUserFolders(userId);
 
     res.render("edit-folder", {
       title: "Edit Folder",
@@ -487,7 +488,7 @@ async function getEditFolderPage(req, res, next) {
       folder,
       userFolders,
       folderEmojisDropdown,
-      formData: folder, // NOTE & REMINDER: req.body is not used in GET
+      formData: folder, 
       csrfToken: req.csrfToken(),
     });
 
@@ -503,29 +504,70 @@ async function postEditFolderPage(req, res, next) {
 
     const folder = await getUserFolder(folderId);
 
+    // Check this FIRST
+    if (!folder) {
+      return res.status(404).render("404");
+    }
+
+    // Then ownership
+    if (folder.userId !== userId) {
+      return res.status(403).render("forbidden");
+    }
+
     const userFolders = await getUserFolders(userId);
 
-    // if (folder.userId !== userId) {
-    //   return res.status(403).render("forbidden");
-    // }
+    const errors = validationResult(req);
 
-    // if (!folder) {
-    //   return res.status(404).render("404");
-    // }
+    if (!errors.isEmpty()) {
+      const formattedErrors = [];
+      const seen = new Set();
 
-    res.render("edit-folder", {
-      title: "Edit Folder",
-      errors: [],
-      folder,
-      userFolders,
-      folderEmojisDropdown,
-      formData: folder, // NOTE & REMINDER: req.body is not used in GET
-      csrfToken: req.csrfToken(),
-    });
+      errors.array().forEach((err) => {
+        if (!seen.has(err.path)) {
+          formattedErrors.push({
+            field: err.path,
+            message: err.msg,
+          });
+          seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
+        }
+      });
+
+      return res.render("edit-folder", {
+        title: "Edit Folder",
+        errors: formattedErrors,
+        folder,
+        userFolders,
+        folderEmojisDropdown,
+        formData: req.body,
+        csrfToken: req.csrfToken(),
+      });
+    }
+    const { folder_name, folder_image, parent_folder_id, folder_description } =
+      req.body;
+
+    const updateData = {};
+
+    if (folder_name.trim()) {
+      updateData.folderName = folder_name.trim();
+    }
+  
+    updateData.folderImage = folder_image;
+  
+    // Allows selecting "None"
+    updateData.parentFolderId = parent_folder_id || null;
+
+    updateData.folderDescription = folder_description || null;
+
+    await updateFolder(folderId, updateData);
+
+    return res.redirect(`/app/user-folder/${folderId}`);
+    
   } catch (err) {
+    console.error("Error during user folder update:", err);
     next(err);
   }
 }
+
 
 
 async function deleteUserFolderPage(req, res, next) {

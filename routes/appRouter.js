@@ -60,6 +60,7 @@ const {
   getUserDataPage,
   getUserFolderPage,
   getEditFolderPage,
+  postEditFolderPage,
   deleteUserFolderPage,
   deleteUserFile,
   getUserProfilePage,
@@ -359,6 +360,7 @@ appRouter.get("/user-data", getUserDataPage);
 // appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/user-folder/:folderId", getUserFolderPage);
 appRouter.get("/edit-folder/:folderId", getEditFolderPage);
+appRouter.post("/edit-folder/:folderId", postEditFolderPage);
 appRouter.post("/delete-your-folder/:folderId", deleteUserFolderPage);
 appRouter.post("/user-folder/:folderId/delete-your-file/:fileId", deleteUserFile);
 appRouter.get("/user-profile", getUserProfilePage);

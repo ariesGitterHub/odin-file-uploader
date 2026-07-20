@@ -46,8 +46,11 @@
             <span class="emoji folder-emoji" role="img" aria-label="Data folder">
               <%= childFolder.emoji %>
             </span>
-            <p><%= childFolder.folderName%></p>
-            <p>(<%= childFolder.fileCount %> files)</p>
+            <p class="uppercase"><%= childFolder.folderName%></p>
+            <div class="element-container-col-start-center folder-card-content">
+              <p><%= childFolder.subfolderCount %> subfolder(s)</p>
+              <p><%= childFolder.fileCount %> file(s)</p>            
+            </div>
           </a>
             <% }) %>
             <% } %>

@@ -78,7 +78,7 @@ async function checkIfEmailAlreadyExists(email, targetId) {
 
 async function getUserProfile(userId) {
   return prisma.user.findUnique({
-    where: { id: userId, },
+    where: { id: userId },
     select: {
       id: true,
       firstName: true,
@@ -144,14 +144,13 @@ async function createDefaultFolders(tx, userId) {
   });
 }
 
-
 async function getUserFolder(folderId) {
   return prisma.folder.findUnique({
     where: {
       id: folderId,
     },
   });
-} 
+}
 
 async function getUserFolders(userId) {
   return prisma.folder.findMany({
@@ -182,12 +181,22 @@ async function createNewFolder({
   });
 }
 
+async function getFolderSubfoldersCount(folderId) {
+  return prisma.folder.count({
+    where: {
+      parentFolderId: {
+        contains: folderId,
+      },
+    },
+  });
+}
+
 async function getFolderFilesCount(folderId) {
   return prisma.file.count({
     where: {
       folderId,
-    }
-  })
+    },
+  });
 }
 
 // async function getFilesByFolder(folderId) {
@@ -304,7 +313,7 @@ async function deleteFile(fileId) {
     where: {
       id: fileId,
     },
-  })
+  });
 }
 
 // async function deleteUserByAdmin(userId) {
@@ -314,7 +323,6 @@ async function deleteFile(fileId) {
 //     },
 //   })
 // }
-
 
 module.exports = {
   createUser,
@@ -328,6 +336,7 @@ module.exports = {
   getUserFolder,
   getUserFolders,
   createNewFolder,
+  getFolderSubfoldersCount,
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,

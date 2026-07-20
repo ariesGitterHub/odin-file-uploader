@@ -4,6 +4,7 @@
   --white: #ececea;
 
   --gray: #c0c4cf;
+  --gray-dk: #434449;
 
   --blue: #0d79f2;
   --orange: #c18266;
@@ -42,7 +43,7 @@
   /* --index-card-width: 325px; */
   --index-card-width: 100%;
   --form-width: 325px;
-  --folder-card-width: 8rem;
+  --folder-card-width: 10rem;
   --width-default-percent: 100%;
   --max-card-width: 650px;
 

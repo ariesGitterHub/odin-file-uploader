@@ -12,6 +12,7 @@ const {
   getUserFolder,
   getUserFolders,
   createNewFolder,
+  getFolderSubfoldersCount,
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
@@ -348,6 +349,7 @@ async function getUserDataPage(req, res, next) {
       // userFolders.map(async (folder) => ({
       rootFolders.map(async (folder) => ({
         ...folder,
+        subfolderCount: await getFolderSubfoldersCount(folder.id),
         fileCount: await getFolderFilesCount(folder.id),
       })),
     );
@@ -407,6 +409,7 @@ async function getUserFolderPage(req, res, next) {
       // userFolders.map(async (folder) => ({
       childFolders.map(async (folder) => ({
         ...folder,
+        subfolderCount: await getFolderSubfoldersCount(folder.id),
         fileCount: await getFolderFilesCount(folder.id),
       })),
     );
@@ -469,13 +472,13 @@ async function getEditFolderPage(req, res, next) {
 
     const userFolders = await getUserFolders(userId);
 
-    // if (folder.userId !== userId) {
-    //   return res.status(403).render("forbidden");
-    // }
+    if (folder.userId !== userId) {
+      return res.status(403).render("forbidden");
+    }
 
-    // if (!folder) {
-    //   return res.status(404).render("404");
-    // }
+    if (!folder) {
+      return res.status(404).render("404");
+    }
 
 
     res.render("edit-folder", {
@@ -488,6 +491,37 @@ async function getEditFolderPage(req, res, next) {
       csrfToken: req.csrfToken(),
     });
 
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function postEditFolderPage(req, res, next) {
+  try {
+    const folderId = req.params.folderId;
+    const userId = req.user.id;
+
+    const folder = await getUserFolder(folderId);
+
+    const userFolders = await getUserFolders(userId);
+
+    // if (folder.userId !== userId) {
+    //   return res.status(403).render("forbidden");
+    // }
+
+    // if (!folder) {
+    //   return res.status(404).render("404");
+    // }
+
+    res.render("edit-folder", {
+      title: "Edit Folder",
+      errors: [],
+      folder,
+      userFolders,
+      folderEmojisDropdown,
+      formData: folder, // NOTE & REMINDER: req.body is not used in GET
+      csrfToken: req.csrfToken(),
+    });
   } catch (err) {
     next(err);
   }
@@ -800,6 +834,7 @@ module.exports = {
   getUserDataPage,
   getUserFolderPage,
   getEditFolderPage,
+  postEditFolderPage,
   deleteUserFolderPage,
   deleteUserFile,
   getUserProfilePage,

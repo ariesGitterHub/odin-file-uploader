@@ -96,7 +96,7 @@ nav {
   opacity: 0.75;
 }
 
-/* user-data.ejs */
+/* user-data.ejs and user-folder.ejs*/
 
 .folder-card {
   height: fit-content;
@@ -123,7 +123,10 @@ nav {
   margin: 0.125rem;
 }
 
-/* user-folder.ejs */
+.folder-card-content {
+  color: var(--gray-dk);
+  font-size: 0.95rem;
+}
 
 .current-folder-emoji span {
   font-size: 1.5rem;

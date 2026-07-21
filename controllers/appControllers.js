@@ -11,6 +11,7 @@ const {
   getUserProfiles, // admin
   getUserFolder,
   getUserFolders,
+  getDescendantFolderIds,
   createNewFolder,
   getFolderSubfoldersCount,
   getFolderFilesCount,
@@ -480,7 +481,12 @@ async function getEditFolderPage(req, res, next) {
       return res.status(403).render("forbidden");
     }
 
-    const userFolders = await getUserFolders(userId);
+    const excludedIds = [
+       folderId,
+       ...(await getDescendantFolderIds(folderId)),
+     ];
+     
+    const userFolders = await getUserFolders(userId, excludedIds);
 
     res.render("edit-folder", {
       title: "Edit Folder",
@@ -514,7 +520,11 @@ async function postEditFolderPage(req, res, next) {
       return res.status(403).render("forbidden");
     }
 
-    const userFolders = await getUserFolders(userId);
+    // NOTE - this addresses edit folder issue of nesting a folder within itself or within its children or descendants, thus preventing a circle
+    // const userFolders = await getUserFolders(userId, folderId);
+    const excludedIds = [folderId, ...(await getDescendantFolderIds(folderId))];
+
+    const folders = await getUserFolders(userId, excludedIds);
 
     const errors = validationResult(req);
 
@@ -567,8 +577,6 @@ async function postEditFolderPage(req, res, next) {
     next(err);
   }
 }
-
-
 
 async function deleteUserFolderPage(req, res, next) {
   try {

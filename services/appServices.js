@@ -32,7 +32,7 @@ async function updateUser(userId, userData) {
   });
 }
 
-// For user-folder.ejs page
+// For edit-folder.ejs page
 async function updateFolder(folderId, folderData) {
   return prisma.folder.update({
     where: {
@@ -152,15 +152,66 @@ async function getUserFolder(folderId) {
   });
 }
 
-async function getUserFolders(userId) {
+// async function getUserFolders(userId) {
+//   return prisma.folder.findMany({
+//     where: {
+//       userId, // UUID string is fine here
+//     },
+//     orderBy: {
+//       folderName: "asc", // optional, for consistent display
+//     },
+//   });
+// }
+
+// Fixed so that a folder cannot be its own subfolder.
+// async function getUserFolders(userId, folderId = null) {
+//   return prisma.folder.findMany({
+//     where: {
+//       userId,
+//       ...(folderId && {
+//         id: {
+//           not: folderId,
+//         },
+//       }),
+//     },
+//     orderBy: {
+//       folderName: "asc",
+//     },
+//   });
+// }
+
+async function getUserFolders(userId, excludedIds = []) {
   return prisma.folder.findMany({
     where: {
-      userId, // UUID string is fine here
+      userId,
+      id: {
+        notIn: excludedIds,
+      },
     },
     orderBy: {
-      folderName: "asc", // optional, for consistent display
+      folderName: "asc",
     },
   });
+}
+
+async function getDescendantFolderIds(folderId) {
+  const descendants = [];
+
+  async function traverse(parentFolderId) {
+    const children = await prisma.folder.findMany({
+      where: { parentFolderId },
+      select: { id: true },
+    });
+
+    for (const child of children) {
+      descendants.push(child.id);
+      await traverse(child.id);
+    }
+  }
+
+  await traverse(folderId);
+
+  return descendants;
 }
 
 async function createNewFolder({
@@ -335,6 +386,7 @@ module.exports = {
   getUserProfiles, // admin
   getUserFolder,
   getUserFolders,
+  getDescendantFolderIds,
   createNewFolder,
   getFolderSubfoldersCount,
   getFolderFilesCount,

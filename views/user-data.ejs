@@ -15,8 +15,8 @@
           </span>
           <p class="uppercase"><%= folder.folderName%></p>
           <div class="element-container-col-start-center folder-card-content">
-            <p><%= folder.subfolderCount %> subfolder(s)</p>
-            <p><%= folder.fileCount %> file(s)</p>            
+            <p class="<%= folder.subfolderCount === 0  ? 'hidden' : '' %>"><%= folder.subfolderCount %> subfolder(s)</p>
+            <p class="<%= folder.fileCount === 0  ? 'hidden' : '' %>"><%= folder.fileCount %> file(s)</p>            
           </div>
         </a>
         <% }) %>

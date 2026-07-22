@@ -47,9 +47,9 @@
               <%= childFolder.emoji %>
             </span>
             <p class="uppercase"><%= childFolder.folderName%></p>
-            <div class="element-container-col-start-center folder-card-content">
-              <p><%= childFolder.subfolderCount %> subfolder(s)</p>
-              <p><%= childFolder.fileCount %> file(s)</p>            
+            <div class="element-container-col-start-center folder-card-content">  
+              <p class="<%= childFolder.subfolderCount === 0  ? 'hidden' : '' %>"><%= childFolder.subfolderCount %> subfolder(s)</p>
+              <p class="<%= childFolder.fileCount === 0  ? 'hidden' : '' %>"><%= childFolder.fileCount %> file(s)</p>        
             </div>
           </a>
             <% }) %>

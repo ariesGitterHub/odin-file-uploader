@@ -56,6 +56,7 @@ const {
   postLogInPage,
   postLogOut,
   getAdminPage,
+  getAdminEditPage,
   deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,
@@ -147,6 +148,7 @@ appRouter.post(
 // ROUTES: ADMIN PAGE
 
 appRouter.get("/admin", getAdminPage);
+appRouter.get("/admin-edit/:userId", getAdminEditPage);
 appRouter.post("/admin/delete-user/:userId", deleteUserProfileByAdmin);
 
 // // ROUTES: ADMIN PAGE (admin.ejs)
@@ -372,9 +374,9 @@ appRouter.post(
   //   { name: "last_name", type: "string" },
   // ]),
   // rateLimiter,
-  postUserProfilePage,
+  deleteUserProfileByUser,
 );
-appRouter.post("/user-profile", deleteUserProfileByUser);
+appRouter.post("/user-profile", postUserProfilePage);
 appRouter.get("/new-folder", getNewFolderPage);
 appRouter.post("/new-folder", postNewFolderPage);
 appRouter.get("/new-file", getNewFilePage);

@@ -8,7 +8,8 @@ const {
   updateFolder,
   // getUserByEmail,
   getUserProfile,
-  getUserProfiles, // admin
+  getAdminUserProfiles, // admin
+  getAdminUserProfile, // admin-edit
   getUserFolder,
   getUserFolders,
   getDescendantFolderIds,
@@ -261,7 +262,7 @@ async function getAdminPage(req, res, next) {
     }
     
   try {
-    const userProfiles = await getUserProfiles();
+    const userProfiles = await getAdminUserProfiles();
 
     const usersWithFormattedSize = userProfiles
       .map((f) => ({
@@ -288,9 +289,42 @@ async function getAdminPage(req, res, next) {
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
       csrfToken: req.csrfToken(),
     });
-  } catch (error) {
-  
+  } catch (err) {
+    next(err);
+  }
 }
+
+async function getAdminEditPage(req, res, next) {
+  // if (req.user.role !== "ADMIN") {
+  //   return res.sendStatus(403);
+  // }
+
+  try {
+    const userId = req.params.userId;
+    console.log("userID ===", req.params.id);
+    
+    const userProfile = await getAdminUserProfile(userId);
+
+    if (!userProfile) {
+      return res.sendStatus(404);
+    }
+
+    res.render("admin-edit", {
+      title: "Admin Edit",
+      errors: [],
+      userProfile,
+      passwordRules,
+      formData: {
+        first_name: userProfile.firstName,
+        last_name: userProfile.lastName,
+        email: userProfile.email,
+        email_verified: userProfile.emailVerified,
+      },
+      csrfToken: req.csrfToken(),
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 // NOTE - pretty much similar to deleteUserProfileByUser
@@ -307,7 +341,7 @@ async function deleteUserProfileByAdmin(req, res, next) {
 
   try {
     const { userId } = req.body;
-    // const userProfiles = await getUserProfiles();
+    // const userProfiles = await getAdminUserProfiles();
 
     // const userId = userProfiles.id
 
@@ -771,6 +805,8 @@ async function deleteUserProfileByUser(req, res, next) { // This cascades to all
   try {
     // Block admins from deleting their own accounts
     if (req.user.role === "ADMIN") {
+      console.log("role is", req.user.role);
+      
       const err = new Error("Admins cannot delete their own accounts.");
       err.status = 403;
       err.code = "ADMIN_SELF_DELETE_BLOCKED"; // FIX: structured error
@@ -880,6 +916,7 @@ module.exports = {
   postLogInPage,
   postLogOut,
   getAdminPage,
+  getAdminEditPage,
   deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,

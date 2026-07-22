@@ -6,26 +6,26 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border-white">
-        <h2 class="subtitle">Change Your Profile</h2>
-       <form id="user-profile-form" class="element-container-col-start-center form-width" action="/app/user-profile" method="POST">
+        <h2 class="subtitle">Edit User <% userProfile.firstName %> <% userProfile.lastName %> </h2>
+       <form class="element-container-col-start-center form-width" action="/app/admin-edit/<% userProfile.id %>" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <label for="first-name-user-profile">first name</label>
+        <label for="first-name-admin-edit">first name</label>
         <input
-          id="first-name-user-profile"
+          id="first-name-admin-edit"
           type="text"          
           name="first_name"
           value="<%= formData?.first_name || '' %>"
         />
-        <label for="last-name-user-profile">last name</label>
+        <label for="last-name-admin-edit">last name</label>
         <input
-          id="last-name-user-profile"
+          id="last-name-admin-edit"
           type="text"          
           name="last_name"
           value="<%= formData?.last_name || '' %>"
         />
         <div class="element-container-row-start-center">
-          <label for="email-user-profile">email</label>
+          <label for="email-admin-edit">email</label>
           <% if (errors && errors.some(e => e.field === 'email')) { %>
             <% errors.filter(e => e.field === 'email').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
@@ -33,14 +33,13 @@
           <% } %>
         </div>
         <input
-          id="email-user-profile"
+          id="email-admin-edit"
           type="email"            
           name="email"
           value="<%= formData?.email || '' %>"
         />
-
         <div class="element-container-row-start-center">
-          <label for="password-user-profile">password</label>
+          <label for="password-admin-edit">password</label>
           <% if (errors && errors.some(e => e.field === 'password')) { %>
             <% errors.filter(e => e.field === 'password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
@@ -48,13 +47,13 @@
           <% } %>
         </div>
         <input
-          id="password-user-profile"
+          id="password-admin-edit"
           type="password"
           name="password"
           placeholder="leave blank to keep existing password"
         />
         <div class="element-container-row-start-center">
-          <label for="confirm-password-user-profile">confirm password</label> 
+          <label for="confirm-password-admin-edit">confirm password</label> 
           <% if (errors && errors.some(e => e.field === 'confirm_password')) { %>
             <% errors.filter(e => e.field === 'confirm_password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
@@ -62,23 +61,21 @@
           <% } %>
         </div>
         <input
-          id="confirm-password-user-profile"
+          id="confirm-password-admin-edit"
           type="password"
           name="confirm_password"
           placeholder="re-enter, if new password"
         />
         <%- include("./partials/password-rules.ejs") %>
-      </form>
+      
         <div class="button-container-row-space-evenly margin-top">
-          <form action="/app/delete-your-account" method="POST">
-            <%# CSRF Token - hidden input for forms %>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <!-- <form action="/app/delete-your-account" method="POST">
             <button class="button-default" type="submit">delete</button>
-          </form>
-          <a class="button-default" href="/app/user-data">cancel</a>
-          <!-- NOTE - I used the form attribute to get all three buttons in a row (as nested forms are buggy and not allowed)  -->
-          <button class="button-default" type="submit" form="user-profile-form">update</button>
+          </form> -->
+          <a class="button-default" href="/app/admin">cancel</a>
+          <button class="button-default" type="submit">update</button>
         </div>
+      </form>
     </main>
     <%- include('./partials/footer.ejs') %>
   </body>

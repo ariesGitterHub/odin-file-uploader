@@ -90,7 +90,7 @@ async function getUserProfile(userId) {
 
 // ADMIN SERVICES
 
-// async function getUserProfiles({ page = 1, limit = 50 }) { // NOTE - added pagination as an example for future reference
+// async function getAdminUserProfiles({ page = 1, limit = 50 }) { // NOTE - added pagination as an example for future reference
 //   return prisma.user.findMany({
 //     skip: (page - 1) * limit,
 //     take: limit,
@@ -113,7 +113,7 @@ async function getUserProfile(userId) {
 // }
 
 // For admin.ejs
-async function getUserProfiles() {
+async function getAdminUserProfiles() {
   return prisma.user.findMany({
     select: {
       id: true,
@@ -132,6 +132,27 @@ async function getUserProfiles() {
     },
   });
 }
+
+// For admin-edit.ejs
+// TODO - reduce what is grabbed here!!!! Don't need it all.
+async function getAdminUserProfile(userId) {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      role: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      emailVerified: true,
+      // storageUsedBytes: true,
+      // createdAt: true,
+      // updatedAt: true,
+      // lastLoginAt: true,
+    },
+  });
+}
+
 
 // USER SERVICES
 
@@ -383,7 +404,8 @@ module.exports = {
   checkIfEmailExistsForSignUp,
   checkIfEmailAlreadyExists,
   getUserProfile,
-  getUserProfiles, // admin
+  getAdminUserProfiles, // admin
+  getAdminUserProfile, // admin-edit
   getUserFolder,
   getUserFolders,
   getDescendantFolderIds,

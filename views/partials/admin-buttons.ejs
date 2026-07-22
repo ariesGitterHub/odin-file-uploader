@@ -1,13 +1,18 @@
 <div class="button-container-row-space-evenly">
   <!-- Edit -->
-  <button class="button-default card-button admin-border admin-color">
+  <!-- <input type="hidden" name="userId" value="<%#= userProfile.id %>"> -->
+  <a class="button-default card-button admin-border admin-color" href="/app/admin-edit/<%= userProfile.id %>">
     <span class="emoji">✏</span>
-  </button>
+  </a>
+  <!-- <p><%#= userProfile.id %></p> -->
   <!-- Delete -->
   <form action="/app/admin/delete-user/<%= userProfile.id %>" method="POST">
   <%# CSRF Token - hidden input for forms %>
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <!-- TODO - Double check that below is needed, should userProfile.id just get grabbed from the the forEach loop in admin.ejs? -->
+
   <input type="hidden" name="userId" value="<%= userProfile.id %>">
+  <!-- <p><%#= userProfile.id %></p> -->
   <button class="button-default card-button admin-border admin-color" type="submit">
     <span class="emoji">❌</span>
   </button> 

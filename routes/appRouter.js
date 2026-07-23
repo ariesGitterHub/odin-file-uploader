@@ -57,6 +57,7 @@ const {
   postLogOut,
   getAdminPage,
   getAdminEditPage,
+  postAdminEditPage,
   deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,
@@ -149,6 +150,7 @@ appRouter.post(
 
 appRouter.get("/admin", getAdminPage);
 appRouter.get("/admin-edit/:userId", getAdminEditPage);
+appRouter.post("/admin-edit/:userId", postAdminEditPage);
 appRouter.post("/admin/delete-user/:userId", deleteUserProfileByAdmin);
 
 // // ROUTES: ADMIN PAGE (admin.ejs)

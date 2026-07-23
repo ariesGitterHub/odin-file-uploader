@@ -6,8 +6,8 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border-white">
-        <h2 class="subtitle">Edit User <% userProfile.firstName %> <% userProfile.lastName %> </h2>
-       <form class="element-container-col-start-center form-width" action="/app/admin-edit/<% userProfile.id %>" method="POST">
+        <h2 class="subtitle">Edit User <%= userProfile.firstName %> <%= userProfile.lastName %> </h2>
+       <form class="element-container-col-start-center form-width" action="/app/admin-edit/<%= userProfile.id %>" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <label for="first-name-admin-edit">first name</label>
@@ -38,6 +38,17 @@
           name="email"
           value="<%= formData?.email || '' %>"
         />
+
+        <label for="email-verified-admin-edit">email verified</label>
+
+        <select
+          id="email-verified-admin-edit"       
+          name="email_verified"
+          >
+          <option value="false" <%= String(formData?.email_verified) === "false" ? "selected" : "" %>>🔴 False</option>
+          <option value="true" <%= String(formData?.email_verified) === "true" ? "selected" : "" %>>🟢 True</option>
+        </select>
+
         <div class="element-container-row-start-center">
           <label for="password-admin-edit">password</label>
           <% if (errors && errors.some(e => e.field === 'password')) { %>

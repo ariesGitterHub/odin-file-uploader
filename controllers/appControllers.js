@@ -301,7 +301,7 @@ async function getAdminEditPage(req, res, next) {
 
   try {
     const userId = req.params.userId;
-    console.log("userID ===", req.params.id);
+    console.log("userID ===", userId);
     
     const userProfile = await getAdminUserProfile(userId);
 
@@ -327,6 +327,74 @@ async function getAdminEditPage(req, res, next) {
   }
 }
 
+async function postAdminEditPage(req, res, next) {
+  //  console.log("userIDPOST ===", req.params.id);
+  // console.log("POST /user-profile", req.body);
+  try {
+    const userId = req.params.userId;
+    console.log("userID-POST ===", userId);
+
+    // const userProfile = await getAdminUserProfile(userId);
+   
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const formattedErrors = [];
+      const seen = new Set();
+
+      errors.array().forEach((err) => {
+        if (!seen.has(err.path)) {
+          formattedErrors.push({
+            field: err.path,
+            message: err.msg,
+          });
+          seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
+        }
+      });
+
+      return res.render("admin-edit", {
+        title: "Admin Edit",
+        errors: formattedErrors,
+        formData: req.body || {},
+        passwordRules,
+        csrfToken: req.csrfToken(),
+      });
+    }
+
+    const { first_name, last_name, email, email_verified, password } = req.body;
+    console.log("req.body ===", req.body);
+    
+
+    const updateData = {};
+
+    if (first_name.trim()) {
+      updateData.firstName = first_name.trim();
+    }
+
+    if (last_name.trim()) {
+      updateData.lastName = last_name.trim();
+    }
+
+    if (email.trim()) {
+      updateData.email = email.trim().toLowerCase();
+    }
+
+    if (email_verified !== undefined) {
+      updateData.emailVerified = email_verified === "true";
+    }
+
+    if (password) {
+      updateData.passwordHash = await bcrypt.hash(password, 12);
+    }
+
+    await updateUser(userId, updateData);
+
+    return res.redirect("/app/admin");
+  } catch (err) {
+    console.error("Error during user profile update:", err);
+    next(err);
+  }
+}
 // NOTE - pretty much similar to deleteUserProfileByUser
 async function deleteUserProfileByAdmin(req, res, next) {
   // This cascades to all user data
@@ -917,6 +985,7 @@ module.exports = {
   postLogOut,
   getAdminPage,
   getAdminEditPage,
+  postAdminEditPage,
   deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,

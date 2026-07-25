@@ -2,15 +2,8 @@ const prisma = require("../lib/prisma");
 
 // *** AUTH SERVICES
 
-// async function createUser(userData) {
-//   return prisma.user.create({
-//     data: userData,
-//   });
-// }
-
 // For sign-up.ejs page
 async function createUser(userData) {
-  // console.log("createUser called with:", userData);
   return prisma.$transaction(async (tx) => {
     const user = await tx.user.create({
       data: userData,
@@ -22,7 +15,7 @@ async function createUser(userData) {
   });
 }
 
-// For user-profile.ejs page
+// For user-profile.ejs and admin-edit.ejs pages
 async function updateUser(userId, userData) {
   return prisma.user.update({
     where: {
@@ -42,15 +35,7 @@ async function updateFolder(folderId, folderData) {
   });
 }
 
-// !!! TODO - add this to the relevant controllers where ensuring email uniqueness is needed.
-// async function getUserByEmail(email) {
-//   return prisma.user.findUnique({
-//     where: {
-//       email,
-//     },
-//   });
-// }
-
+// Ensures email uniqueness
 async function checkIfEmailExistsForSignUp(email) {
   return prisma.user.findUnique({
     where: {
@@ -76,43 +61,9 @@ async function checkIfEmailAlreadyExists(email, targetId) {
   });
 }
 
-async function getUserProfile(userId) {
-  return prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      id: true,
-      firstName: true,
-      lastName: true,
-      email: true,
-    },
-  });
-}
+// *** ADMIN SERVICES
 
-// ADMIN SERVICES
-
-// async function getAdminUserProfiles({ page = 1, limit = 50 }) { // NOTE - added pagination as an example for future reference
-//   return prisma.user.findMany({
-//     skip: (page - 1) * limit,
-//     take: limit,
-//     select: {
-//       id: true,
-//       role: true,
-//       firstName: true,
-//       lastName: true,
-//       email: true,
-//       emailVerified: true,
-//       storageUsedBytes: true,
-//       createdAt: true,
-//       updatedAt: true,
-//       lastLoginAt: true,
-//     },
-//     orderBy: {
-//       createdAt: "desc",
-//     },
-//   });
-// }
-
-// For admin.ejs
+// For admin.ejs, many users
 async function getAdminUserProfiles() {
   return prisma.user.findMany({
     select: {
@@ -133,7 +84,7 @@ async function getAdminUserProfiles() {
   });
 }
 
-// For admin-edit.ejs
+// For admin-edit.ejs, single user
 // TODO - reduce what is grabbed here!!!! Don't need it all.
 async function getAdminUserProfile(userId) {
   return prisma.user.findUnique({
@@ -153,8 +104,21 @@ async function getAdminUserProfile(userId) {
   });
 }
 
+// *** USER SERVICES
 
-// USER SERVICES
+// TODO - add ejs views where these are used!
+
+async function getUserProfile(userId) {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+    },
+  });
+}
 
 async function createDefaultFolders(tx, userId) {
   return tx.folder.create({
@@ -172,34 +136,6 @@ async function getUserFolder(folderId) {
     },
   });
 }
-
-// async function getUserFolders(userId) {
-//   return prisma.folder.findMany({
-//     where: {
-//       userId, // UUID string is fine here
-//     },
-//     orderBy: {
-//       folderName: "asc", // optional, for consistent display
-//     },
-//   });
-// }
-
-// Fixed so that a folder cannot be its own subfolder.
-// async function getUserFolders(userId, folderId = null) {
-//   return prisma.folder.findMany({
-//     where: {
-//       userId,
-//       ...(folderId && {
-//         id: {
-//           not: folderId,
-//         },
-//       }),
-//     },
-//     orderBy: {
-//       folderName: "asc",
-//     },
-//   });
-// }
 
 async function getUserFolders(userId, excludedIds = []) {
   return prisma.folder.findMany({
@@ -271,21 +207,6 @@ async function getFolderFilesCount(folderId) {
   });
 }
 
-// async function getFilesByFolder(folderId) {
-//   return prisma.folder.findUnique({
-//   where: {
-//     id: folderId,
-//   },
-//   include: {
-//     files: {
-//       orderBy: {
-//         originalFileName: "asc",
-//       },
-//     },
-//   },
-// });
-// }
-
 // REMINDER - (because I forget), only pull what I need from db...
 async function getFilesByFolder(folderId) {
   return prisma.folder.findUnique({
@@ -337,7 +258,6 @@ async function getChildFoldersById(parentFolderId) {
   });
 }
 
-//  Is this used?
 async function getFileById(fileId) {
   return prisma.file.findUnique({
     where: {
@@ -351,7 +271,7 @@ async function getFileById(fileId) {
   });
 }
 
-// I use queryRaw below to correct case-insensitive alphabetical sorting, as it gives full control over SQL behavior and avoids Prisma’s collation limitations... plus it is my first time using it. Good for future reference. NOTE too that using below also changes the API and now file.originalFilename becomes file.original_file_name
+// Not used anymore, but KEEP for future reference. NOTE too that using below also changes the API and now file.originalFilename becomes file.original_file_name
 
 // async function getFilesByFolder(folderId: string) {
 //   return prisma.$queryRaw`
@@ -362,7 +282,69 @@ async function getFileById(fileId) {
 //   `;
 // }
 
-// DELETE DATA
+// async function createNewFile({
+//   userId,
+//   folderId,
+//   originalFileName,
+//   sizeBytes,
+//   cloudKey,
+//   cloudProvider,
+//   mimeType,
+// }) {
+//   return prisma.file.create({
+//     data: {
+//       user: { // I was missing this too, see below, same scenario.
+//         connect: {
+//           id: userId
+//         }
+//       },
+//       folderId,
+//       originalFileName,
+//       sizeBytes,
+//       cloudKey,
+//       cloudProvider,
+//       mimeType,
+//       folder: {
+//         // I was missing this, schema.prisma says every File must have a related Folder, and folderId, with the generated Prisma client expects the relation field folder.
+//         connect: {
+//           id: folderId,
+//         },
+//       },
+//     },
+//   });
+// }
+
+async function createNewFile({
+  userId,
+  folderId,
+  originalFileName,
+  sizeBytes,
+  cloudKey,
+  cloudProvider,
+  mimeType,
+}) {
+  return prisma.file.create({
+    data: {
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+      folder: {
+        connect: {
+          id: folderId,
+        },
+      },
+      originalFileName,
+      sizeBytes,
+      cloudKey,
+      cloudProvider,
+      mimeType,
+    },
+  });
+}
+
+// *** DELETE DATA
 async function deleteUser(userId) {
   return prisma.user.delete({
     where: {
@@ -372,7 +354,6 @@ async function deleteUser(userId) {
 }
 
 async function deleteFolder(folderId) {
-  // console.log("appServices, folderId = ", folderId);
   return prisma.folder.delete({
     where: {
       id: folderId,
@@ -380,6 +361,7 @@ async function deleteFolder(folderId) {
   });
 }
 
+// TODO - this is a hard delete, note that I do have the db set up with a deleted_at column for soft deletes. Add soft/hard delete set up later?
 async function deleteFile(fileId) {
   return prisma.file.delete({
     where: {
@@ -388,19 +370,9 @@ async function deleteFile(fileId) {
   });
 }
 
-// async function deleteUserByAdmin(userId) {
-//   return prisma.user.delete({
-//     where: {
-//       id: userId,
-//     },
-//   })
-// }
-
 module.exports = {
   createUser,
   updateUser,
-  updateFolder,
-  // getUserByEmail,
   checkIfEmailExistsForSignUp,
   checkIfEmailAlreadyExists,
   getUserProfile,
@@ -410,13 +382,15 @@ module.exports = {
   getUserFolders,
   getDescendantFolderIds,
   createNewFolder,
+  updateFolder,
   getFolderSubfoldersCount,
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
   getFileById,
+  createNewFile,
+  // updateFile,
   deleteUser,
   deleteFolder,
   deleteFile,
-  // deleteUserByAdmin,
 };

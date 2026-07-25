@@ -84,8 +84,8 @@ app.use(passport.session());
 // app.use(requireUserIsActive);
 
 // *** CSRF protection (must come after session + passport)
-app.use(csrfProtection);
-app.use(csrfTokenMiddleware);
+// app.use(csrfProtection);
+// app.use(csrfTokenMiddleware);
 
 // *** Chrome devtools noise fix
 app.use((req, res, next) => {

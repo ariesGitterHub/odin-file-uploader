@@ -27,22 +27,22 @@
           name="file"
           required
         />
-        <label for="folder-parent-new-folder">store in folder</label>
+        <label for="folder-new-folder">store in folder</label>
         <select
-          id="folder-parent-id-new-folder"        
-          name="parent_folder_id"
+          id="folder-id-new-folder"        
+          name="folder_id"
           required
         >
           <option
             value=""
             disabled
-            <%= !formData?.parent_folder_id ? "selected" : "" %>>
+            <%= !formData?.folder_id ? "selected" : "" %>>
             select a folder for your file
           </option>
-          <% userFolders.forEach((folder) => { %> 
-          <option value="<%= folder.id %>"
-          <%= formData?.parent_folder_id === folder.id ? "selected" : "" %>>
-            <%= folder.folderName %>
+          <% userFolders.forEach((userFolder) => { %> 
+          <option value="<%= userFolder.id %>"
+          <%= formData?.userFolder === userFolder.id ? "selected" : "" %>>
+            <%= userFolder.folderName %>
           </option>
           <% }) %>
         </select>

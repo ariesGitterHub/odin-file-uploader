@@ -19,3 +19,6 @@ node_modules/
 
 /generated/prisma
 /generated/prisma
+
+# Ignore uploaded test files to local
+uploads/

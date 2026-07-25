@@ -1,12 +1,12 @@
 const bcrypt = require("bcryptjs");
+const fs = require("node:fs/promises");
+const path = require("node:path");
 const passport = require("passport");
 const { validationResult } = require("express-validator");
 
 const {
   createUser,
   updateUser,
-  updateFolder,
-  // getUserByEmail,
   getUserProfile,
   getAdminUserProfiles, // admin
   getAdminUserProfile, // admin-edit
@@ -14,15 +14,16 @@ const {
   getUserFolders,
   getDescendantFolderIds,
   createNewFolder,
+  updateFolder,
   getFolderSubfoldersCount,
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
   getFileById,
+  createNewFile,
   deleteUser,
   deleteFolder,
   deleteFile,
-  // deleteUserByAdmin,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -43,7 +44,7 @@ async function getHomePage(req, res, next) {
 
 // *** AUTH CONTROLLERS
 
-// CONTROLLER: SIGN-UP PAGE (sign-up.ejs)
+// CONTROLLERS: SIGN-UP PAGE (sign-up.ejs)
 async function getSignUpPage(req, res, next) {
   try {
     // if (await isMaintenanceMode()) {
@@ -63,7 +64,6 @@ async function getSignUpPage(req, res, next) {
 
 // This code is from a similar prior project that did not use Prisma ORM
 async function postSignUpPage(req, res, next) {
-  // console.log("POST /sign-up", req.body);
   try {
     const errors = validationResult(req);
 
@@ -86,7 +86,7 @@ async function postSignUpPage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(),
       });
     }
 
@@ -109,7 +109,7 @@ async function postSignUpPage(req, res, next) {
   }
 }
 
-// CONTROLLER: LOG-IN PAGE (log-in.ejs)
+// CONTROLLERS: LOG-IN PAGE (log-in.ejs)
 async function getLogInPage(req, res, next) {
   try {
     // if (await isMaintenanceMode()) {
@@ -126,87 +126,6 @@ async function getLogInPage(req, res, next) {
     next(err);
   }
 }
-
-// async function postLogInPage(req, res, next) {
-//   console.log("REQ BODY:", req.body);
-
-//   passport.authenticate("local", async (err, user, info) => {
-//     console.log("Passport fired"); // ✅ will log if strategy runs
-//     if (err) return next(err);
-
-//     if (!user) {
-//       return res.render("log-in", {
-//         title: "Log In",
-//         errors: [
-//           {
-//             field: "auth",
-//             message: info.message || "Invalid email or password",
-//           },
-//         ],
-//         formData: req.body || {},
-//         //csrfToken: req.csrfToken(), // Even though this is global for GET, putting this here explicitly to handle errors when validationCreateUser or validationEditUser catches an incorrect email, password, or confirm_password is used; without this here a 500 error pops off!
-//       });
-//     }
-
-//     try {
-//       // if ((await isMaintenanceMode()) && user.permission_status !== "admin") {
-//       //   return res.redirect("/");
-//       // }
-
-//       console.log("🎈 User authenticated!"); // Keep because it is fun!
-
-//       // Update last login
-//       // await updateLastLogin(user.id);
-
-//       // Log the user in (Passport session)
-//       req.login(user, async (err) => {
-//         if (err) {
-//           console.error("Error during login:", err); // Log error for debugging
-//           return next(err);
-//         }
-//         res.redirect("/app/user-data");
-//         // try {
-//         //   await insertSessionLog(
-//         //     user.id,
-//         //     req.sessionID,
-//         //     req.ip,
-//         //     req.headers["user-agent"],
-//         //   );
-//         // } catch (logErr) {
-//         //   console.error("Failed to create session log:", logErr);
-//         // }
-
-//         // if (user.permission_status === "admin") {
-//         //   res.redirect("/app/admin");
-//         // } else {
-//         //   res.redirect("/app/message-boards");
-//         // }
-
-//         // New code to check if a retention check should occur. NOTE -
-//         // if (user.permission_status === "admin") {
-//         //   // Check if retention jobs should run
-//         //   try {
-//         //     await checkAndRunRetention(user);
-//         //   } catch (retentionErr) {
-//         //     console.error(
-//         //       "Error checking/running retention jobs:",
-//         //       retentionErr,
-//         //     );
-//         //   }
-
-//         //   res.redirect("/app/admin");
-//         // } else {
-//         //   res.redirect("/app/message-boards");
-//         // }
-//       });
-//     } catch (err) {
-//       console.error("Error updating last login:", err);
-//       return next(err);
-//     }
-//   })(req, res, next);
-// }
-
-// CONTROLLER: LOG-OUT
 
 async function postLogInPage(req, res, next) {
   passport.authenticate("local", (err, user, info) => {
@@ -241,6 +160,7 @@ async function postLogInPage(req, res, next) {
   })(req, res, next);
 }
 
+// CONTROLLER: LOG-OUT
 async function postLogOut(req, res, next) {
   try {
     req.logout((err) => {
@@ -254,7 +174,7 @@ async function postLogOut(req, res, next) {
   }
 }
 
-// CONTROLLER: ADMIN PAGE (admin.ejs)
+// CONTROLLERS: ADMIN PAGE (admin.ejs)
 async function getAdminPage(req, res, next) { 
 
     if (req.user.role !== "ADMIN") {
@@ -287,7 +207,7 @@ async function getAdminPage(req, res, next) {
       userProfiles: usersWithFormattedSize,
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
-      csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -301,7 +221,7 @@ async function getAdminEditPage(req, res, next) {
 
   try {
     const userId = req.params.userId;
-    console.log("userID ===", userId);
+    // console.log("userID ===", userId);
     
     const userProfile = await getAdminUserProfile(userId);
 
@@ -320,7 +240,7 @@ async function getAdminEditPage(req, res, next) {
         email: userProfile.email,
         email_verified: userProfile.emailVerified,
       },
-      csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -328,13 +248,8 @@ async function getAdminEditPage(req, res, next) {
 }
 
 async function postAdminEditPage(req, res, next) {
-  //  console.log("userIDPOST ===", req.params.id);
-  // console.log("POST /user-profile", req.body);
   try {
     const userId = req.params.userId;
-    console.log("userID-POST ===", userId);
-
-    // const userProfile = await getAdminUserProfile(userId);
    
     const errors = validationResult(req);
 
@@ -357,7 +272,7 @@ async function postAdminEditPage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(),
       });
     }
 
@@ -398,47 +313,32 @@ async function postAdminEditPage(req, res, next) {
 // NOTE - pretty much similar to deleteUserProfileByUser
 async function deleteUserProfileByAdmin(req, res, next) {
   // This cascades to all user data
-  // TODO - clean this up
-  //  if (!req.user) {
-  //    return res.redirect("/app/log-in");
-  //  }
-
   if (req.user.role !== "ADMIN") {
     return res.sendStatus(403);
   }
 
   try {
     const { userId } = req.body;
-    // const userProfiles = await getAdminUserProfiles();
-
-    // const userId = userProfiles.id
 
     // Block admins from deleting their own accounts
+    if (req.user.id === userId) {
+      const err = new Error("Admins cannot delete their own accounts.");
+      err.status = 403;
+      err.code = "ADMIN_SELF_DELETE_BLOCKED";
+      return next(err);
+    }
 
-    // if (userProfiles.role === "ADMIN") {
-    //   const err = new Error("Admins cannot delete their own accounts.");
-    //   err.status = 403;
-    //   err.code = "ADMIN_SELF_DELETE_BLOCKED"; // FIX: structured error
-    //   return next(err);
+    await deleteUser(userId);
+    return res.redirect("/app/admin");
     // }
-    // if (req.user.id !== userProfile.id) {
-      await deleteUser(userId);
-      return res.redirect("/app/admin");      
-    // }
-   
   } catch (err) {
     next(err);
   }
 }
 
-
 // CONTROLLER: USER DATA PAGE (user-data.ejs)
 async function getUserDataPage(req, res, next) {
   try {
-    // if (await isMaintenanceMode()) {
-    //   return res.redirect("/");
-    // }
-
     const userId = req.user.id;
 
     const userFolders = await getUserFolders(userId);
@@ -468,34 +368,14 @@ async function getUserDataPage(req, res, next) {
       errors: [],
       // passwordRules,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
-      csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
   }
 }
 
-// CONTROLLER: USER FOLDER PAGE (user-folder.ejs) // TODO - needs slug/params
-// async function getUserFolderPage(req, res, next) {
-//   try {
-//     const folderId = (req.params.folderId);
-
-//     const folder = await getFilesByFolder(folderId);
-
-//     const foldersWithEmoji = await Promise.all(folder.map((folder) => ({
-//       ...folder,
-//       emoji: folderEmojis[folder.folderImage],
-//     })));
-
-//     res.render("user-folder", {
-//       title: folder.folderName,
-//       folder: foldersWithEmoji,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// }
-
+// CONTROLLERS: USER FOLDER PAGE (user-folder.ejs)
 async function getUserFolderPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
@@ -548,33 +428,86 @@ async function getUserFolderPage(req, res, next) {
       files: filesWithFormattedSize,
     };
 
-// console.log({
-//   folderImage: folder.folderImage,
-//   // emoji: folderEmojis[folder.folderImage],
-//   emoji: folderEmojis[folder.folderImage] || "📂",
-//   folderEmojisKeys: Object.keys(folderEmojis),
-// });
     res.render("user-folder", {
       title: folderWithEmoji.folderName,
       folder: folderWithEmoji,
       // childFolders,
       childFolders: foldersWithEmoji,
-      csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
   }
 }
 
+async function deleteUserFolderPage(req, res, next) {
+  try {
+    const folderId = req.params.folderId;
+
+    const folder = await getFilesByFolder(folderId);
+
+    if (!folder) {
+      return res.status(404).render("404");
+    }
+
+    if (folder.userId !== req.user.id) {
+      return res.sendStatus(403);
+    }
+
+    await deleteFolder(folderId);
+
+    res.redirect("/app/user-data")
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function deleteUserFile(req, res, next) {
+  try {
+    const { folderId, fileId } = req.params;
+    // const folderId = req.params.folderId;
+
+    // const folder = await getFilesByFolder(folderId); // not needed here
+
+    const file = await getFileById(fileId);
+
+    if (!file) {
+      return res.status(404).render("404");
+    }
+
+    if (file.userId !== req.user.id) {
+      return res.sendStatus(403);
+    }
+
+    // I need to remove the actual stored file first. Prisma only removes the database record; it does not know about the physical file inside uploads/.
+    if (file.cloudProvider === "local" && file.cloudKey) {
+      console.log("Deleting file:", file.cloudKey);
+      try {
+        // await fs.unlink(file.cloudKey);
+        await fs.unlink(path.resolve(file.cloudKey));
+      } catch (cleanupError) {
+        console.error("Failed to delete physical file:", cleanupError);
+        return next(cleanupError); // I was missing this
+      }
+    }
+
+    // delete the physical file before the db row because you lose references if done the other way around.
+    await deleteFile(fileId);
+
+    res.redirect(`/app/user-folder/${folderId}`);
+  } catch (err) {
+    next(err);
+  }
+}
+
+// CONTROLLERS: EDIT FOLDER PAGE (edit-folder.ejs)
 async function getEditFolderPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
     const userId = req.user.id;
 
     const folder = await getUserFolder(folderId);
-
    
-
     if (!folder) {
           return res.status(404).render("404");
         }
@@ -597,7 +530,7 @@ async function getEditFolderPage(req, res, next) {
       userFolders,
       folderEmojisDropdown,
       formData: folder, 
-      csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(),
     });
 
   } catch (err) {
@@ -651,7 +584,7 @@ async function postEditFolderPage(req, res, next) {
         userFolders,
         folderEmojisDropdown,
         formData: req.body,
-        csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(),
       });
     }
     const { folder_name, folder_image, parent_folder_id, folder_description } =
@@ -680,107 +613,7 @@ async function postEditFolderPage(req, res, next) {
   }
 }
 
-async function deleteUserFolderPage(req, res, next) {
-  try {
-    const folderId = req.params.folderId;
-
-    const folder = await getFilesByFolder(folderId);
-
-    if (!folder) {
-      return res.status(404).render("404");
-    }
-
-    if (folder.userId !== req.user.id) {
-      return res.sendStatus(403);
-    }
-
-    await deleteFolder(folderId);
-
-    res.redirect("/app/user-data")
-  } catch (err) {
-    next(err);
-  }
-}
-
-// async function deleteUserFile(req, res, next) {
-//   try {
-//     const folderId = req.params.folderId;
-
-//     const folder = await getFilesByFolder(folderId);
-
-//     const fileId = folder.file.id
-
-//     const file = await getFileById(fileId);
-
-//     if (!file) {
-//       return res.status(404).render("404");
-//     }
-
-//     if (file.userId !== req.user.id) {
-//       return res.sendStatus(403);
-//     }
-
-//     await deleteUserFile(fileId);
-
-//     res.redirect("/app/user-folder/${folderId}");
-//   } catch (err) {
-//     next(err);
-//   }
-// }
-
-// async function deleteUserFile(req, res, next) {
-//   try {
-//     // const { folderId, fileId } = req.params;
-//     const folderId = req.params.folderId;
-
-//     const folder = await getFilesByFolder(folderId);
-
-//     const fileId = folder.files.id;
-
-//     const file = getFileById(fileId)
-
-//     if (!file) {
-//       return res.status(404).render("404");
-//     }
-
-//     if (file.userId !== req.user.id) {
-//       return res.sendStatus(403);
-//     }
-
-//     await deleteUserFile(fileId);
-
-//     res.redirect(`/app/user-folder/${folderId}`);
-//   } catch (err) {
-//     next(err);
-//   }
-// }
-
-async function deleteUserFile(req, res, next) {
-  try {
-    const { folderId, fileId } = req.params;
-    // const folderId = req.params.folderId;
-
-    const folder = await getFilesByFolder(folderId);
-
-    const file = await getFileById(fileId);
-
-    if (!file) {
-      return res.status(404).render("404");
-    }
-
-    if (file.userId !== req.user.id) {
-      return res.sendStatus(403);
-    }
-
-    await deleteFile(fileId);
-
-    res.redirect(`/app/user-folder/${folderId}`);
-  } catch (err) {
-    next(err);
-  }
-}
-// CONTROLLER: USER PROFILE PAGE (user-profile.ejs)
-
+// CONTROLLERS: USER PROFILE PAGE (user-profile.ejs)
 async function getUserProfilePage(req, res, next) {
   try {
     const userId = req.user.id;
@@ -801,7 +634,7 @@ async function getUserProfilePage(req, res, next) {
         last_name: userProfile.lastName,
         email: userProfile.email,
       },
-      csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -832,7 +665,7 @@ async function postUserProfilePage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(),
       });
     }
 
@@ -888,7 +721,7 @@ async function deleteUserProfileByUser(req, res, next) { // This cascades to all
   }
 }
 
-// CONTROLLER: NEW FOLDER PAGE (new-folder.ejs)
+// CONTROLLERS: NEW FOLDER PAGE (new-folder.ejs)
 async function getNewFolderPage(req, res, next) {
   try {
     const userId = req.user.id;
@@ -956,7 +789,8 @@ async function postNewFolderPage(req, res, next) {
     next(err);
   }
 }
-// CONTROLLER: NEW FILE PAGE (new-file.ejs)
+
+// CONTROLLERS: NEW FILE PAGE (new-file.ejs)
 async function getNewFilePage(req, res, next) {
   try {
     const userId = req.user.id;
@@ -969,9 +803,63 @@ async function getNewFilePage(req, res, next) {
       // passwordRules,
       userFolders,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
-      csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(),
     });
   } catch (err) {
+    next(err);
+  }
+}
+
+async function postNewFilePage(req, res, next) {
+  console.log("Controller reached");
+  try {
+    const userId = req.user.id;
+    const userFolders = await getUserFolders(userId);
+
+    const { folder_id } = req.body;
+
+    const errors = [];
+
+    if (!folder_id) {
+      errors.push("Please select a folder.");
+    }
+
+    if (errors.length > 0) {
+      return res.status(400).render("new-file", {
+        title: "Upload File",
+        errors,
+        userFolders,
+        formData: req.body,
+        // csrfToken: req.csrfToken(),
+      });
+    }
+
+    await createNewFile({
+      userId,
+      folderId: folder_id, // It's uuid string and it's folder_id, not parent_folder_id
+      originalFileName: req.file.originalname,
+      sizeBytes: BigInt(req.file.size),
+      mimeType: req.file.mimetype,
+      cloudProvider: "local",
+      cloudKey: req.file.path, // or req.file.filename/path if using disk storage
+    });
+
+    // 5. Redirect after success
+    return res.redirect("/app/user-data");
+    // } catch (err) {
+    //   next(err);
+    // }
+  } catch (err) {
+    // NOTE - Below cleans up the uploaded file if Prisma fails, as multer saves the file before my database record is created, so without this deletion I would leave orphaned files in uploads/ that are taking up storage but are not tracked in my database.
+    if (req.file?.path) {
+      try {
+      // NOTE - reminder, this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
+      await fs.unlink(req.file.path);        
+      } catch (cleanupError) {
+        console.error("Failed to remove orphaned upload:", cleanupError);
+      }
+    }
+
     next(err);
   }
 }
@@ -989,14 +877,15 @@ module.exports = {
   deleteUserProfileByAdmin,
   getUserDataPage,
   getUserFolderPage,
-  getEditFolderPage,
-  postEditFolderPage,
   deleteUserFolderPage,
   deleteUserFile,
+  getEditFolderPage,
+  postEditFolderPage,
   getUserProfilePage,
   postUserProfilePage,
   deleteUserProfileByUser,
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,
+  postNewFilePage,
 };

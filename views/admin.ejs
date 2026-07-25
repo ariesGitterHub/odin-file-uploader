@@ -23,7 +23,8 @@
               <!-- <div class="details-backdrop"><strong>id</strong> <%#= userProfile.id %></div> -->
               <div class="details-backdrop"><strong>id</strong> <%= userProfile.id %></div>
               <div class="details-backdrop"><strong>email</strong> <%= userProfile.email %></div>
-              <div class="details-backdrop"><strong>size</strong> <%= userProfile.storageUsed %></div>
+              <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified %></div>
+             
             </div>  
             <div class="element-container-row-center-start flex-gap flex-wrap">
               <div class="details-backdrop"><strong>created</strong> <%= userProfile.createdAtLabel %></div>
@@ -33,8 +34,8 @@
               <% } %>
             </div>  
             <div class="element-container-row-center-start flex-gap flex-wrap">
-              <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified %></div>
-              <div class="details-backdrop"><strong>last login</strong> <%= userProfile.lastLoginAtLabel %></div>
+              <div class="details-backdrop"><strong>last login</strong> <%= userProfile.lastLoginAtLabel %></div>   
+              <div class="details-backdrop"><strong>size</strong> <%= userProfile.storageUsed %></div>    
             </div>  
           <%- include('./partials/admin-buttons.ejs', { userProfile }) %>
         </div>

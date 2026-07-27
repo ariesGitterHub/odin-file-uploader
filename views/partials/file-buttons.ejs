@@ -12,9 +12,9 @@
     <span class="emoji">📂</span>
   </button> -->
   <!-- Edit -->
-  <button class="button-default card-button file-border file-color">
-    <span class="emoji">✏</span>
-  </button>
+    <a class="button-default card-button file-border file-color" href="/app/user-file-edit/<%= file.id %>">
+      <span class="emoji">✏</span>
+    </a>   
   <!-- Delete -->
   <form action="/app/user-folder/<%= folder.id %>/delete-your-file/<%= file.id %>" method="POST">
     <%# CSRF Token - hidden input for forms %>

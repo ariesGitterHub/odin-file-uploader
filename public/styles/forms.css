@@ -24,6 +24,16 @@ input {
   padding-left: var(--spacer-small);
 }
 
+#original-file-name-user-file-edit {
+  width: 80%;
+}
+
+/* .file-extension {
+  font-family: var(--font-text);
+  font-size: var(--font-size-default);
+  font-weight: 800;
+} */
+
 select {
   height: 1.75rem;
   width: var(--width-default-percent);

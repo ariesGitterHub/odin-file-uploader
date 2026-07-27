@@ -25,13 +25,23 @@ async function updateUser(userId, userData) {
   });
 }
 
-// For edit-folder.ejs page
+// For user-folder-edit.ejs page
 async function updateFolder(folderId, folderData) {
   return prisma.folder.update({
     where: {
       id: folderId,
     },
     data: folderData,
+  });
+}
+
+// For user-file-edit.ejs page
+async function updateFile(fileId, fileData) {
+  return prisma.file.update({
+    where: {
+      id: fileId,
+    },
+    data: fileData,
   });
 }
 
@@ -171,7 +181,7 @@ async function getDescendantFolderIds(folderId) {
   return descendants;
 }
 
-async function createNewFolder({
+async function createFolder({
   userId,
   parentFolderId = null,
   folderName,
@@ -264,9 +274,10 @@ async function getFileById(fileId) {
       id: fileId,
     },
     select: {
-      id: true,
-      userId: true,
+      id: true, 
       folderId: true,
+      userId: true,
+      originalFileName: true,
       cloudProvider: true,
       cloudKey: true,
     },
@@ -284,7 +295,7 @@ async function getFileById(fileId) {
 //   `;
 // }
 
-// async function createNewFile({
+// async function createFile({
 //   userId,
 //   folderId,
 //   originalFileName,
@@ -316,7 +327,7 @@ async function getFileById(fileId) {
 //   });
 // }
 
-async function createNewFile({
+async function createFile({
   userId,
   folderId,
   originalFileName,
@@ -374,25 +385,29 @@ async function deleteFile(fileId) {
 
 module.exports = {
   createUser,
-  updateUser,
-  checkIfEmailExistsForSignUp,
-  checkIfEmailAlreadyExists,
+  createFolder,
+  createFile,
+
   getUserProfile,
   getAdminUserProfiles, // admin
   getAdminUserProfile, // admin-edit
   getUserFolder,
   getUserFolders,
   getDescendantFolderIds,
-  createNewFolder,
-  updateFolder,
   getFolderSubfoldersCount,
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
   getFileById,
-  createNewFile,
-  // updateFile,
+
+  updateUser,
+  updateFolder,
+  updateFile,
+
   deleteUser,
   deleteFolder,
   deleteFile,
+
+  checkIfEmailExistsForSignUp,
+  checkIfEmailAlreadyExists,
 };

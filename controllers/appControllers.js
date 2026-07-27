@@ -6,21 +6,25 @@ const { validationResult } = require("express-validator");
 
 const {
   createUser,
-  updateUser,
+  createFolder,
+  createFile,
+
   getUserProfile,
   getAdminUserProfiles, // admin
   getAdminUserProfile, // admin-edit
   getUserFolder,
   getUserFolders,
   getDescendantFolderIds,
-  createNewFolder,
-  updateFolder,
   getFolderSubfoldersCount,
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
-  getFileById,
-  createNewFile,
+  getFileById, 
+
+  updateUser,
+  updateFolder,
+  updateFile,
+
   deleteUser,
   deleteFolder,
   deleteFile,
@@ -407,7 +411,6 @@ async function getUserFolderPage(req, res, next) {
     //   emoji: folderEmojis[folder.folderImage],
     // }));
     
-
     const filesWithFormattedSize = folder.files.map((f) => ({
         ...f,
         sizeLabel: formatBytes(f.sizeBytes),
@@ -510,8 +513,8 @@ async function deleteUserFile(req, res, next) {
   }
 }
 
-// CONTROLLERS: EDIT FOLDER PAGE (edit-folder.ejs)
-async function getEditFolderPage(req, res, next) {
+// CONTROLLERS: USER FOLDER EDIT PAGE (user-folder-edit.ejs)
+async function getUserFolderEditPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
     const userId = req.user.id;
@@ -533,7 +536,7 @@ async function getEditFolderPage(req, res, next) {
      
     const userFolders = await getUserFolders(userId, excludedIds);
 
-    res.render("edit-folder", {
+    res.render("user-folder-edit", {
       title: "Edit Folder",
       errors: [],
       folder,
@@ -548,7 +551,7 @@ async function getEditFolderPage(req, res, next) {
   }
 }
 
-async function postEditFolderPage(req, res, next) {
+async function postUserFolderEditPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
     const userId = req.user.id;
@@ -587,7 +590,7 @@ async function postEditFolderPage(req, res, next) {
         }
       });
 
-      return res.render("edit-folder", {
+      return res.render("user-folder-edit", {
         title: "Edit Folder",
         errors: formattedErrors,
         folder,
@@ -785,7 +788,7 @@ async function postNewFolderPage(req, res, next) {
     }
 
     // 4. Create folder (service layer)
-    await createNewFolder({
+    await createFolder({
       userId,
       parentFolderId: normalizedParentFolderId,
       folderName: folder_name.trim(),
@@ -844,7 +847,7 @@ async function postNewFilePage(req, res, next) {
       });
     }
 
-    await createNewFile({
+    await createFile({
       userId,
       folderId: folder_id, // It's uuid string and it's folder_id, not parent_folder_id
       originalFileName: req.file.originalname,
@@ -874,6 +877,196 @@ async function postNewFilePage(req, res, next) {
   }
 }
 
+async function getUserFileEditPage(req,res, next) {
+try {
+  const fileId = req.params.fileId;
+  const userId = req.user.id;
+
+  const file = await getFileById(fileId);
+
+  if (!file) {
+    return res.status(404).render("404");
+  }
+
+  if (file.userId !== userId) {
+    return res.status(403).render("forbidden");
+  }
+
+  const userFolders = await getUserFolders(userId);
+
+  const extension = path.extname(file.originalFileName);
+  const baseName = path.basename(file.originalFileName, extension);
+
+  res.render("user-file-edit", {
+    title: "Edit File",
+    errors: [],
+    file,
+    userFolders,
+    formData: {
+      ...file,
+      originalFileName: baseName,
+    },
+    extension,
+    // csrfToken: req.csrfToken(),
+  });
+
+} catch (err) {
+  next(err);
+}
+}
+
+// async function postUserFileEditPage(req, res, next) {
+//   try {
+//     const fileId = req.params.fileId;
+//     const userId = req.user.id;
+
+//     const file = await getFileById(fileId);
+
+//     // Check this FIRST
+//     if (!file) {
+//       return res.status(404).render("404");
+//     }
+
+//     // Then ownership
+//     if (file.userId !== userId) {
+//       return res.status(403).render("forbidden");
+//     }
+
+//     const userFolders = await getUserFolders(userId);
+//     const folderId = file.folderId;
+
+//     const errors = validationResult(req);
+
+//     if (!errors.isEmpty()) {
+//       const formattedErrors = [];
+//       const seen = new Set();
+
+//       errors.array().forEach((err) => {
+//         if (!seen.has(err.path)) {
+//           formattedErrors.push({
+//             field: err.path,
+//             message: err.msg,
+//           });
+//           seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
+//         }
+//       });
+
+//       const extension = path.extname(file.originalFileName);
+//       const baseName = path.basename(file.originalFileName, extension);
+
+//       return res.render("user-file-edit", {
+//         title: "Edit File",
+//         errors: formattedErrors,
+//         file,
+//         userFolders,
+//         formData: {
+//           ...file,
+//           originalFileName: baseName,
+//         },
+//         extension,
+//         // csrfToken: req.csrfToken(),
+//       });
+//     }
+//     const { original_file_name, folder_id } =
+//       req.body;
+
+//     const updateData = {};
+//     const updatedFileName = req.body.originalFileName.trim() + extension;
+
+//     if (original_file_name) {
+//       updateData.updatedFileName = original_file_name;
+//     }  
+//     // Allows selecting "None"
+//     updateData.folderId = folder_id;
+
+//     await updateFile(fileId, updateData);
+
+//     return res.redirect(`/app/user-folder/${folderId}`);
+    
+//   } catch (err) {
+//     console.error("Error during user folder update:", err);
+//     next(err);
+//   }
+// }
+
+async function postUserFileEditPage(req, res, next) {
+  try {
+    const fileId = req.params.fileId;
+    const userId = req.user.id;
+
+    const file = await getFileById(fileId);
+
+    // File doesn't exist
+    if (!file) {
+      return res.status(404).render("404");
+    }
+
+    // User doesn't own this file
+    if (file.userId !== userId) {
+      return res.status(403).render("forbidden");
+    }
+
+    const userFolders = await getUserFolders(userId);
+
+    // Needed for both rendering and updating
+    const extension = path.extname(file.originalFileName);
+    const baseName = path.basename(file.originalFileName, extension);
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const formattedErrors = [];
+      const seen = new Set();
+
+      errors.array().forEach((err) => {
+        if (!seen.has(err.path)) {
+          formattedErrors.push({
+            field: err.path,
+            message: err.msg,
+          });
+
+          seen.add(err.path);
+        }
+      });
+
+      return res.render("user-file-edit", {
+        title: "Edit File",
+        errors: formattedErrors,
+        file,
+        userFolders,
+        formData: {
+          ...file,
+          originalFileName: req.body.original_file_name ?? baseName,
+          folderId: req.body.folder_id ?? file.folderId,
+        },
+        extension,
+      });
+    }
+
+    const { original_file_name, folder_id } = req.body;
+
+    // const updateData = {
+    //   originalFileName: original_file_name?.trim() + extension,
+    //   folderId: folder_id,
+    // };
+
+    const trimmedName = original_file_name.trim();
+
+    const updateData = {
+      originalFileName: `${trimmedName}${extension}`,
+      folderId: folder_id,
+    };
+
+    await updateFile(fileId, updateData);
+
+    return res.redirect(`/app/user-folder/${folder_id}`);
+  } catch (err) {
+    console.error("Error during file update:", err);
+    next(err);
+  }
+}
+
+
 module.exports = {
   getHomePage,
   getSignUpPage,
@@ -881,19 +1074,27 @@ module.exports = {
   getLogInPage,
   postLogInPage,
   postLogOut,
+
   getAdminPage,
   getAdminEditPage,
   postAdminEditPage,
   deleteUserProfileByAdmin,
+  
   getUserDataPage,
   getUserFolderPage,
+ 
+  getUserFolderEditPage,
+  postUserFolderEditPage,
   deleteUserFolderPage,
+
+  getUserFileEditPage,
+  postUserFileEditPage,
   deleteUserFile,
-  getEditFolderPage,
-  postEditFolderPage,
+
   getUserProfilePage,
   postUserProfilePage,
   deleteUserProfileByUser,
+
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,

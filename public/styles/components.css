@@ -50,14 +50,21 @@
   color: var(--gold);
 }
 
-.details-backdrop {
+.details-backdrop, .file-extension {
   width: fit-content;
   background-color: var(--gray);
   border-radius: var(--border-radius-default);
   color: var(--black);
   font-family: var(--font-text);
   padding: var(--spacer-small) var(--spacer-default);
+}
+
+.details-backdrop {
   font-size: small;
+}
+
+.file-extension {
+  font-size: var(--font-size-default);
 }
 
 .emoji {

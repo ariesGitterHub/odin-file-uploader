@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body class="element-container-col-center-start flex-gap">
+    <%- include('./partials/header.ejs') %>
+    <main class="element-container-col-default frame-border-white">
+      <h2 class="subtitle">Edit Existing File</h2>
+       <form class="element-container-col-start-center form-width" action="/app/user-file-edit/<%= file.id %>" method="POST">
+        <%# CSRF Token - hidden input for forms %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="filename-input">
+            <label for="file-name-user-file-edit">file name</label>
+            <input
+            id="original-file-name-user-file-edit"
+            type="text"          
+            name="original_file_name"
+            value="<%= formData.originalFileName %>"
+            required
+            />
+            <span class="file-extension"><%= extension %></span>
+        </div>  
+        <label for="folder-id-user-file-edit">choose new parent folder</label>
+          <select
+            id="folder-id-user-file-edit"     
+            name="folder_id"
+          >
+            <option
+            value=""
+            disabled
+            <%= !formData?.folder_id ? "selected" : "" %>>
+            select a folder for your file
+          </option>
+          <% userFolders.forEach((userFolder) => { %> 
+          <option value="<%= userFolder.id %>"
+          <%= file.folderId === userFolder.id ? "selected" : "" %>>
+            <%= userFolder.folderName %>
+          </option>
+          <% }) %>
+        </select>
+        <div class="button-container-row-space-evenly margin-top">
+          <a class="button-default" href="/app/user-data">cancel</a>
+          <button class="button-default" type="submit">update</button>
+        </div>
+      </form>
+    </main>
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

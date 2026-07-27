@@ -64,8 +64,8 @@ const {
   getUserFolderPage,
   deleteUserFolderPage,
   deleteUserFile,
-  getEditFolderPage,
-  postEditFolderPage,
+  getUserFolderEditPage,
+  postUserFolderEditPage,
   getUserProfilePage,
   postUserProfilePage,
   deleteUserProfileByUser,
@@ -365,8 +365,8 @@ appRouter.post("/admin/delete-user/:userId", deleteUserProfileByAdmin);
 appRouter.get("/user-data", getUserDataPage);
 // appRouter.get("/user-folder", getUserFolderPage);
 appRouter.get("/user-folder/:folderId", getUserFolderPage);
-appRouter.get("/edit-folder/:folderId", getEditFolderPage);
-appRouter.post("/edit-folder/:folderId", postEditFolderPage);
+appRouter.get("/user-folder-edit/:folderId", getUserFolderEditPage);
+appRouter.post("/user-folder-edit/:folderId", postUserFolderEditPage);
 appRouter.post("/delete-your-folder/:folderId", deleteUserFolderPage);
 appRouter.post("/user-folder/:folderId/delete-your-file/:fileId", deleteUserFile);
 appRouter.get("/user-profile", getUserProfilePage);

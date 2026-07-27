@@ -7,12 +7,12 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border-white">
       <h2 class="subtitle">Edit Existing Folder</h2>
-       <form class="element-container-col-start-center form-width" action="/app/edit-folder/<%= folder.id %>" method="POST">
+       <form class="element-container-col-start-center form-width" action="/app/user-folder-edit/<%= folder.id %>" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <label for="folder-name-edit-folder">folder name</label>
+        <label for="folder-name-user-folder-edit">folder name</label>
         <input
-          id="folder-name-edit-folder"
+          id="folder-name-user-folder-edit"
           type="text"          
           name="folder_name"
           value="<%= folder.folderName %>"
@@ -20,9 +20,9 @@
           required
         />
         <!-- TODO - This needs to be a drop down menu that uses the utils/folderEmojis -->
-        <label for="folder-image-edit-folder">folder image</label>
+        <label for="folder-image-user-folder-edit">folder image</label>
         <select
-          id="folder-image-edit-folder"
+          id="folder-image-user-folder-edit"
           class="form-width"      
           name="folder_image"
           required
@@ -34,9 +34,9 @@
               </option>
             <% }) %>
         </select>
-        <label for="folder-parent-edit-folder">choose new parent folder</label>
+        <label for="folder-parent-user-folder-edit">choose new parent folder</label>
           <select
-            id="folder-parent-id-edit-folder"     
+            id="folder-parent-id-user-folder-edit"     
             name="parent_folder_id"
           >
             <option value="" <%= !folder.parentFolderId ? "selected" : "" %>>
@@ -51,10 +51,10 @@
               <p>userFolder <%= userFolder.parentFolderId %></p>
             <% }) %>
           </select>
-        <label class="capitalize" for="folder-description-edit-folder">
+        <label class="capitalize" for="folder-description-user-folder-edit">
           folder description
         </label>
-          <textarea id="folder-description-edit-folder" name="folder_description"><%= folder.folderDescription %></textarea>
+          <textarea id="folder-description-user-folder-edit" name="folder_description"><%= folder.folderDescription %></textarea>
         <div class="button-container-row-space-evenly margin-top">
           <a class="button-default" href="/app/user-folder/<%= folder.id %>">cancel</a>
           <button class="button-default" type="submit">update</button>

@@ -12,19 +12,27 @@ const {
   getLogInPage,
   postLogInPage,
   postLogOut,
+
   getAdminPage,
   getAdminEditPage,
   postAdminEditPage,
   deleteUserProfileByAdmin,
+
   getUserDataPage,
   getUserFolderPage,
+
+  getUserFolderEditPage,
+  postUserFolderEditPage,
   deleteUserFolderPage,
+
+  getUserFileEditPage,
+  postUserFileEditPage,
   deleteUserFile,
-  getEditFolderPage,
-  postEditFolderPage,
+
   getUserProfilePage,
   postUserProfilePage,
   deleteUserProfileByUser,
+
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,
@@ -88,41 +96,48 @@ appRouter.get(
   csrfTokenMiddleware,
   getUserDataPage,
 );
+
 appRouter.get(
   "/user-folder/:folderId",
   csrfProtection,
   csrfTokenMiddleware,
   getUserFolderPage,
 );
+
 appRouter.get(
-  "/edit-folder/:folderId",
+  "/user-folder-edit/:folderId",
   csrfProtection,
   csrfTokenMiddleware,
-  getEditFolderPage,
+  getUserFolderEditPage,
 );
-appRouter.post("/edit-folder/:folderId", csrfProtection, postEditFolderPage);
+
+appRouter.post("/user-folder-edit/:folderId", csrfProtection, postUserFolderEditPage);
 appRouter.post(
   "/delete-your-folder/:folderId",
   csrfProtection,
   deleteUserFolderPage,
 );
+
 appRouter.post(
   "/user-folder/:folderId/delete-your-file/:fileId",
   csrfProtection,
   deleteUserFile,
 );
+
 appRouter.get(
   "/user-profile",
   csrfProtection,
   csrfTokenMiddleware,
   getUserProfilePage,
 );
+
 appRouter.post(
   "/delete-your-account",
   csrfProtection,
   createUserUpdateValidator,
   deleteUserProfileByUser,
 );
+
 appRouter.post("/user-profile", csrfProtection, postUserProfilePage);
 appRouter.get(
   "/new-folder",
@@ -130,6 +145,7 @@ appRouter.get(
   csrfTokenMiddleware,
   getNewFolderPage,
 );
+
 appRouter.post("/new-folder", csrfProtection, postNewFolderPage);
 // appRouter.get("/new-file", getNewFilePage);
 // appRouter.post("/new-file", upload.single("file"), postNewFilePage);
@@ -140,6 +156,19 @@ appRouter.post(
   upload.single("file"),
   csrfProtection,
   postNewFilePage,
+);
+
+appRouter.get(
+  "/user-file-edit/:fileId",
+  csrfProtection,
+  csrfTokenMiddleware,
+  getUserFileEditPage,
+);
+
+appRouter.post(
+  "/user-file-edit/:fileId",
+  csrfProtection,
+  postUserFileEditPage,
 );
 
 module.exports = appRouter;

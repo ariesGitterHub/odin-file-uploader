@@ -267,6 +267,8 @@ async function getFileById(fileId) {
       id: true,
       userId: true,
       folderId: true,
+      cloudProvider: true,
+      cloudKey: true,
     },
   });
 }

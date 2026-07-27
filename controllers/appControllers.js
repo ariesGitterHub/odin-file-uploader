@@ -480,11 +480,21 @@ async function deleteUserFile(req, res, next) {
     }
 
     // I need to remove the actual stored file first. Prisma only removes the database record; it does not know about the physical file inside uploads/.
+
+    console.log("File record:", file);
+    console.log("cloudProvider:", file.cloudProvider);
+    console.log("cloudKey:", file.cloudKey);
+    
     if (file.cloudProvider === "local" && file.cloudKey) {
-      console.log("Deleting file:", file.cloudKey);
+      const filePath = path.resolve(file.cloudKey);
+
+      console.log("Deleting:", filePath);
+
       try {
         // await fs.unlink(file.cloudKey);
-        await fs.unlink(path.resolve(file.cloudKey));
+        // await fs.unlink(path.resolve(file.cloudKey));
+         await fs.unlink(filePath);
+        console.log("File deleted successfully");
       } catch (cleanupError) {
         console.error("Failed to delete physical file:", cleanupError);
         return next(cleanupError); // I was missing this

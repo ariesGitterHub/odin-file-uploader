@@ -63,7 +63,12 @@ appRouter.post(
   postLogOut,
 );
 
-appRouter.get("/admin", getAdminPage);
+appRouter.get(
+  "/admin",
+  // csrfProtection,
+  // createUserValidatorSignUp,
+  getAdminPage,
+);
 appRouter.get(
   "/admin-edit/:userId",
   csrfProtection,

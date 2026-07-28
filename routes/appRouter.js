@@ -47,6 +47,8 @@ const {
   createUserUpdateValidator,
 } = require("../middleware/validateUpdateUser");
 
+const validateUploadFile = require("../middleware/validateUploadFile")
+
 const appRouter = Router();
 
 appRouter.get("/", getHomePage);
@@ -154,6 +156,7 @@ appRouter.get("/new-file", csrfProtection, csrfTokenMiddleware, getNewFilePage);
 appRouter.post(
   "/new-file",
   upload.single("file"),
+  validateUploadFile,
   csrfProtection,
   postNewFilePage,
 );

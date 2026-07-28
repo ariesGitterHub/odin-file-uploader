@@ -1,15 +1,35 @@
 // Upload file validation is split between this middleware and validateUploadFile. Multer handles validation it already supports (file size and MIME type), allowing invalid uploads to be rejected before they are written to the uploads/ directory. validateUploadedFile.js handles additional validation that requires inspecting the uploaded file itself.
 
+const path = require("path");
 const multer = require("multer");
 const { isAllowedMimeType } = require("../utils/mimeUtils");
+
+// TODO - maybe move this sanitizeFilename into utils/ later
+function sanitizeFilename(filename) {
+  const extension = path.extname(filename);
+  const basename = path.basename(filename, extension);
+
+  const safeName = basename
+    .replace(/[^a-zA-Z0-9-_]/g, "-")
+    .replace(/-+/g, "-")
+    .toLowerCase();
+
+  return `${safeName}${extension.toLowerCase()}`;
+}
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, "uploads/");
   },
 
+  // filename(req, file, cb) {
+  //   cb(null, `${Date.now()}-${file.originalname}`);
+  // },
+
   filename(req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const safeFilename = sanitizeFilename(file.originalname);
+
+    cb(null, `${Date.now()}-${safeFilename}`);
   },
 });
 
@@ -21,7 +41,10 @@ const upload = multer({
   },
   fileFilter(req, file, cb) {
     if (!isAllowedMimeType(file.mimetype)) {
-      return cb(new Error("Unsupported file type."));
+      const error = new Error("Unsupported file type.");
+      error.code = "INVALID_MIME_TYPE";
+
+      return cb(error);
     }
 
     cb(null, true);

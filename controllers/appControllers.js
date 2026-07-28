@@ -36,7 +36,7 @@ const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis")
 const { formatBytes } = require("../utils/formatBytes");
 const { formatRelativeDate, formatExactDate } = require("../utils/formatDate");
 
-const { formatMimeType } = require("../utils/mimeUtil");
+const { formatMimeType } = require("../utils/mimeUtils");
 
 async function getHomePage(req, res, next) {
   try {

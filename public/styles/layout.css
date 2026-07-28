@@ -179,9 +179,19 @@ nav {
   color: var(--orange);
 }
 
+.current-parent-folder-section {
+   width: var(--width-default-percent);
+  border: var(--border-solid-default);
+  border-color: var(--none);
+  border-radius: var(--border-radius-default);
+  color: var(--black);
+  padding: 0.5rem;
+}
+
+
 .subfolder-item-section,
 .file-item-section {
-  width: 100%;
+  width: var(--width-default-percent);
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;

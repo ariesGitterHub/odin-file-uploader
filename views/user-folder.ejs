@@ -6,7 +6,7 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default current-folder-container flex-gap">
-      <div class="element-container-col-start-center width-default current-parent-folder-container">
+      <div class="element-container-col-start-center width-default current-parent-folder-section">
         <div class="element-container-col-start-center">
           <div class="element-container-row-start-start">  
             <div class="current-folder-emoji">
@@ -73,7 +73,8 @@
           </div>  
           <div class="element-container-row-center-start flex-gap">
             <!-- <div class="details-backdrop"><strong>size</strong> <%#= file.sizeLabel %> </div> -->
-            <div class="details-backdrop"><strong>type</strong> <%= file.mimeType %></div>
+            <!-- <div class="details-backdrop"><strong>type</strong> <%#= file.mimeType %></div> -->
+            <div class="details-backdrop"><strong>type</strong> <%= file.mimeLabel %></div>
           </div>  
           <div class="element-container-row-center-start flex-gap">
             <div class="details-backdrop"><strong>created</strong> <%= file.createdAtLabel %></div>

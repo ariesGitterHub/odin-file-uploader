@@ -60,14 +60,6 @@
   padding: 0.5rem;
 }
 
-.current-parent-folder-container {
-  border: var(--border-solid-default);
-  border-color: var(--none);
-  border-radius: var(--border-radius-default);
-  color: var(--black);
-  padding: 0.5rem;
-}
-
 /* element containers - general */
 
 /* --column-based */

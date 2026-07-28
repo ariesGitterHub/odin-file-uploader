@@ -36,6 +36,8 @@ const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis")
 const { formatBytes } = require("../utils/formatBytes");
 const { formatRelativeDate, formatExactDate } = require("../utils/formatDate");
 
+const { formatMimeType } = require("../utils/mimeUtil");
+
 async function getHomePage(req, res, next) {
   try {
     res.render("index", {
@@ -411,16 +413,22 @@ async function getUserFolderPage(req, res, next) {
     //   emoji: folderEmojis[folder.folderImage],
     // }));
     
-    const filesWithFormattedSize = folder.files.map((f) => ({
+    const filesWithFormattedSize = folder.files
+      .map((f) => ({
         ...f,
         sizeLabel: formatBytes(f.sizeBytes),
+        mimeLabel: formatMimeType(f.mimeType),
         createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
         updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
       }))
-      .sort((a, b) => // orders by alpha where asc cannot as prisma's asc sees "T" and "t" as different
-        a.originalFileName.localeCompare(b.originalFileName, undefined, {
-          sensitivity: "base",
-        }),
+      .sort(
+        (
+          a,
+          b, // orders by alpha where asc cannot as prisma's asc sees "T" and "t" as different
+        ) =>
+          a.originalFileName.localeCompare(b.originalFileName, undefined, {
+            sensitivity: "base",
+          }),
       );;
    
 

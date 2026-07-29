@@ -10,16 +10,18 @@ const {
   createFile,
 
   getUserProfile,
+  getUserProfileSize,
   getAdminUserProfiles, // admin
   getAdminUserProfile, // admin-edit
   getUserFolder,
+  getUserFolderSize,
   getUserFolders,
   getDescendantFolderIds,
   getFolderSubfoldersCount,
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
-  getFileById, 
+  getFileById,
 
   updateUser,
   updateFolder,
@@ -349,6 +351,9 @@ async function getUserDataPage(req, res, next) {
 
     const userFolders = await getUserFolders(userId);
 
+    const rootFoldersSize = await getUserProfileSize(userId);
+    const formatRootFoldersSize = formatBytes(rootFoldersSize);
+
     // Prevent folders with parentFolderIds from showing up as these should be shown in folder views.
     const rootFolders = userFolders.filter(
       (folder) => folder.parentFolderId === null,
@@ -371,6 +376,7 @@ async function getUserDataPage(req, res, next) {
     res.render("user-data", {
       title: "User Data",
       userFolders: foldersWithEmoji,
+      formatRootFoldersSize,
       errors: [],
       // passwordRules,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
@@ -387,6 +393,8 @@ async function getUserFolderPage(req, res, next) {
     const folderId = req.params.folderId;
 
     const folder = await getFilesByFolder(folderId);
+
+    // const userId = req.user.id;
 
     if (!folder) {
       return res.status(404).render("404");
@@ -412,6 +420,9 @@ async function getUserFolderPage(req, res, next) {
     //   ...folder,
     //   emoji: folderEmojis[folder.folderImage],
     // }));
+
+    const folderSize = await getUserFolderSize(folderId);
+    const formatFolderSize = formatBytes(folderSize);
     
     const filesWithFormattedSize = folder.files
       .map((f) => ({
@@ -442,6 +453,7 @@ async function getUserFolderPage(req, res, next) {
     res.render("user-folder", {
       title: folderWithEmoji.folderName,
       folder: folderWithEmoji,
+      formatFolderSize,
       // childFolders,
       childFolders: foldersWithEmoji,
       // csrfToken: req.csrfToken(),

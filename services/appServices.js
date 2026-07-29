@@ -75,23 +75,37 @@ async function checkIfEmailAlreadyExists(email, targetId) {
 
 // For admin.ejs, many users
 async function getAdminUserProfiles() {
-  return prisma.user.findMany({
-    select: {
-      id: true,
-      role: true,
-      firstName: true,
-      lastName: true,
-      email: true,
-      emailVerified: true,
-      storageUsedBytes: true,
-      createdAt: true,
-      updatedAt: true,
-      lastLoginAt: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  // return prisma.user.findMany({
+   const users = await prisma.user.findMany({
+     select: {
+       id: true,
+       role: true,
+       firstName: true,
+       lastName: true,
+       email: true,
+       emailVerified: true,
+       storageUsedBytes: true,
+       createdAt: true,
+       updatedAt: true,
+       lastLoginAt: true,
+     },
+     orderBy: {
+       createdAt: "desc",
+     },
+   });
+
+    const usersWithStorage = await Promise.all(
+      users.map(async (user) => {
+        const storageUsedBytes = await getUserProfileSize(user.id);
+
+        return {
+          ...user,
+          storageUsedBytes,
+        };
+      }),
+    );
+
+    return usersWithStorage;
 }
 
 // For admin-edit.ejs, single user
@@ -130,6 +144,23 @@ async function getUserProfile(userId) {
   });
 }
 
+async function getUserProfileSize(userId) {
+  const result = await prisma.file.aggregate({
+    where: {
+      userId: userId,
+      deletedAt: null,
+    },
+    _sum: {
+      sizeBytes: true,
+    },
+  });
+  console.log("USER:", userId);
+  console.log("AGG RESULT:", result);
+
+  return result._sum.sizeBytes ?? 0;
+}
+
+// Helper service
 async function createDefaultFolders(tx, userId) {
   return tx.folder.create({
     data: {
@@ -145,6 +176,20 @@ async function getUserFolder(folderId) {
       id: folderId,
     },
   });
+}
+
+async function getUserFolderSize(folderId) {
+  const result = await prisma.file.aggregate({
+    where: {
+      folderId,
+      deletedAt: null,
+    },
+    _sum: {
+      sizeBytes: true,
+    },
+  });
+
+  return result._sum.sizeBytes ?? 0;
 }
 
 async function getUserFolders(userId, excludedIds = []) {
@@ -389,9 +434,11 @@ module.exports = {
   createFile,
 
   getUserProfile,
+  getUserProfileSize,
   getAdminUserProfiles, // admin
   getAdminUserProfile, // admin-edit
   getUserFolder,
+  getUserFolderSize,
   getUserFolders,
   getDescendantFolderIds,
   getFolderSubfoldersCount,

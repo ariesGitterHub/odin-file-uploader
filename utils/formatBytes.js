@@ -12,8 +12,10 @@ function formatBytes(bytes) {
     i++;
   }
 
-  return `${num.toFixed(i === 0 ? 0 : 1)} ${sizes[i]}`;
-}
+  // return `${num.toFixed(i === 0 ? 0 : 1)} ${sizes[i]}`;
+    const decimals = i === 0 || Number.isInteger(num) ? 0 : 1;
 
+    return `${num.toFixed(decimals)} ${sizes[i]}`;
+}
 
 module.exports = { formatBytes };

@@ -19,13 +19,16 @@
           <div class="current-folder-details">
             <div class="details-backdrop">
               <% if (folder.parentFolderId === null) { %> 
-                <strong>Virtual Path:</strong> /<span class="lowercase"><%= folder.folderName %></span>
+                <strong>virtual path</strong> /<span class="lowercase"><%= folder.folderName %></span>
               <% } else { %> 
-                <strong>Virtual Path:</strong> /<span class="lowercase"><%= folder.parentFolder.folderName %>/<%= folder.folderName %></span>
+                <strong>virtual path</strong> /<span class="lowercase"><%= folder.parentFolder.folderName %>/<%= folder.folderName %></span>
               <% } %>
             </div>
+            <div class="details-backdrop">
+              <strong>folder size</strong> <%= formatFolderSize %>
+            </div>
             <div class="details-backdrop <%= folder.folderDescription ? '' : 'hidden' %>">
-              <strong>Description:</strong> <%= folder.folderDescription %>          
+              <strong>description</strong> <%= folder.folderDescription %>          
             </div>
           </div>
         </div>  

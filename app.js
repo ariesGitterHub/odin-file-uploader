@@ -15,6 +15,10 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const path = require("node:path");
 const session = require("express-session");
+
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+const prisma = require("./lib/prisma");
+
 const helmet = require("helmet");
 
 // Middleware / routes
@@ -62,17 +66,41 @@ app.use(
 );
 
 // *** Session middleware (must be BEFORE passport)
+// const sessionConfig = {
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === "production",
+//     sameSite: "lax",
+//     maxAge: 1000 * 60 * 60 * 1, // 1 hour
+//   },
+// };
+
+// Updated with prisma-session-store
+
+const ONE_HOUR = 60 * 60 * 1000;
+
 const sessionConfig = {
-  httpOnly: true,
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+
+  store: new PrismaSessionStore(prisma, {
+    checkPeriod: 2 * 60 * 1000,
+    dbRecordIdIsSessionId: true,
+  }),
+
   cookie: {
+    httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 1000 * 60 * 60 * 1, // 1 hour
+    maxAge: ONE_HOUR,
   },
 };
+
+app.use(session(sessionConfig));
 
 app.use(session(sessionConfig));
 

@@ -59,6 +59,25 @@ enum FolderEmoji {
   WORK        @map("💼")
 }
 
+// model Session {
+//   sid        String   @id
+//   data       String   @db.Text
+//   expiresAt  DateTime
+
+//   @@index([expiresAt]) // makes cleanup of expired sessions efficient.
+// }
+
+
+model Session {
+  id        String   @id
+  sid       String   @unique // the Express session ID stored in the user's cookie.
+  data      String   @db.Text // the serialized session data (Passport user ID, cookie information, CSRF data, etc.).
+  expiresAt DateTime
+
+  @@index([expiresAt]) // makes cleanup of expired sessions efficient.
+} 
+
+
 model User {
   id String @id @default(uuid())
 

@@ -27,6 +27,13 @@
             <div class="details-backdrop">
               <strong>folder size</strong> <%= formatFolderSize %>
             </div>
+            <div class="details-backdrop">
+              <strong>created</strong> <%= formatCreatedAtDate %>
+            </div>
+            <div class="details-backdrop <%= folder.updatedAt.getTime() !== folder.createdAt.getTime() ? '' : 'hidden' %> ">
+              <strong>updated</strong> <%= formatUpdatedAtDate %>
+              <!-- <strong>updated</strong> <%#= folder.updatedAt %> -->
+            </div>
             <div class="details-backdrop <%= folder.folderDescription ? '' : 'hidden' %>">
               <strong>description</strong> <%= folder.folderDescription %>          
             </div>

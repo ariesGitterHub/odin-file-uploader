@@ -4,9 +4,12 @@
     <span class="emoji">🔗</span>
   </button>
   <!-- Download -->
-  <button class="button-default card-button file-border file-color">
-    <span class="emoji">⬇</span>
-  </button>
+   <form action="/app/download/<%= file.id %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+     <button class="button-default card-button file-border file-color" type="submit">
+       <span class="emoji">⬇</span>
+     </button>
+   </form>
   <!-- Open -->
   <!-- <button class="button-default card-button file-border file-color">
     <span class="emoji">📂</span>

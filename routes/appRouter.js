@@ -37,6 +37,8 @@ const {
   postNewFolderPage,
   getNewFilePage,
   postNewFilePage,
+
+  downloadFile,
 } = require("../controllers/appControllers");
 
 const {
@@ -47,7 +49,7 @@ const {
   createUserUpdateValidator,
 } = require("../middleware/validateUpdateUser");
 
-const validateUploadFile = require("../middleware/validateUploadFile")
+const validateUploadFile = require("../middleware/validateUploadFile");
 
 const appRouter = Router();
 
@@ -113,7 +115,11 @@ appRouter.get(
   getUserFolderEditPage,
 );
 
-appRouter.post("/user-folder-edit/:folderId", csrfProtection, postUserFolderEditPage);
+appRouter.post(
+  "/user-folder-edit/:folderId",
+  csrfProtection,
+  postUserFolderEditPage,
+);
 appRouter.post(
   "/delete-your-folder/:folderId",
   csrfProtection,
@@ -168,10 +174,8 @@ appRouter.get(
   getUserFileEditPage,
 );
 
-appRouter.post(
-  "/user-file-edit/:fileId",
-  csrfProtection,
-  postUserFileEditPage,
-);
+appRouter.post("/user-file-edit/:fileId", csrfProtection, postUserFileEditPage);
+
+appRouter.get("/download/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
 
 module.exports = appRouter;

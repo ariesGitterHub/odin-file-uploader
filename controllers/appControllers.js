@@ -34,7 +34,7 @@ const {
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
 
-const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis")
+const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis");
 const { formatBytes } = require("../utils/formatBytes");
 const { formatRelativeDate, formatExactDate } = require("../utils/formatDate");
 
@@ -141,7 +141,6 @@ async function postLogInPage(req, res, next) {
       return next(err);
     }
     // console.log(req.user);
-    
 
     if (!user) {
       return res.status(401).render("log-in", {
@@ -183,12 +182,11 @@ async function postLogOut(req, res, next) {
 }
 
 // CONTROLLERS: ADMIN PAGE (admin.ejs)
-async function getAdminPage(req, res, next) { 
+async function getAdminPage(req, res, next) {
+  if (req.user.role !== "ADMIN") {
+    return res.sendStatus(403);
+  }
 
-    if (req.user.role !== "ADMIN") {
-      return res.sendStatus(403);
-    }
-    
   try {
     const userProfiles = await getAdminUserProfiles();
 
@@ -230,7 +228,7 @@ async function getAdminEditPage(req, res, next) {
   try {
     const userId = req.params.userId;
     // console.log("userID ===", userId);
-    
+
     const userProfile = await getAdminUserProfile(userId);
 
     if (!userProfile) {
@@ -258,7 +256,7 @@ async function getAdminEditPage(req, res, next) {
 async function postAdminEditPage(req, res, next) {
   try {
     const userId = req.params.userId;
-   
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -286,7 +284,6 @@ async function postAdminEditPage(req, res, next) {
 
     const { first_name, last_name, email, email_verified, password } = req.body;
     console.log("req.body ===", req.body);
-    
 
     const updateData = {};
 
@@ -415,7 +412,7 @@ async function getUserFolderPage(req, res, next) {
       ...folder,
       emoji: folderEmojis[folder.folderImage],
     }));
-    
+
     // const foldersWithEmoji = folder.map((folder) => ({
     //   ...folder,
     //   emoji: folderEmojis[folder.folderImage],
@@ -423,7 +420,17 @@ async function getUserFolderPage(req, res, next) {
 
     const folderSize = await getUserFolderSize(folderId);
     const formatFolderSize = formatBytes(folderSize);
-    
+
+    // const foldersWithFormattedSize = folder
+    //   .map((f) => ({
+    //     ...f,
+    //     createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
+    //     updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
+    //   }));
+
+    const formatCreatedAtDate = formatExactDate(folder.createdAt);
+    const formatUpdatedAtDate = formatExactDate(folder.updatedAt);
+
     const filesWithFormattedSize = folder.files
       .map((f) => ({
         ...f,
@@ -440,19 +447,21 @@ async function getUserFolderPage(req, res, next) {
           a.originalFileName.localeCompare(b.originalFileName, undefined, {
             sensitivity: "base",
           }),
-      );;
-   
+      );
 
     // THIS IS INTERESTING (!), adding files to folderWithEmoji
     const folderWithEmoji = {
       ...folder,
       emoji: folderEmojis[folder.folderImage],
+      // foldersWithFormattedSize,
       files: filesWithFormattedSize,
     };
 
     res.render("user-folder", {
       title: folderWithEmoji.folderName,
       folder: folderWithEmoji,
+      formatCreatedAtDate,
+      formatUpdatedAtDate,
       formatFolderSize,
       // childFolders,
       childFolders: foldersWithEmoji,
@@ -479,7 +488,7 @@ async function deleteUserFolderPage(req, res, next) {
 
     await deleteFolder(folderId);
 
-    res.redirect("/app/user-data")
+    res.redirect("/app/user-data");
   } catch (err) {
     next(err);
   }
@@ -507,7 +516,7 @@ async function deleteUserFile(req, res, next) {
     console.log("File record:", file);
     console.log("cloudProvider:", file.cloudProvider);
     console.log("cloudKey:", file.cloudKey);
-    
+
     if (file.cloudProvider === "local" && file.cloudKey) {
       const filePath = path.resolve(file.cloudKey);
 
@@ -516,7 +525,7 @@ async function deleteUserFile(req, res, next) {
       try {
         // await fs.unlink(file.cloudKey);
         // await fs.unlink(path.resolve(file.cloudKey));
-         await fs.unlink(filePath);
+        await fs.unlink(filePath);
         console.log("File deleted successfully");
       } catch (cleanupError) {
         console.error("Failed to delete physical file:", cleanupError);
@@ -540,20 +549,17 @@ async function getUserFolderEditPage(req, res, next) {
     const userId = req.user.id;
 
     const folder = await getUserFolder(folderId);
-   
+
     if (!folder) {
-          return res.status(404).render("404");
-        }
+      return res.status(404).render("404");
+    }
 
     if (folder.userId !== userId) {
       return res.status(403).render("forbidden");
     }
 
-    const excludedIds = [
-       folderId,
-       ...(await getDescendantFolderIds(folderId)),
-     ];
-     
+    const excludedIds = [folderId, ...(await getDescendantFolderIds(folderId))];
+
     const userFolders = await getUserFolders(userId, excludedIds);
 
     res.render("user-folder-edit", {
@@ -562,10 +568,9 @@ async function getUserFolderEditPage(req, res, next) {
       folder,
       userFolders,
       folderEmojisDropdown,
-      formData: folder, 
+      formData: folder,
       // csrfToken: req.csrfToken(),
     });
-
   } catch (err) {
     next(err);
   }
@@ -628,9 +633,9 @@ async function postUserFolderEditPage(req, res, next) {
     if (folder_name.trim()) {
       updateData.folderName = folder_name.trim();
     }
-  
+
     updateData.folderImage = folder_image;
-  
+
     // Allows selecting "None"
     updateData.parentFolderId = parent_folder_id || null;
 
@@ -639,7 +644,6 @@ async function postUserFolderEditPage(req, res, next) {
     await updateFolder(folderId, updateData);
 
     return res.redirect(`/app/user-folder/${folderId}`);
-    
   } catch (err) {
     console.error("Error during user folder update:", err);
     next(err);
@@ -654,7 +658,7 @@ async function getUserProfilePage(req, res, next) {
     const userProfile = await getUserProfile(userId);
 
     if (!req.user) {
-      return res.redirect("/app/log-in")
+      return res.redirect("/app/log-in");
     }
 
     res.render("user-profile", {
@@ -731,8 +735,9 @@ async function postUserProfilePage(req, res, next) {
   }
 }
 
-async function deleteUserProfileByUser(req, res, next) { // This cascades to all user data
-    if (!req.user) {
+async function deleteUserProfileByUser(req, res, next) {
+  // This cascades to all user data
+  if (!req.user) {
     return res.redirect("/app/log-in");
   }
 
@@ -740,7 +745,7 @@ async function deleteUserProfileByUser(req, res, next) { // This cascades to all
     // Block admins from deleting their own accounts
     if (req.user.role === "ADMIN") {
       console.log("role is", req.user.role);
-      
+
       const err = new Error("Admins cannot delete their own accounts.");
       err.status = 403;
       err.code = "ADMIN_SELF_DELETE_BLOCKED"; // FIX: structured error
@@ -886,8 +891,8 @@ async function postNewFilePage(req, res, next) {
     // NOTE - Below cleans up the uploaded file if Prisma fails, as multer saves the file before my database record is created, so without this deletion I would leave orphaned files in uploads/ that are taking up storage but are not tracked in my database.
     if (req.file?.path) {
       try {
-      // NOTE - reminder, this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
-      await fs.unlink(req.file.path);        
+        // NOTE - reminder, this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
+        await fs.unlink(req.file.path);
       } catch (cleanupError) {
         console.error("Failed to remove orphaned upload:", cleanupError);
       }
@@ -897,42 +902,41 @@ async function postNewFilePage(req, res, next) {
   }
 }
 
-async function getUserFileEditPage(req,res, next) {
-try {
-  const fileId = req.params.fileId;
-  const userId = req.user.id;
+async function getUserFileEditPage(req, res, next) {
+  try {
+    const fileId = req.params.fileId;
+    const userId = req.user.id;
 
-  const file = await getFileById(fileId);
+    const file = await getFileById(fileId);
 
-  if (!file) {
-    return res.status(404).render("404");
+    if (!file) {
+      return res.status(404).render("404");
+    }
+
+    if (file.userId !== userId) {
+      return res.status(403).render("forbidden");
+    }
+
+    const userFolders = await getUserFolders(userId);
+
+    const extension = path.extname(file.originalFileName);
+    const baseName = path.basename(file.originalFileName, extension);
+
+    res.render("user-file-edit", {
+      title: "Edit File",
+      errors: [],
+      file,
+      userFolders,
+      formData: {
+        ...file,
+        originalFileName: baseName,
+      },
+      extension,
+      // csrfToken: req.csrfToken(),
+    });
+  } catch (err) {
+    next(err);
   }
-
-  if (file.userId !== userId) {
-    return res.status(403).render("forbidden");
-  }
-
-  const userFolders = await getUserFolders(userId);
-
-  const extension = path.extname(file.originalFileName);
-  const baseName = path.basename(file.originalFileName, extension);
-
-  res.render("user-file-edit", {
-    title: "Edit File",
-    errors: [],
-    file,
-    userFolders,
-    formData: {
-      ...file,
-      originalFileName: baseName,
-    },
-    extension,
-    // csrfToken: req.csrfToken(),
-  });
-
-} catch (err) {
-  next(err);
-}
 }
 
 // async function postUserFileEditPage(req, res, next) {
@@ -995,14 +999,14 @@ try {
 
 //     if (original_file_name) {
 //       updateData.updatedFileName = original_file_name;
-//     }  
+//     }
 //     // Allows selecting "None"
 //     updateData.folderId = folder_id;
 
 //     await updateFile(fileId, updateData);
 
 //     return res.redirect(`/app/user-folder/${folderId}`);
-    
+
 //   } catch (err) {
 //     console.error("Error during user folder update:", err);
 //     next(err);
@@ -1086,6 +1090,58 @@ async function postUserFileEditPage(req, res, next) {
   }
 }
 
+//  Possible TODO - Download count (future feature)
+// Many file storage applications track how many times a file has been downloaded. If you ever add a downloadCount field to your Prisma model, this controller is the natural place to increment it after a successful download.
+
+async function downloadFile(req, res, next) {
+  try {
+    const fileId = req.params.fileId;
+    const userId = req.user.id;
+
+    const file = await getFileById(fileId);
+
+    // File doesn't exist
+    if (!file) {
+      return res.status(404).render("404");
+    }
+
+    // User doesn't own this file
+    if (file.userId !== userId) {
+      return res.status(403).render("forbidden");
+    }
+
+    // Resolve the stored path (e.g. "uploads/1785174742641-TEST.docx")
+    const filePath = path.resolve(file.cloudKey);
+
+    // Ensure the file still exists on disk
+    try {
+      await fs.access(filePath);
+    } catch {
+      return res.status(404).render("404");
+    }
+
+    // Download using the original filename stored in the database
+    res.download(filePath, file.originalFileName, (err) => {
+      if (err) {
+        console.error("Download error:", err);
+
+        // If Express hasn't already started sending the response,
+        // let your error middleware handle it.
+        if (!res.headersSent) {
+          return next(err);
+        }
+      } else {
+        console.log(`Downloaded: ${file.originalFileName}`);
+      }
+    });
+  } catch (err) {
+    console.error("Error during file download:", err);
+    next(err);
+  }
+}
+
+// Define route
+// router.get('/files/:name', downloadFile);
 
 module.exports = {
   getHomePage,
@@ -1099,10 +1155,10 @@ module.exports = {
   getAdminEditPage,
   postAdminEditPage,
   deleteUserProfileByAdmin,
-  
+
   getUserDataPage,
   getUserFolderPage,
- 
+
   getUserFolderEditPage,
   postUserFolderEditPage,
   deleteUserFolderPage,
@@ -1119,4 +1175,6 @@ module.exports = {
   postNewFolderPage,
   getNewFilePage,
   postNewFilePage,
+
+  downloadFile,
 };

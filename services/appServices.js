@@ -76,36 +76,36 @@ async function checkIfEmailAlreadyExists(email, targetId) {
 // For admin.ejs, many users
 async function getAdminUserProfiles() {
   // return prisma.user.findMany({
-   const users = await prisma.user.findMany({
-     select: {
-       id: true,
-       role: true,
-       firstName: true,
-       lastName: true,
-       email: true,
-       emailVerified: true,
-       storageUsedBytes: true,
-       createdAt: true,
-       updatedAt: true,
-       lastLoginAt: true,
-     },
-     orderBy: {
-       createdAt: "desc",
-     },
-   });
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      role: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      emailVerified: true,
+      storageUsedBytes: true,
+      createdAt: true,
+      updatedAt: true,
+      lastLoginAt: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-    const usersWithStorage = await Promise.all(
-      users.map(async (user) => {
-        const storageUsedBytes = await getUserProfileSize(user.id);
+  const usersWithStorage = await Promise.all(
+    users.map(async (user) => {
+      const storageUsedBytes = await getUserProfileSize(user.id);
 
-        return {
-          ...user,
-          storageUsedBytes,
-        };
-      }),
-    );
+      return {
+        ...user,
+        storageUsedBytes,
+      };
+    }),
+  );
 
-    return usersWithStorage;
+  return usersWithStorage;
 }
 
 // For admin-edit.ejs, single user
@@ -321,7 +321,7 @@ async function getFileById(fileId) {
       id: fileId,
     },
     select: {
-      id: true, 
+      id: true,
       folderId: true,
       userId: true,
       originalFileName: true,
@@ -329,6 +329,60 @@ async function getFileById(fileId) {
       cloudKey: true,
     },
   });
+}
+
+async function getFilesByFolderIdForArchive(folderId) {
+  return prisma.file.findMany({
+    where: {
+      folderId,
+    },
+    select: {
+      id: true,
+      originalFileName: true,
+      cloudKey: true,
+    },
+    orderBy: {
+      originalFileName: "asc",
+    },
+  });
+}
+
+async function getFolderTreeForArchive(folderId, rootFolderName) {
+  const queue = [
+    {
+      id: folderId,
+      zipPath: rootFolderName,
+    },
+  ];
+
+  const results = [];
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+
+    // Get all files in the current folder
+    const files = await getFilesByFolderIdForArchive(current.id);
+
+    // Save what we discovered
+    results.push({
+      folderId: current.id,
+      zipPath: current.zipPath,
+      files,
+    });
+
+    // Find immediate child folders
+    const childFolders = await getChildFoldersById(current.id);
+
+    // Visit those folders later
+    for (const child of childFolders) {
+      queue.push({
+        id: child.id,
+        zipPath: `${current.zipPath}/${child.folderName}`, 
+      });
+    }
+  }
+
+  return results;
 }
 
 // Not used anymore, but KEEP for future reference. NOTE too that using below also changes the API and now file.originalFilename becomes file.original_file_name
@@ -448,6 +502,8 @@ module.exports = {
   getFilesByFolder,
   getChildFoldersById,
   getFileById,
+  getFilesByFolderIdForArchive,
+  getFolderTreeForArchive,
 
   updateUser,
   updateFolder,

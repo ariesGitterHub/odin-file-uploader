@@ -1,5 +1,8 @@
 const bcrypt = require("bcryptjs");
 const fs = require("node:fs/promises");
+// const archiver = require("archiver"); // commented out as the package is a newer archiver package export style than the CommonJS I expected. 
+// console.log(archiver); // Shows  ZipArchive: class ZipArchive, use below...as this version of archiver exposes classes directly
+const { ZipArchive } = require("archiver");
 const path = require("node:path");
 const passport = require("passport");
 const { validationResult } = require("express-validator");
@@ -22,6 +25,7 @@ const {
   getFilesByFolder,
   getChildFoldersById,
   getFileById,
+  getFolderTreeForArchive,
 
   updateUser,
   updateFolder,
@@ -497,9 +501,6 @@ async function deleteUserFolderPage(req, res, next) {
 async function deleteUserFile(req, res, next) {
   try {
     const { folderId, fileId } = req.params;
-    // const folderId = req.params.folderId;
-
-    // const folder = await getFilesByFolder(folderId); // not needed here
 
     const file = await getFileById(fileId);
 
@@ -1140,8 +1141,62 @@ async function downloadFile(req, res, next) {
   }
 }
 
-// Define route
-// router.get('/files/:name', downloadFile);
+async function downloadFolder(req, res, next) {
+  try {
+    const folderId = req.params.folderId;
+    const userId = req.user.id;
+
+    const folder = await getUserFolder(folderId);
+
+    // Folder doesn't exist
+    if (!folder) {
+      return res.status(404).render("404");
+    }
+
+    // User doesn't own this folder
+    if (folder.userId !== userId) {
+      return res.status(403).render("forbidden");
+    }
+
+    const folderTree = await getFolderTreeForArchive(
+      folderId,
+      folder.folderName,
+    );
+
+    // const archive = archiver("zip", {
+    //   zlib: { level: 9 },
+    // });
+
+    const archive = new ZipArchive({
+      zlib: { level: 9 },
+    });
+
+    archive.on("error", (err) => {
+      next(err);
+    });
+
+    // res.attachment(`${folder.name}.zip`);
+    res.attachment(`${folder.folderName}.zip`);
+
+    archive.pipe(res);    
+
+    for (const folder of folderTree) {
+      for (const file of folder.files) {
+        archive.file(path.resolve(file.cloudKey), {
+          name: `${folder.zipPath}/${file.originalFileName}`,
+        });
+      }
+    }
+
+    console.log(JSON.stringify(folderTree, null, 2));
+
+    await archive.finalize();
+
+  } catch (err) {
+      console.error("Error during folder download:", err);
+      next(err);
+  }
+}
 
 module.exports = {
   getHomePage,
@@ -1177,4 +1232,5 @@ module.exports = {
   postNewFilePage,
 
   downloadFile,
+  downloadFolder,
 };

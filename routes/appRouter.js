@@ -39,6 +39,7 @@ const {
   postNewFilePage,
 
   downloadFile,
+  downloadFolder,
 } = require("../controllers/appControllers");
 
 const {
@@ -176,6 +177,7 @@ appRouter.get(
 
 appRouter.post("/user-file-edit/:fileId", csrfProtection, postUserFileEditPage);
 
-appRouter.get("/download/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
+appRouter.get("/download-file/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
+appRouter.get("/download-folder/:folderId", csrfProtection, csrfTokenMiddleware, downloadFolder);
 
 module.exports = appRouter;

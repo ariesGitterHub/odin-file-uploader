@@ -199,10 +199,10 @@ nav {
   justify-content: start;
   gap: 0.5rem;
   background-color: var(--black);
-
   border-top-right-radius: var(--spacer-biggest);
   border-bottom-right-radius: var(--spacer-biggest);
   border-bottom-left-radius: var(--spacer-biggest);
+  /* box-shadow: var(--box-shadow-black); */
   margin-top: -0.25rem;
   padding: var(--spacer-big);
 }

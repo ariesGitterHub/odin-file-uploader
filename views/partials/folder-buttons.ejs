@@ -6,8 +6,9 @@
     </button>    
   </form>
   <!-- Download -->
-  <form action="" method="">
-    <button class="button-default folder-button">
+    <form action="/app/download-folder/<%= folder.id %>" method="GET">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="button-default folder-button" type="submit">
       <span class="emoji">⬇</span>
     </button>    
   </form>

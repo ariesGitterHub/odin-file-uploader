@@ -58,8 +58,12 @@
   --font-title: "Audiowide", sans-serif;
   --font-text: "Roboto", sans-serif;
   --font-emoji: "Noto Emoji", sans-serif;
+  --font-error: monospace;
   --font-size-small: 0.75rem;
   --font-size-default: 1rem;
   --font-size-large: 1.5rem;
   --font-size-title: 2.5rem;
+  --font-weight-light: 200;
+  --font-weight-medium: 400;
+  --font-weight-heavy: 600;
 }

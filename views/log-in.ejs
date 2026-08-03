@@ -13,8 +13,8 @@
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="element-container-row-start-center">
           <label for="email-log-in">email</label>
-          <% if (errors && errors.some(e => e.field === 'email')) { %>
-            <% errors.filter(e => e.field === 'email').forEach(e => { %>
+          <% if (errors && errors.some(e => e.field === 'auth')) { %>
+            <% errors.filter(e => e.field === 'auth').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
             <% }) %>
           <% } %>
@@ -29,8 +29,8 @@
         />
         <div class="element-container-row-start-center">
           <label for="password-log-in">password</label>
-          <% if (errors && errors.some(e => e.field === 'password')) { %>
-            <% errors.filter(e => e.field === 'password').forEach(e => { %>
+          <% if (errors && errors.some(e => e.field === 'auth')) { %>
+            <% errors.filter(e => e.field === 'auth').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
             <% }) %>
           <% } %>

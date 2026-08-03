@@ -4,3 +4,5 @@ npx prisma migrate dev --name init: This is the command you use whenever you fir
 npx prisma migrate reset: The command is specifically designed to reset your database and reapply all migrations (and seed.js). This process will result in the complete loss of all existing data in the database. It is crucial to note that this command is intended for use in development environments only.
 
 node script.js: use this for when I am adding/re-adding data to the db.
+
+When downloading a folder, any subfolder that does NOT have files will NOT have that empty subfolder downloaded via archiver/zip. The exception to this is if the subfolder that lacks files itself has a subfolder that has files. I'm okay with how this works. It cuts out anything that is empty and unneeded.

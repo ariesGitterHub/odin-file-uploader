@@ -63,6 +63,16 @@
   font-size: small;
 }
 
+.error-message {
+  color: var(--yellow-bold);
+  font-family: var(--font-error);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-heavy);
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+}
+
 .file-extension {
   font-size: var(--font-size-default);
 }

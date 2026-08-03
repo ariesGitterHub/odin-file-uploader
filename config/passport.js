@@ -77,7 +77,7 @@ module.exports = (passport) => {
           role: true,
         },
       });
-      // console.log("Passport.js says user is:", user);
+      console.log("Passport.js says user is:", user);
 
       done(null, user);
     } catch (error) {

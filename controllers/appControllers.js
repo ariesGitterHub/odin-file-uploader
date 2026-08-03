@@ -98,7 +98,7 @@ async function postSignUpPage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        // csrfToken: req.csrfToken(),
+        csrfToken: req.csrfToken(),
       });
     }
 
@@ -147,15 +147,18 @@ async function postLogInPage(req, res, next) {
     // console.log(req.user);
 
     if (!user) {
-      return res.status(401).render("log-in", {
+      // return res.status(401).render("log-in", {
+      return res.render("log-in", {
         title: "Log In",
         errors: [
           {
             field: "auth",
-            message: info?.message || "Invalid email or password",
+            // message: info?.message || "Invalid email or password",
+            message: "Invalid email or password",
           },
         ],
         formData: req.body,
+        csrfToken: req.csrfToken(), // Even though this is global for GET, putting this here explicitly to handle errors when validationCreateUser or validationEditUser catches an incorrect email, password, or confirm_password is used; without this here a 500 error pops off!
       });
     }
 

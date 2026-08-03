@@ -2,12 +2,14 @@
   <%- include('./title.ejs') %>
   <nav class="element-container-row-default flex-gap" aria-label="user menu">
     <!-- TODO - this home link is temporary -->
-    <a class="button-default nav-button" href="/app">
+    <!-- <a class="button-default nav-button" href="/app">
       <span class="emoji" role="img" aria-label="TEMP!!!! home link"> 🏠 </span>
-    </a>
-    <a class="button-default nav-button" href="/app/admin">
-      <span class="emoji" role="img" aria-label="TODO - wire up link"> ⚙ </span>
-    </a>
+    </a> -->
+    <% if (user && user.role === "ADMIN") { %>
+      <a class="button-default nav-button" href="/app/admin">
+        <span class="emoji" role="img" aria-label="TODO - wire up link"> ⚙ </span>
+      </a>    
+    <% } %>
     <a class="button-default nav-button" href="/app/user-data">
       <span class="emoji" role="img" aria-label="User folders link"> 🗄 </span>
     </a>

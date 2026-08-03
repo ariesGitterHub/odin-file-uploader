@@ -75,6 +75,7 @@ model Session {
   expiresAt DateTime
 
   @@index([expiresAt]) // makes cleanup of expired sessions efficient.
+  @@map("sessions")
 } 
 
 

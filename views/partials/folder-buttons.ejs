@@ -1,4 +1,8 @@
 <div class="button-container-row-space-evenly">
+  <!-- Back -->
+  <a class="button-default folder-button" href="<%= folder.parentFolderId  ? `/app/user-folder/${folder.parentFolderId}` : '/app/user-data/' %>">
+    <span class="emoji">👈</span>
+  </a>
   <!-- Share -->
   <form action="" method="">        
     <button class="button-default folder-button">
@@ -6,7 +10,7 @@
     </button>    
   </form>
   <!-- Download -->
-    <form action="/app/download-folder/<%= folder.id %>" method="GET">
+    <form action="/app/download-folder/<%= folder.id %>">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <button class="button-default folder-button" type="submit">
       <span class="emoji">⬇</span>

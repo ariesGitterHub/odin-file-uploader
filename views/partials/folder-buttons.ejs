@@ -21,11 +21,15 @@
       <span class="emoji">✏</span>
     </a>    
   <!-- Delete -->
-  <form action="/app/delete-your-folder/<%= folder.id %>" method="POST">
+  <!-- <form action="/app/delete-your-folder/<%#= folder.id %>" method="POST"> -->
     <%# CSRF Token - hidden input for forms %>
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <button class="button-default folder-button" type="submit">
+    <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
+    <button 
+      class="button-default folder-button deletion-form-button"
+      data-action="/app/delete-your-folder/<%= folder.id %>"
+      data-message="Do you wish to delete the folder: <%= folder.folderName %>? Reminder: this action cannot be undone." 
+      type="button">
       <span class="emoji">❌</span>
     </button>
-  </form>
+  <!-- </form> -->
 </div>

@@ -19,14 +19,19 @@
       <span class="emoji">✏</span>
     </a>   
   <!-- Delete -->
-  <form action="/app/user-folder/<%= folder.id %>/delete-your-file/<%= file.id %>" method="POST">
+  <!-- <form action="/app/user-folder/<%#= folder.id %>/delete-your-file/<%#= file.id %>" method="POST"> -->
     <%# CSRF Token - hidden input for forms %>
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <button class="button-default card-button file-border file-color" type="submit">
+    <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
+    <button 
+      class="button-default card-button file-border file-color deletion-form-button"
+      data-action="/app/user-folder/<%= folder.id %>/delete-your-file/<%= file.id %>"
+      data-message="Do you wish to delete the file: <%= file.originalFileName %>? Reminder: this action cannot be undone." 
+      type="button"
+      >
       <span class="emoji">❌</span>
     </button>
     <!-- TODO - delete p els below -->
     <!-- <p><%#= file.id %></p> -->
     <!-- <p><%#= folder.id %></p> -->
-  </form>
+  <!-- </form> -->
 </div>

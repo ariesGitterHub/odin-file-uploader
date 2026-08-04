@@ -5,8 +5,6 @@
 
 @import "./containers.css";
 
-
-
 /* @import "./folders.css"; */
 
 /* @import "./files.css"; */
@@ -14,6 +12,8 @@
 @import "./forms.css";
 
 @import "./layout.css";
+
+@import "./modal.css";
 
 @import "./components.css";
 

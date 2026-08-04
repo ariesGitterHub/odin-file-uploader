@@ -23,6 +23,10 @@
   font-family: var(--font-text);
 }
 
+.delete-color {
+  color: var(--red-bold);
+}
+
 .folder-color {
   color: var(--gray); 
 }

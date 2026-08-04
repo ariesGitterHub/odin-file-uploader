@@ -98,7 +98,7 @@ async function postSignUpPage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(),
       });
     }
 
@@ -158,7 +158,7 @@ async function postLogInPage(req, res, next) {
           },
         ],
         formData: req.body,
-        csrfToken: req.csrfToken(), // Even though this is global for GET, putting this here explicitly to handle errors when validationCreateUser or validationEditUser catches an incorrect email, password, or confirm_password is used; without this here a 500 error pops off!
+        // csrfToken: req.csrfToken(), // Even though this is global for GET, putting this here explicitly to handle errors when validationCreateUser or validationEditUser catches an incorrect email, password, or confirm_password is used; without this here a 500 error pops off!
       });
     }
 
@@ -330,7 +330,8 @@ async function deleteUserProfileByAdmin(req, res, next) {
   }
 
   try {
-    const { userId } = req.body;
+    // const { userId } = req.body;
+    const userId = req.params.userId
 
     // Block admins from deleting their own accounts
     if (req.user.id === userId) {

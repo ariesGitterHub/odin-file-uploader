@@ -65,6 +65,7 @@ appRouter.post(
 );
 
 appRouter.get("/log-in", csrfProtection, csrfTokenMiddleware, getLogInPage);
+
 appRouter.post("/log-in", csrfProtection, postLogInPage);
 
 appRouter.post(
@@ -76,18 +77,15 @@ appRouter.post(
   postLogOut,
 );
 
-appRouter.get(
-  "/admin",
-  // csrfProtection,
-  // createUserValidatorSignUp,
-  getAdminPage,
-);
+appRouter.get("/admin", csrfProtection, csrfTokenMiddleware, getAdminPage);
+
 appRouter.get(
   "/admin-edit/:userId",
   csrfProtection,
   csrfTokenMiddleware,
   getAdminEditPage,
 );
+
 appRouter.post("/admin-edit/:userId", csrfProtection, postAdminEditPage);
 appRouter.post(
   "/admin/delete-user/:userId",
@@ -143,7 +141,6 @@ appRouter.get(
 appRouter.post(
   "/delete-your-account",
   csrfProtection,
-  createUserUpdateValidator,
   deleteUserProfileByUser,
 );
 

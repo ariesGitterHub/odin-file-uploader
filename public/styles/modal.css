@@ -1,0 +1,29 @@
+/* Full-screen backdrop */
+#deletion-modal {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: var(--black-transparent);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+}
+
+/* Hidden state */
+#deletion-modal[hidden] {
+    display: none;
+}
+
+/* Modal */
+#deletion-modal .modal-content {
+    width: min(90vw, 420px);
+    background: var(--black);
+    border: var(--border-solid-default);
+    border-color: var(--gold);
+    border-radius: var(--border-radius-small); 
+    /* box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);        */
+    /* box-shadow: var(--box-shadow-black);        */
+    color: var(--gold);
+    padding: 1.5rem;
+    text-align: left;
+}

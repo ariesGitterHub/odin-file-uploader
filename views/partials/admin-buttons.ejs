@@ -1,21 +1,32 @@
 <div class="button-container-row-space-evenly">
   <!-- Edit -->
   <!-- <input type="hidden" name="userId" value="<%#= userProfile.id %>"> -->
-  <a class="button-default card-button admin-border admin-color" href="/app/admin-edit/<%= userProfile.id %>">
+  <a
+    class="button-default card-button admin-border admin-color"
+    href="/app/admin-edit/<%= userProfile.id %>"
+  >
     <span class="emoji">✏</span>
   </a>
   <!-- <p><%#= userProfile.id %></p> -->
   <!-- Delete -->
-  <form action="/app/admin/delete-user/<%= userProfile.id %>" method="POST">
+  <!-- <form action="/app/admin/delete-user/<%#= userProfile.id %>" method="POST"> -->
   <%# CSRF Token - hidden input for forms %>
   <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
   <!-- TODO - Double check that below is needed, should userProfile.id just get grabbed from the the forEach loop in admin.ejs? -->
 
-  <input type="hidden" name="userId" value="<%= userProfile.id %>">
+  <!-- <input type="hidden" name="userId" value="<%#= userProfile.id %>"> -->
   <!-- <p><%#= userProfile.id %></p> -->
-  <button class="button-default card-button admin-border admin-color" type="submit">
+  <!-- <button class="button-default card-button admin-border admin-color" type="submit">
     <span class="emoji">❌</span>
-  </button> 
+  </button>  -->
   <!-- <p><%#= userProfile.id %></p>  -->
-  </form>
+  <!-- </form> -->
+  <button
+    class="button-default card-button admin-border admin-color deletion-form-button"
+    data-action="/app/admin/delete-user/<%= userProfile.id %>"
+    data-message="Do you wish to delete the account of <%= userProfile.firstName %> <%= userProfile.lastName %> (email: <%= userProfile.email %>)? Reminder: this action cannot be undone."
+    type="button"
+  >
+    <span class="emoji">❌</span>
+  </button>
 </div>

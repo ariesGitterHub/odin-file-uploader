@@ -23,6 +23,13 @@
   font-family: var(--font-text);
 }
 
+.correct-color {
+  background-color: var(--blue-bold);
+}
+.incorrect-color {
+  background-color: var(--red-bold);
+}
+
 .delete-color {
   color: var(--red-bold);
 }

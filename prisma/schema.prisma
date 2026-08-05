@@ -67,7 +67,6 @@ enum FolderEmoji {
 //   @@index([expiresAt]) // makes cleanup of expired sessions efficient.
 // }
 
-
 model Session {
   id        String   @id
   sid       String   @unique // the Express session ID stored in the user's cookie.
@@ -76,8 +75,7 @@ model Session {
 
   @@index([expiresAt]) // makes cleanup of expired sessions efficient.
   @@map("sessions")
-} 
-
+}
 
 model User {
   id String @id @default(uuid())
@@ -221,10 +219,12 @@ model ShareLink {
   passwordHash String? @map("password_hash") // TODO - is this needed? Wouldn't the link just be shared?
 
   maxDownloads Int? @map("max_downloads")
+  downloadCount Int @default(0) // NEW 8/4/2026
 
   isActive Boolean @default(true) @map("is_active")
 
   expiresAt DateTime? @map("expires_at") // NOTE - use of Nullable ?, as links might never expire!
+  lastAccessedAt DateTime? // NEW 8/4/2026
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
 

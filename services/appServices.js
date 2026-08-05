@@ -327,6 +327,7 @@ async function getFileById(fileId) {
       originalFileName: true,
       cloudProvider: true,
       cloudKey: true,
+      mimeType: true,
     },
   });
 }

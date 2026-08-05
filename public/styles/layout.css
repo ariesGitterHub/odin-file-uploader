@@ -100,16 +100,19 @@ nav {
 
 .folder-card {
   height: fit-content;
+  min-height: 120px;
   min-width: var(--folder-card-width);
   max-width: 15rem;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+  /* justify-content: center; */
   justify-content: center;
   border-radius: var(--border-radius-default);
   font-weight: 800;
   padding: var(--spacer-default);
+  text-align: center;
   text-transform: none;
   text-wrap: wrap;
 }
@@ -119,7 +122,7 @@ nav {
 }
 
 .folder-emoji {
-  font-size: 4rem; /* adjust as needed */
+  font-size: 5rem; /* adjust as needed */
   margin: 0.125rem;
 }
 

@@ -42,7 +42,7 @@ const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis");
 const { formatBytes } = require("../utils/formatBytes");
 const { formatRelativeDate, formatExactDate } = require("../utils/formatDate");
 
-const { formatMimeType } = require("../utils/mimeUtils");
+const { formatMimeType, isPreviewableMimeType } = require("../utils/mimeUtils");
 
 async function getHomePage(req, res, next) {
   try {
@@ -446,6 +446,7 @@ async function getUserFolderPage(req, res, next) {
         mimeLabel: formatMimeType(f.mimeType),
         createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
         updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
+        canPreview: isPreviewableMimeType(f.mimeType),
       }))
       .sort(
         (
@@ -477,6 +478,49 @@ async function getUserFolderPage(req, res, next) {
     });
   } catch (err) {
     next(err);
+  }
+}
+
+async function getUserFilePreview(req, res, next) {
+  try {
+    const fileId = req.params.fileId;
+    const userId = req.user.id;
+
+    const file = await getFileById(fileId);
+    console.log(file.mimeType);
+    console.log(isPreviewableMimeType(file.mimeType));
+
+    // File doesn't exist
+    if (!file) {
+      console.log("File not found:", fileId);
+      return res.status(404).render("404");
+    }
+
+    // User doesn't own this file
+    if (file.userId !== userId) {
+        console.log("Unauthorized user");
+      return res.status(403).render("forbidden");
+    }    
+    
+    // Is MIME type on the viewable list?
+    if (!isPreviewableMimeType(file.mimeType)) {
+        console.log("Not previewable:", file.mimeType);
+      return res.status(404).render("404");
+    }
+
+    res.type(file.mimeType);
+    // res.sendFile(path.resolve(file.cloudKey));
+
+    const filePath = path.resolve(file.cloudKey);
+
+    console.log("cloudKey:", file.cloudKey);
+    console.log("cwd:", process.cwd());
+    console.log("resolved path:", filePath);
+
+    res.sendFile(filePath);
+
+  } catch (err) {
+    next(err)
   }
 }
 
@@ -1217,6 +1261,7 @@ module.exports = {
 
   getUserDataPage,
   getUserFolderPage,
+  getUserFilePreview,
 
   getUserFolderEditPage,
   postUserFolderEditPage,

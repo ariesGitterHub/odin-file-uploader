@@ -66,6 +66,39 @@ const mimeLabels = {
 
 const allowedMimeTypes = new Set(Object.keys(mimeLabels));
 
+const previewableMimeTypes = new Set([
+  // Documents
+  "application/pdf",
+
+  // Images
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "image/webp",
+  "image/bmp",
+  "image/tiff",
+  "image/x-icon",
+
+  // Text
+  "text/plain",
+  "text/csv",
+  "application/json",
+  "application/xml",
+
+  // Audio
+  "audio/mpeg",
+  "audio/wav",
+  "audio/ogg",
+  "audio/flac",
+  "audio/aac",
+  "audio/mp4",
+  "audio/x-m4a",
+
+  // Video
+  "video/mp4",
+  "video/webm",
+]);
+
 function formatMimeType(mimeType) {
   return mimeLabels[mimeType] ?? mimeType;
 }
@@ -74,8 +107,14 @@ function isAllowedMimeType(mimeType) {
   return allowedMimeTypes.has(mimeType);
 }
 
+function isPreviewableMimeType(mimeType) {
+  return previewableMimeTypes.has(mimeType);
+}
+
 module.exports = {
   formatMimeType,
   isAllowedMimeType,
   allowedMimeTypes,
+  isPreviewableMimeType,
+  previewableMimeTypes,
 };

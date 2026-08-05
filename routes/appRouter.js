@@ -20,6 +20,7 @@ const {
 
   getUserDataPage,
   getUserFolderPage,
+  getUserFilePreview,
 
   getUserFolderEditPage,
   postUserFolderEditPage,
@@ -87,6 +88,7 @@ appRouter.get(
 );
 
 appRouter.post("/admin-edit/:userId", csrfProtection, postAdminEditPage);
+
 appRouter.post(
   "/admin/delete-user/:userId",
   csrfProtection,
@@ -105,6 +107,13 @@ appRouter.get(
   csrfProtection,
   csrfTokenMiddleware,
   getUserFolderPage,
+);
+
+appRouter.get(
+  "/view-file/:fileId",
+  // csrfProtection,
+  // csrfTokenMiddleware,
+  getUserFilePreview,
 );
 
 appRouter.get(
@@ -174,7 +183,9 @@ appRouter.get(
 
 appRouter.post("/user-file-edit/:fileId", csrfProtection, postUserFileEditPage);
 
-appRouter.get("/download-file/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
-appRouter.get("/download-folder/:folderId", csrfProtection, csrfTokenMiddleware, downloadFolder);
+// appRouter.get("/download-file/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
+appRouter.get("/download-file/:fileId", downloadFile);
+// appRouter.get("/download-folder/:folderId", csrfProtection, csrfTokenMiddleware, downloadFolder);
+appRouter.get("/download-folder/:folderId", downloadFolder);
 
 module.exports = appRouter;

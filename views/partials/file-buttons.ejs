@@ -5,15 +5,24 @@
   </button>
   <!-- Download -->
    <form action="/app/download-file/<%= file.id %>">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
      <button class="button-default card-button file-border file-color" type="submit">
        <span class="emoji">⬇</span>
      </button>
    </form>
-  <!-- Open -->
-  <!-- <button class="button-default card-button file-border file-color">
-    <span class="emoji">📂</span>
-  </button> -->
+  <!-- View -->
+  <% if (file.canPreview) { %>
+    <!-- <form action="/app/view-file/<%#= file.id %>"> -->
+      <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>">
+      <button class="button-default card-button file-border file-color">
+        <span class="emoji">👁</span>
+      </button>   -->
+    <a class="button-default card-button file-border file-color"
+      href="/app/view-file/<%= file.id %>">
+      <span class="emoji">👁</span>
+    </a>
+    <!-- </form> -->
+  <% } %>
   <!-- Edit -->
     <a class="button-default card-button file-border file-color" href="/app/user-file-edit/<%= file.id %>">
       <span class="emoji">✏</span>

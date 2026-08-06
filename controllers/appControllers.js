@@ -13,6 +13,9 @@ const {
   createFile,
 
   getUserProfile,
+  getFolderById,
+  getFileById,
+
   getUserProfileSize,
   getAdminUserProfiles, // admin
   getAdminUserProfile, // admin-edit
@@ -24,7 +27,6 @@ const {
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
-  getFileById,
   getFolderTreeForArchive,
 
   updateUser,
@@ -523,6 +525,65 @@ async function getUserFilePreview(req, res, next) {
     next(err)
   }
 }
+
+  async function getUserShareLinkFolderPage(req, res, next) {
+  try {
+    const folderId = req.params.folderId;
+    const userId = req.user.id;
+
+    const folder = await getFolderById(folderId);
+
+    if (!folder) {
+      return res.status(404).render("404");
+    }
+
+    if (folder.userId !== userId) {
+      console.log("Unauthorized user");
+      return res.status(403).render("forbidden");
+    } 
+
+      res.render("share-link", {
+        title: "Share Folder",
+        itemType: "folder",
+        folder,
+        errors: [],
+        formData: {}, // NOTE & REMINDER: req.body is not used in GET
+        // csrfToken: req.csrfToken(),
+      });
+
+  } catch (err) {
+    next(err)
+  }
+  }
+
+  async function getUserShareLinkFilePage(req, res, next) {
+    try {
+      const fileId = req.params.fileId;
+      const userId = req.user.id;
+
+      const file = await getFileById(fileId);
+
+      if (!file) {
+        return res.status(404).render("404");
+      }
+
+      if (file.userId !== userId) {
+        console.log("Unauthorized user");
+        return res.status(403).render("forbidden");
+      }
+
+      res.render("share-link", {
+        title: "Share File",
+        itemType: "file",
+        file,
+        errors: [],
+        formData: {}, // NOTE & REMINDER: req.body is not used in GET
+        // csrfToken: req.csrfToken(),
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 
 async function deleteUserFolderPage(req, res, next) {
   try {
@@ -1262,6 +1323,8 @@ module.exports = {
   getUserDataPage,
   getUserFolderPage,
   getUserFilePreview,
+  getUserShareLinkFolderPage,
+  getUserShareLinkFilePage,
 
   getUserFolderEditPage,
   postUserFolderEditPage,

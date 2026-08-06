@@ -178,6 +178,39 @@ async function getUserFolder(folderId) {
   });
 }
 
+async function getFolderById(folderId) {
+  return prisma.folder.findUnique({
+    where: {
+      id: folderId,
+    },
+    select: {
+      id: true,
+      userId: true,
+      folderName: true,
+      folderImage: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+}
+
+async function getFileById(fileId) {
+  return prisma.file.findUnique({
+    where: {
+      id: fileId,
+    },
+    select: {
+      id: true,
+      folderId: true,
+      userId: true,
+      originalFileName: true,
+      cloudProvider: true,
+      cloudKey: true,
+      mimeType: true,
+    },
+  });
+}
+
 async function getUserFolderSize(folderId) {
   const result = await prisma.file.aggregate({
     where: {
@@ -311,23 +344,6 @@ async function getChildFoldersById(parentFolderId) {
     },
     orderBy: {
       folderName: "asc",
-    },
-  });
-}
-
-async function getFileById(fileId) {
-  return prisma.file.findUnique({
-    where: {
-      id: fileId,
-    },
-    select: {
-      id: true,
-      folderId: true,
-      userId: true,
-      originalFileName: true,
-      cloudProvider: true,
-      cloudKey: true,
-      mimeType: true,
     },
   });
 }
@@ -491,6 +507,9 @@ module.exports = {
   createFile,
 
   getUserProfile,
+  getFolderById,
+  getFileById,  
+
   getUserProfileSize,
   getAdminUserProfiles, // admin
   getAdminUserProfile, // admin-edit
@@ -502,7 +521,7 @@ module.exports = {
   getFolderFilesCount,
   getFilesByFolder,
   getChildFoldersById,
-  getFileById,
+
   getFilesByFolderIdForArchive,
   getFolderTreeForArchive,
 

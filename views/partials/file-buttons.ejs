@@ -1,8 +1,8 @@
 <div class="button-container-row-space-evenly">
   <!-- Share -->
-  <button class="button-default card-button file-border file-color">
+  <a class="button-default card-button file-border file-color" href="/app/share-file/<%= file.id %>">
     <span class="emoji">🔗</span>
-  </button>
+  </a>
   <!-- Download -->
    <form action="/app/download-file/<%= file.id %>">
     <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->

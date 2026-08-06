@@ -21,6 +21,8 @@ const {
   getUserDataPage,
   getUserFolderPage,
   getUserFilePreview,
+  getUserShareLinkFolderPage,
+  getUserShareLinkFilePage,
 
   getUserFolderEditPage,
   postUserFolderEditPage,
@@ -114,6 +116,20 @@ appRouter.get(
   // csrfProtection,
   // csrfTokenMiddleware,
   getUserFilePreview,
+);
+
+appRouter.get(
+  "/share-folder/:folderId",
+  // csrfProtection,
+  // csrfTokenMiddleware,
+  getUserShareLinkFolderPage,
+);
+
+appRouter.get(
+  "/share-file/:fileId",
+  // csrfProtection,
+  // csrfTokenMiddleware,
+  getUserShareLinkFilePage,
 );
 
 appRouter.get(

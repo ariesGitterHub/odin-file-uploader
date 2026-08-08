@@ -1,4 +1,5 @@
 const prisma = require("../lib/prisma");
+const crypto = require("node:crypto");
 
 // *** AUTH SERVICES
 
@@ -475,6 +476,48 @@ async function createFile({
   });
 }
 
+async function createFolderShareLink({
+  userId,
+  folderId,
+  permission,
+  maxDownloads,
+  expiresAt,
+}) {
+  const token = crypto.randomBytes(32).toString("hex");
+
+  return prisma.shareLink.create({
+    data: {
+      token,
+      userId,
+      folderId,
+      permission,
+      maxDownloads,
+      expiresAt,
+    },
+  });
+}
+
+async function createFileShareLink({
+  userId,
+  fileId,
+  permission,
+  maxDownloads,
+  expiresAt,
+}) {
+  const token = crypto.randomBytes(32).toString("hex");
+
+  return prisma.shareLink.create({
+    data: {
+      token,
+      userId,
+      fileId,
+      permission,
+      maxDownloads,
+      expiresAt,
+    },
+  });
+}
+
 // *** DELETE DATA
 async function deleteUser(userId) {
   return prisma.user.delete({
@@ -505,6 +548,8 @@ module.exports = {
   createUser,
   createFolder,
   createFile,
+  createFolderShareLink,
+  createFileShareLink,
 
   getUserProfile,
   getFolderById,

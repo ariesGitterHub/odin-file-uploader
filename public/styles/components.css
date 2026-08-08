@@ -76,6 +76,7 @@
 .share-target-backdrop {
   background-color: var(--black);
   color: var(--white);
+  margin: var(--spacer-default) 0;
 }
 
 .details-backdrop {

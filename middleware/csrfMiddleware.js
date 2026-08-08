@@ -15,6 +15,7 @@ const csrfTokenMiddleware = (req, res, next) => {
   if (req.method === "GET") {
     res.locals.csrfToken = req.csrfToken(); // Store CSRF token in locals
   }
+  
   next(); // Proceed to the next middleware
 };
 

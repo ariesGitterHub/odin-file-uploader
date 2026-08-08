@@ -29,7 +29,7 @@
         <% } %>
 
         <%# CSRF Token - hidden input for forms %>
-        <input type="hidden" name="_csrf" value="<%#= csrfToken %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       
       <h3 class="font-normal">
         You are seeking to share the
@@ -42,8 +42,10 @@
       <h4 class="uppercase share-target-backdrop"> 
         <% if (itemType === "folder") { %>
           <span class="emoji"><%= folder.emoji %></span> <%= folder.folderName %>
+          <p>(<%= folder.id %>)</p>
         <% } else { %> 
           <span class="emoji">👉</span> <%= file.originalFileName %>
+          <p>(<%= file.id %>)</p>
         <% } %>
         </h4>
         <!-- TODO - should I use radio buttons? and not a dropdown for this so that I can add a custom date range field? -->
@@ -51,6 +53,7 @@
           <select
             id="share-folder-or-file-expires-at"     
             name="expires_at"
+            required
           >
           <!-- <option
             value=""
@@ -69,11 +72,22 @@
         </select>
 
         <div id="custom-expiration" hidden>
-          <label for="share-folder-or-file-custom-expires-at">Expiration date and time</label>
+          <label for="share-folder-or-file-custom-expires-at">expiration date and time</label>
           <input
-            type="datetime-local"
             id="share-folder-or-file-custom-expires-at"
-            name="custom_expires_at"
+            name="custom_expires_at"          
+            type="datetime-local"
+          >
+        </div>
+
+        <div id="">
+          <label for="share-folder-or-file-max-downloads">maximum downloads allowed</label>
+          <input
+            id="share-folder-or-file-max-downloads"
+            name="max_downloads"          
+            type="number"
+            min="1"
+            placeholder="Leave blank for unlimited"
           >
         </div>
 

@@ -22,6 +22,8 @@ const {
   getUserFolderPage,
   getUserFilePreview,
   getUserShareLinkFolderPage,
+  postUserShareLinkFolderPage,
+  
   getUserShareLinkFilePage,
 
   getUserFolderEditPage,
@@ -67,7 +69,12 @@ appRouter.post(
   postSignUpPage,
 );
 
-appRouter.get("/log-in", csrfProtection, csrfTokenMiddleware, getLogInPage);
+appRouter.get(
+  "/log-in",
+  csrfProtection,
+  csrfTokenMiddleware,
+  getLogInPage
+);
 
 appRouter.post("/log-in", csrfProtection, postLogInPage);
 
@@ -120,9 +127,15 @@ appRouter.get(
 
 appRouter.get(
   "/share-folder/:folderId",
-  // csrfProtection,
-  // csrfTokenMiddleware,
+  csrfProtection,
+  csrfTokenMiddleware,
   getUserShareLinkFolderPage,
+);
+
+appRouter.post(
+  "/share-folder/:folderId",
+  csrfProtection,
+  postUserShareLinkFolderPage,
 );
 
 appRouter.get(

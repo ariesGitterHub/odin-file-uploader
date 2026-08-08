@@ -23,12 +23,11 @@
   font-family: var(--font-text);
 }
 
-.correct-color {
-  background-color: var(--blue-bold);
-}
-.incorrect-color {
-  background-color: var(--red-bold);
-}
+
+
+/* .file-background-color {
+  background-color: var(--orange);
+} */
 
 .delete-color {
   color: var(--red-bold);
@@ -61,13 +60,22 @@
   color: var(--gold);
 }
 
-.details-backdrop, .file-extension {
+.details-backdrop, .share-target-backdrop, .file-extension {
   width: fit-content;
-  background-color: var(--gray);
   border-radius: var(--border-radius-default);
   color: var(--black);
   font-family: var(--font-text);
   padding: var(--spacer-small) var(--spacer-default);
+}
+
+.details-backdrop, .file-extension {
+  background-color: var(--gray);
+  color: var(--black);
+}
+
+.share-target-backdrop {
+  background-color: var(--black);
+  color: var(--white);
 }
 
 .details-backdrop {

@@ -542,10 +542,16 @@ async function getUserFilePreview(req, res, next) {
       return res.status(403).render("forbidden");
     } 
 
+    const folderWithEmoji = {
+      ...folder,
+      emoji: folderEmojis[folder.folderImage],
+    };
+
       res.render("share-link", {
         title: "Share Folder",
         itemType: "folder",
-        folder,
+        // folder,
+        folder: folderWithEmoji,
         errors: [],
         formData: {}, // NOTE & REMINDER: req.body is not used in GET
         // csrfToken: req.csrfToken(),

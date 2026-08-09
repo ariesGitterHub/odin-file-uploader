@@ -78,6 +78,11 @@
             name="custom_expires_at"          
             type="datetime-local"
           >
+          <input
+            type="hidden"
+            id="share-folder-or-file-timezone"
+            name="timezone"
+          >
         </div>
 
         <div id="">
@@ -87,6 +92,7 @@
             name="max_downloads"          
             type="number"
             min="1"
+            step="1"
             placeholder="Leave blank for unlimited"
           >
         </div>
@@ -97,8 +103,23 @@
           <button class="button-default width-default-percent" type="submit">generate link</button>
         </div>
       </form>
+      
+      <div class="width-default-percent">       
+        <% if (shareLink) { %>
+          <p class="uppercase font-normal">Your share link is...</p>
+          <input id="share-link-input" type="text" value="<%= shareUrl %>" readonly>
+          <div class="button-container-row-space-evenly margin-top">
+            <button id="copy-share-link-input" class="button-default width-default-percent" type="button">
+              copy share link
+            </button>
+          </div>          
+        <% } %>
+
+      </div>
+      
     </main>
     <%- include('./partials/footer.ejs') %>
     <script src="/js/expiration-select-custom.js" defer></script>
+    <script src="/js/copy-share-link.js" defer></script>
   </body>
 </html>

@@ -240,6 +240,84 @@ async function getUserFolders(userId, excludedIds = []) {
   });
 }
 
+// For share-link.ejs, where the recent share history of that folder or file is listed; one service for each (folder or file) as per the extant design I am using in the view.
+async function getUserShareLinksByFolderId(folderId, userId) {
+  return prisma.shareLink.findMany({
+    where: {
+      folderId,
+      userId,
+    },
+    select: {
+      id: true,
+      userId: true,
+      permission: true,
+      downloadCount: true,
+      maxDownloads: true,
+      isActive: true,
+      expiresAt: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+}
+
+async function getUserShareLinksByFileId(fileId, userId) {
+  return prisma.shareLink.findMany({
+    where: {
+      fileId,
+      userId,
+    },
+    select: {
+      id: true,
+      userId: true,
+      permission: true,
+      downloadCount: true,
+      maxDownloads: true,
+      isActive: true,
+      expiresAt: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+}
+
+// For share-overview.ejs, where all share history is listed by user
+async function getUserShareLinksByUserId(userId) {
+  return prisma.shareLink.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      token: true, // Not needed
+      folderId: true,
+      fileId: true,
+      permission: true,
+      downloadCount: true,
+      maxDownloads: true,
+      isActive: true,
+      expiresAt: true,
+      createdAt: true,
+      updatedAt: true,
+      folder: {
+        select: {
+          id: true,
+          folderName: true,
+        },
+      },
+      file: {
+        select: {
+          id: true,
+          originalFileName: true,
+        },
+      },
+    },
+  });
+}
+
 async function getDescendantFolderIds(folderId) {
   const descendants = [];
 
@@ -395,7 +473,7 @@ async function getFolderTreeForArchive(folderId, rootFolderName) {
     for (const child of childFolders) {
       queue.push({
         id: child.id,
-        zipPath: `${current.zipPath}/${child.folderName}`, 
+        zipPath: `${current.zipPath}/${child.folderName}`,
       });
     }
   }
@@ -553,7 +631,7 @@ module.exports = {
 
   getUserProfile,
   getFolderById,
-  getFileById,  
+  getFileById,
 
   getUserProfileSize,
   getAdminUserProfiles, // admin
@@ -561,6 +639,9 @@ module.exports = {
   getUserFolder,
   getUserFolderSize,
   getUserFolders,
+  getUserShareLinksByFolderId,
+  getUserShareLinksByFileId,
+  getUserShareLinksByUserId,
   getDescendantFolderIds,
   getFolderSubfoldersCount,
   getFolderFilesCount,

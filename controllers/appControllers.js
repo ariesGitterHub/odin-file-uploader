@@ -24,6 +24,9 @@ const {
   getUserFolder,
   getUserFolderSize,
   getUserFolders,
+  getUserShareLinksByFolderId,
+  getUserShareLinksByFileId,
+  getUserShareLinksByUserId,
   getDescendantFolderIds,
   getFolderSubfoldersCount,
   getFolderFilesCount,
@@ -442,16 +445,16 @@ async function getUserFolderPage(req, res, next) {
     //     updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
     //   }));
 
-    const formatCreatedAtDate = formatExactDate(folder.createdAt);
-    const formatUpdatedAtDate = formatExactDate(folder.updatedAt);
+    const formatCreatedAtDate = formatExactDate(folder.createdAt); // formats folder dates
+    const formatUpdatedAtDate = formatExactDate(folder.updatedAt); // formats folder dates
 
     const filesWithFormattedSize = folder.files
       .map((f) => ({
         ...f,
         sizeLabel: formatBytes(f.sizeBytes),
         mimeLabel: formatMimeType(f.mimeType),
-        createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
-        updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
+        createdAtLabel: formatExactDate(f.createdAt), // formats file dates
+        updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
         canPreview: isPreviewableMimeType(f.mimeType),
       }))
       .sort(
@@ -927,6 +930,46 @@ async function getUserShareLinkFilePage(req, res, next) {
   }
 }
 
+async function getUserShareOverviewPage(req, res, next) {
+  try {
+    const userId = req.user.id;
+
+    const shareLinks = await getUserShareLinksByUserId(userId);
+    // const shareUrl = `${req.protocol}://${req.get("host")}/share/${shareLink.token}`;
+    const shareUrl = `${req.protocol}://${req.get("host")}/share/`;
+    // const folderId = shareLinks.folderId;
+  
+    // const formatCreatedAtDate = formatExactDate(shareLinks.createdAt); 
+    // const formatUpdatedAtDate = formatExactDate(shareLinks.updatedAt); 
+    // const formatExpiresAtDate = formatExactDate(shareLinks.expiresAt); 
+
+    const formattedShareLinks = shareLinks.map((f) => ({
+      ...f,
+      // sizeLabel: formatBytes(f.sizeBytes),
+      // mimeLabel: formatMimeType(f.mimeType),
+      createdAtLabel: formatExactDate(f.createdAt), // formats shareLink dates
+      updatedAtLabel: formatExactDate(f.updatedAt), // formats shareLink dates
+      expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+      // canPreview: isPreviewableMimeType(f.mimeType),
+    }));
+
+
+
+    res.render("share-overview", {
+      title: "Share Overview",
+      errors: [],
+      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+      // csrfToken: req.csrfToken(),
+      shareLinks: formattedShareLinks,
+      // formatCreatedAtDate,
+      // formatUpdatedAtDate,
+      // formatExpiresAtDate,
+      shareUrl,
+    });
+  } catch (err) {
+    next (err)
+  }
+}
 async function getPublicSharePage(req, res, next) {
   try {
     
@@ -1676,6 +1719,9 @@ module.exports = {
   getUserShareLinkFolderPage,
   postUserShareLinkFolderPage,
   getUserShareLinkFilePage,
+
+  getUserShareOverviewPage,
+
   getPublicSharePage,
 
   getUserFolderEditPage,

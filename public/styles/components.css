@@ -53,6 +53,14 @@
   color: var(--blue); 
 }
 
+.share-border {
+  border-color: var(--pink);
+}
+
+.share-color {
+  color: var(--pink); 
+}
+
 .card:hover,
 .card:hover .card-name,
 .card:hover .card-button {

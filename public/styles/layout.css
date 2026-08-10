@@ -34,6 +34,8 @@ header {
   position: sticky;
   top: 0;
   width: var(--width-default-percent);
+  /* background-color: blue; */
+  backdrop-filter: blur(50px);
 }
 
 nav {

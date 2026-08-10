@@ -21,8 +21,11 @@ const {
   getUserDataPage,
   getUserFolderPage,
   getUserFilePreview,
+
   getUserShareLinkFolderPage,
   postUserShareLinkFolderPage,
+
+  getUserShareOverviewPage,
   
   getUserShareLinkFilePage,
 
@@ -143,6 +146,12 @@ appRouter.get(
   // csrfProtection,
   // csrfTokenMiddleware,
   getUserShareLinkFilePage,
+);
+
+appRouter.get("/share-overview/",
+  // csrfProtection,
+  // csrfTokenMiddleware, 
+  getUserShareOverviewPage
 );
 
 appRouter.get(

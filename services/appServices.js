@@ -212,6 +212,26 @@ async function getFileById(fileId) {
   });
 }
 
+async function getShareLinkById(shareLinkId) {
+  return prisma.shareLink.findUnique({
+    where: { 
+      id: shareLinkId,
+    },
+    select: {
+      userId: true,
+      // permission: true,
+      // passwordHash: true,
+      // maxDownloads: true,
+      isActive: true,
+      // expiresAt: true,
+      // createdAt: true,
+      // updatedAt: true,
+      // downLoadCount: true,
+      // lastAccessedAt: true,
+    }
+  })
+}
+
 async function getUserFolderSize(folderId) {
   const result = await prisma.file.aggregate({
     where: {
@@ -305,6 +325,7 @@ async function getUserShareLinksByUserId(userId) {
       folder: {
         select: {
           id: true,
+          folderName: true,
           folderName: true,
         },
       },
@@ -597,6 +618,7 @@ async function createFileShareLink({
 }
 
 // *** DELETE DATA
+// TODO - All deletes are hard delete, note that I do have the db set up with a deleted_at column for soft deletes. Add soft/hard delete set up later?
 async function deleteUser(userId) {
   return prisma.user.delete({
     where: {
@@ -613,11 +635,19 @@ async function deleteFolder(folderId) {
   });
 }
 
-// TODO - this is a hard delete, note that I do have the db set up with a deleted_at column for soft deletes. Add soft/hard delete set up later?
+
 async function deleteFile(fileId) {
   return prisma.file.delete({
     where: {
       id: fileId,
+    },
+  });
+}
+
+async function deleteShare(shareLinkId) {
+  return prisma.shareLink.delete({
+    where: {
+      id: shareLinkId,
     },
   });
 }
@@ -632,6 +662,7 @@ module.exports = {
   getUserProfile,
   getFolderById,
   getFileById,
+  getShareLinkById,
 
   getUserProfileSize,
   getAdminUserProfiles, // admin
@@ -658,6 +689,7 @@ module.exports = {
   deleteUser,
   deleteFolder,
   deleteFile,
+  deleteShare,
 
   checkIfEmailExistsForSignUp,
   checkIfEmailAlreadyExists,

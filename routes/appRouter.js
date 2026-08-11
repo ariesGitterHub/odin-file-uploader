@@ -36,6 +36,7 @@ const {
   getUserFileEditPage,
   postUserFileEditPage,
   deleteUserFile,
+  deleteUserShare,
 
   getUserProfilePage,
   postUserProfilePage,
@@ -59,6 +60,9 @@ const {
 } = require("../middleware/validateUpdateUser");
 
 const validateUploadFile = require("../middleware/validateUploadFile");
+
+// const { requireAdmin, adminLogCheck } = require("../utils/requireAdmin");  // TODO - remove later --> adminLogCheck
+const { requireAdmin } = require("../utils/requireAdmin");  // TODO - remove later --> adminLogCheck
 
 const appRouter = Router();
 
@@ -94,15 +98,25 @@ appRouter.get("/admin", csrfProtection, csrfTokenMiddleware, getAdminPage);
 
 appRouter.get(
   "/admin-edit/:userId",
+  requireAdmin,
+  // adminLogCheck, // TODO - remove later
   csrfProtection,
   csrfTokenMiddleware,
   getAdminEditPage,
 );
 
-appRouter.post("/admin-edit/:userId", csrfProtection, postAdminEditPage);
+appRouter.post(
+  "/admin-edit/:userId",
+  requireAdmin,
+  // adminLogCheck, // TODO - remove later
+  csrfProtection,
+  postAdminEditPage,
+);
 
 appRouter.post(
   "/admin/delete-user/:userId",
+  requireAdmin,
+  // adminLogCheck, // TODO - remove later
   csrfProtection,
   deleteUserProfileByAdmin,
 );
@@ -149,8 +163,8 @@ appRouter.get(
 );
 
 appRouter.get("/share-overview/",
-  // csrfProtection,
-  // csrfTokenMiddleware, 
+  csrfProtection,
+  csrfTokenMiddleware, 
   getUserShareOverviewPage
 );
 
@@ -176,6 +190,12 @@ appRouter.post(
   "/user-folder/:folderId/delete-your-file/:fileId",
   csrfProtection,
   deleteUserFile,
+);
+
+appRouter.post(
+  "/delete-your-shared-item/:shareLinkId",
+  csrfProtection,
+  deleteUserShare,
 );
 
 appRouter.get(

@@ -41,6 +41,8 @@ const {
   deleteUser,
   deleteFolder,
   deleteFile,
+  deleteShare,
+  getShareLinkById,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -950,6 +952,7 @@ async function getUserShareOverviewPage(req, res, next) {
       createdAtLabel: formatExactDate(f.createdAt), // formats shareLink dates
       updatedAtLabel: formatExactDate(f.updatedAt), // formats shareLink dates
       expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats shareLink dates
       // canPreview: isPreviewableMimeType(f.mimeType),
     }));
 
@@ -1006,11 +1009,13 @@ async function deleteUserFile(req, res, next) {
 
     const file = await getFileById(fileId);
 
+    const userId = req.user.id
+
     if (!file) {
       return res.status(404).render("404");
     }
 
-    if (file.userId !== req.user.id) {
+    if (file.userId !== userId) {
       return res.sendStatus(403);
     }
 
@@ -1042,6 +1047,30 @@ async function deleteUserFile(req, res, next) {
     res.redirect(`/app/user-folder/${folderId}`);
   } catch (err) {
     next(err);
+  }
+}
+
+async function deleteUserShare(req, res, next) {
+  try {
+    const shareLinkId = req.params.shareLinkId;
+
+    const shareLink = await getShareLinkById(shareLinkId);
+
+    const userId = req.user.id;
+
+    if (!shareLink) {
+      return res.status(404).render("404");
+    }
+
+    if (shareLink.userId !== userId) {
+      return res.sendStatus(403);
+    }
+
+    await deleteShare(shareLinkId);
+
+    res.redirect("/app/share-overview");    
+  } catch (err) {
+    next(err)
   }
 }
 
@@ -1721,6 +1750,7 @@ module.exports = {
   getUserShareLinkFilePage,
 
   getUserShareOverviewPage,
+  deleteUserShare,
 
   getPublicSharePage,
 
@@ -1731,6 +1761,7 @@ module.exports = {
   getUserFileEditPage,
   postUserFileEditPage,
   deleteUserFile,
+  
 
   getUserProfilePage,
   postUserProfilePage,

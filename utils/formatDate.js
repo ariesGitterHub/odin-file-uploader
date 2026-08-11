@@ -7,7 +7,13 @@ function formatRelativeDate(date) {
 }
 
 function formatExactDate(date) {
-  return format(new Date(date), "MMM d, yyyy h:mm a");
+  // Below should only affect expiresAt and lastAccessedAt dates, which may be null, as createdAt are never null, and the updatedAt date will always, at least, mirror createdAt until an update occurs
+  if (!date) {
+    return "never"
+  } else {
+  return format(new Date(date), "MMM d, yyyy h:mm a");  
+  }
+  
 }
 
 module.exports = { formatRelativeDate, formatExactDate };

@@ -37,6 +37,7 @@ const {
   updateUser,
   updateFolder,
   updateFile,
+  toggleShareLinkActiveStatus,
 
   deleteUser,
   deleteFolder,
@@ -956,8 +957,6 @@ async function getUserShareOverviewPage(req, res, next) {
       // canPreview: isPreviewableMimeType(f.mimeType),
     }));
 
-
-
     res.render("share-overview", {
       title: "Share Overview",
       errors: [],
@@ -973,6 +972,59 @@ async function getUserShareOverviewPage(req, res, next) {
     next (err)
   }
 }
+
+// async function postUserShareLinkIsActiveUpdate(req, res, next) {
+//   try {
+//     const shareLinkId = req.params.shareLinkId;
+
+//     const shareLink = await getShareLinkById(shareLinkId);
+
+//     const userId = req.user.id;
+
+//     if (!shareLink) {
+//       return res.status(404).render("404");
+//     }
+
+//     if (shareLink.userId !== userId) {
+//       return res.sendStatus(403);
+//     }
+
+//     await toggleShareLinkActiveStatus(shareLinkId, !shareLink.isActive);
+
+//     return res.redirect("/app/share-overview")
+//   } catch (err) {
+//     next(err);
+//   }
+// }
+
+async function postUserShareLinkIsActiveUpdate(req, res, next) {
+  try {
+    const shareLinkId = req.params.shareLinkId;
+    const userId = req.user.id;
+
+    // Retrieve the share link so we can verify that it exists
+    // and belongs to the authenticated user.
+    const shareLink = await getShareLinkById(shareLinkId);
+
+    if (!shareLink) {
+      return res.status(404).render("404");
+    }
+
+    if (shareLink.userId !== userId) {
+      return res.sendStatus(403);
+    }
+
+    // Toggle the current database value.
+    await toggleShareLinkActiveStatus(shareLinkId, {
+      isActive: !shareLink.isActive,
+    });
+
+    return res.redirect("/app/share-overview");
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function getPublicSharePage(req, res, next) {
   try {
     
@@ -1750,6 +1802,7 @@ module.exports = {
   getUserShareLinkFilePage,
 
   getUserShareOverviewPage,
+  postUserShareLinkIsActiveUpdate,
   deleteUserShare,
 
   getPublicSharePage,
@@ -1761,7 +1814,6 @@ module.exports = {
   getUserFileEditPage,
   postUserFileEditPage,
   deleteUserFile,
-  
 
   getUserProfilePage,
   postUserProfilePage,

@@ -46,6 +46,24 @@ async function updateFile(fileId, fileData) {
   });
 }
 
+// async function toggleShareLinkActiveStatus(shareLinkId, shareLinkData) {
+//   return prisma.shareLink.update({
+//     where: {
+//       id: shareLinkId,
+//     },
+//     data: shareLinkData,
+//   });
+// }
+
+async function toggleShareLinkActiveStatus(shareLinkId, isActive) {
+  return prisma.shareLink.update({
+    where: {
+      id: shareLinkId,
+    },
+    data: isActive,
+  });
+}
+
 // Ensures email uniqueness
 async function checkIfEmailExistsForSignUp(email) {
   return prisma.user.findUnique({
@@ -214,7 +232,7 @@ async function getFileById(fileId) {
 
 async function getShareLinkById(shareLinkId) {
   return prisma.shareLink.findUnique({
-    where: { 
+    where: {
       id: shareLinkId,
     },
     select: {
@@ -228,8 +246,8 @@ async function getShareLinkById(shareLinkId) {
       // updatedAt: true,
       // downLoadCount: true,
       // lastAccessedAt: true,
-    }
-  })
+    },
+  });
 }
 
 async function getUserFolderSize(folderId) {
@@ -635,7 +653,6 @@ async function deleteFolder(folderId) {
   });
 }
 
-
 async function deleteFile(fileId) {
   return prisma.file.delete({
     where: {
@@ -685,6 +702,7 @@ module.exports = {
   updateUser,
   updateFolder,
   updateFile,
+  toggleShareLinkActiveStatus,
 
   deleteUser,
   deleteFolder,

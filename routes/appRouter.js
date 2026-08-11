@@ -26,6 +26,7 @@ const {
   postUserShareLinkFolderPage,
 
   getUserShareOverviewPage,
+  postUserShareLinkIsActiveUpdate,
   
   getUserShareLinkFilePage,
 
@@ -180,6 +181,13 @@ appRouter.post(
   csrfProtection,
   postUserFolderEditPage,
 );
+
+appRouter.post(
+  "/change-active-status/:shareLinkId",
+  csrfProtection,
+  postUserShareLinkIsActiveUpdate,
+);
+
 appRouter.post(
   "/delete-your-folder/:folderId",
   csrfProtection,

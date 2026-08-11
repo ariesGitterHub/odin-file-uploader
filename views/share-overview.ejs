@@ -30,7 +30,7 @@
               <% if (shareLink.createdAtLabel !== shareLink.updatedAtLabel) { %>
                 <div class="details-backdrop"><strong>updated</strong> <%= shareLink.updatedAtLabel %></div>
               <% } %>
-              <div class="details-backdrop"><strong>active</strong> <%= shareLink.isActive %></div>
+              <div class="details-backdrop"><strong>share status</strong> <%= shareLink.isActive ? "🟢 enabled" : "🔴 disabled" %></div>
               <div class="details-backdrop"><strong>permission</strong> <span class="lowercase"><%= shareLink.permission %></span></div>
              
             </div>  

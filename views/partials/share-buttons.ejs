@@ -19,8 +19,8 @@
           <button 
             class="button-default width-default-percent deletion-form-button"
             data-action="/app/delete-your-shared-item/<%= shareLink.id %>"
-            data-message="Do you wish to delete this shared item: <%= shareLink.folder.folderName ? shareLink.folder.folderName : shareLink.file.originalFileName %>
-              <%= shareLink.folder.folderName ? "(folder)" : "(file)" %>? Reminder: this action cannot be undone." 
+            data-message="Do you wish to delete this shared item: <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>
+              <%= shareLink.folder ? "(folder)" : "(file)" %>? Reminder: this action cannot be undone." 
             type="button">
             delete
           </button>

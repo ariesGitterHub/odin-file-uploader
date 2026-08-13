@@ -27,8 +27,8 @@ const {
 
   getUserShareOverviewPage,
   postUserShareLinkIsActiveUpdate,
-  
   getUserShareLinkFilePage,
+  postUserShareLinkFilePage,
 
   getUserFolderEditPage,
   postUserFolderEditPage,
@@ -158,9 +158,15 @@ appRouter.post(
 
 appRouter.get(
   "/share-file/:fileId",
-  // csrfProtection,
-  // csrfTokenMiddleware,
+  csrfProtection,
+  csrfTokenMiddleware,
   getUserShareLinkFilePage,
+);
+
+appRouter.post(
+  "/share-file/:fileId",
+  csrfProtection,
+  postUserShareLinkFilePage,
 );
 
 appRouter.get("/share-overview/",

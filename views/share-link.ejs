@@ -1,10 +1,3 @@
-<!-- <h1>TEST</h1> -->
-<%# if (itemType === "folder") { %>
-  <!-- <p>FOLDER!!!!</p> -->
-<%# } %>
-<%# if (itemType === "file") { %>
-  <!-- <p>FILE!!!!</p> -->
-<%# } %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,16 +14,13 @@
         File
         <% } %>
       </h2>
-
       <% if (itemType === "folder") { %>
         <form class="element-container-col-start-center form-width" action="/app/share-folder/<%= folder.id %>" method="POST">
         <% } else { %> 
         <form class="element-container-col-start-center form-width" action="/app/share-file/<%= file.id %>" method="POST">
         <% } %>
-
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      
       <h3 class="font-normal">
         You are seeking to share the
         <% if (itemType === "folder") { %>
@@ -42,13 +32,10 @@
       <h4 class="uppercase share-target-backdrop"> 
         <% if (itemType === "folder") { %>
           <span class="emoji"><%= folder.emoji %></span> <%= folder.folderName %>
-          <p>(<%= folder.id %>)</p>
         <% } else { %> 
           <span class="emoji">👉</span> <%= file.originalFileName %>
-          <p>(<%= file.id %>)</p>
         <% } %>
         </h4>
-        <!-- TODO - should I use radio buttons? and not a dropdown for this so that I can add a custom date range field? -->
         <label for="share-folder-or-file-expires-at">choose share link expiration</label>
           <select
             id="share-folder-or-file-expires-at"     
@@ -84,8 +71,7 @@
             name="timezone"
           >
         </div>
-
-        <div id="">
+        <div>
           <label for="share-folder-or-file-max-downloads">maximum downloads allowed</label>
           <input
             id="share-folder-or-file-max-downloads"
@@ -96,7 +82,6 @@
             placeholder="Leave blank for unlimited"
           >
         </div>
-
         <!-- TODO - add max download limit! -->
         <div class="button-container-row-space-evenly margin-top">
           <a class="button-default width-default-percent" href="/app/user-data">cancel</a>

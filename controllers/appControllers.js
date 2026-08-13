@@ -746,7 +746,6 @@ async function getUserShareLinkFolderPage(req, res, next) {
 
 // TODO - above will need UTC date format for custom dates
 
-
 async function postUserShareLinkFolderPage(req, res, next) {
   try {
     // Identify the folder being shared from the URL and the authenticated user.
@@ -927,6 +926,143 @@ async function getUserShareLinkFilePage(req, res, next) {
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
       // csrfToken: req.csrfToken(),
+      shareLink: null,
+      shareUrl: null,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function postUserShareLinkFilePage(req, res, next) {
+  try {
+    const fileId = req.params.fileId;
+    const userId = req.user.id;
+
+    const file = await getFileById(fileId);
+
+    if (!file) {
+      return res.status(404).render("404");
+    }
+
+    if (file.userId !== userId) {
+      return res.status(403).render("forbidden");
+    }
+
+    const { expires_at, custom_expires_at, max_downloads, timezone } = req.body;
+
+    // null represents an expiration of "never".
+    let expiresAt = null;
+
+    // Convert the expiration preset selected in the form into an actual
+    // Date value that Prisma can store.
+    if (expires_at === "1-day") {
+      expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 1);
+    } else if (expires_at === "7-days") {
+      expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 7);
+    } else if (expires_at === "30-days") {
+      expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 30);
+    } else if (expires_at === "custom") {
+      // Convert the datetime-local form value into a JavaScript Date,
+      // interpreting the selected time in the user's browser timezone.
+      expiresAt = parseLocalDateTimeToUTC(custom_expires_at, timezone);
+
+      // A custom expiration must produce a valid Date.
+      if (!expiresAt) {
+        return res.status(400).render("share-link", {
+          title: "Share File",
+          itemType: "file",
+          errors: ["Please provide a valid expiration date and time."],
+          formData: req.body,
+          shareLink: null,
+          shareUrl: null,
+          csrfToken: req.csrfToken(),
+        });
+      }
+    } else if (expires_at === "never") {
+      // Keep expiresAt as null for links that never expire.
+      expiresAt = null;
+    } else {
+      // Reject unexpected expiration values rather than creating a share
+      // link with an invalid or unintended expiration.
+      return res.status(400).render("share-link", {
+        title: "Share File",
+        itemType: "file",
+        file,  // ??? was this the issue with my error?
+        errors: ["Please select a valid expiration."],
+        formData: req.body,
+        shareLink: null,
+        shareUrl: null,
+        csrfToken: req.csrfToken(),
+      });
+    }
+
+    // An expiration date must be in the future.
+    // "never" is represented by null and is intentionally allowed.
+    if (expiresAt !== null && expiresAt <= new Date()) {
+      return res.status(400).render("share-link", {
+        title: "Share File",
+        itemType: "file",
+        file, // ??? was this the issue with my error?
+        errors: ["Expiration date must be in the future."],
+        formData: req.body,
+        shareLink: null,
+        shareUrl: null,
+        csrfToken: req.csrfToken(),
+      });
+    }
+
+    // An empty download limit means unlimited downloads, represented by null
+    // in the database. Otherwise, convert the form's string value to an integer.
+    const maxDownloads =
+      max_downloads === "" ? null : Number.parseInt(max_downloads, 10);
+
+    // When a limit is supplied, it must be a positive integer.
+    if (
+      maxDownloads !== null &&
+      (!Number.isInteger(maxDownloads) || maxDownloads < 1)
+    ) {
+      return res.status(400).render("share-link", {
+        title: "Share File",
+        itemType: "file",
+        file, // ??? was this the issue with my error?
+        errors: ["Maximum downloads must be at least 1."],
+        formData: req.body,
+        shareLink: null,
+        shareUrl: null,
+        csrfToken: req.csrfToken(),
+      });
+    }
+
+    // Create the share link using only the values established and validated
+    // by this controller. The service generates the random token and creates
+    // the ShareLink database record.
+    const shareLink = await createFileShareLink({
+      userId,
+      fileId,
+      permission: "VIEW",
+      maxDownloads,
+      expiresAt,
+    });
+
+    // The token is stored in the database, while the complete URL is
+    // constructed when it is needed.
+    const shareUrl = `${req.protocol}://${req.get("host")}/share/${shareLink.token}`;
+
+    // Render the share page again so the newly generated link can be shown
+    // to the user immediately.
+    return res.render("share-link", {
+      title: "Share File",
+      itemType: "file",
+      file, // ??? was this the issue with my error?
+      errors: [],
+      formData: req.body,
+      shareLink,
+      shareUrl,
+      csrfToken: req.csrfToken(),
     });
   } catch (err) {
     next(err);
@@ -1800,6 +1936,7 @@ module.exports = {
   getUserShareLinkFolderPage,
   postUserShareLinkFolderPage,
   getUserShareLinkFilePage,
+  postUserShareLinkFilePage,
 
   getUserShareOverviewPage,
   postUserShareLinkIsActiveUpdate,

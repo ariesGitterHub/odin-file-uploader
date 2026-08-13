@@ -14,40 +14,36 @@
           </div>
           <% } else { %> 
           <% shareLinks.forEach(shareLink => { %>
-          <div class="card share-border">
-            <h3 class="card-name share-color">
-              <%= shareLink.folder.folderName ? shareLink.folder.folderName : shareLink.file.originalFileName %>
-              <%= shareLink.folder.folderName ? "(folder)" : "(file)" %>
-            </h3>
-            <div class="element-container-row-center-start flex-gap flex-wrap">
-              <!-- <div class="details-backdrop"><strong>id</strong> <%#= shareLink.id %></div> -->
-              <!-- <div class="details-backdrop"><strong>token</strong> <%#= shareLink.token %></div> -->
-              <div class="details-backdrop"><strong>download count</strong> <%= shareLink.downloadCount %></div>
-              <div class="details-backdrop"><strong>download maximum</strong> <%= shareLink.maxDownloads ? shareLink.maxDownloads : "unlimited" %></div>
-              <div class="details-backdrop"><strong>expires</strong> <%= shareLink.expiresAtLabel %></div>
-              <div class="details-backdrop"><strong>last accessed</strong> <%= shareLink.lastAccessedAtLabel %></div>
-              <div class="details-backdrop"><strong>created</strong> <%= shareLink.createdAtLabel %></div>
-              <% if (shareLink.createdAtLabel !== shareLink.updatedAtLabel) { %>
-                <div class="details-backdrop"><strong>updated</strong> <%= shareLink.updatedAtLabel %></div>
-              <% } %>
-              <div class="details-backdrop"><strong>share status</strong> <%= shareLink.isActive ? "🟢 enabled" : "🔴 disabled" %></div>
-              <div class="details-backdrop"><strong>permission</strong> <span class="lowercase"><%= shareLink.permission %></span></div>
-             
-            </div>  
-            <!-- <div class="element-container-row-center-start flex-gap flex-wrap">
-              <div class="details-backdrop"><strong>created</strong> <%#= shareLink.createdAtLabel %></div>
-              <%# if (shareLink.createdAtLabel !== shareLink.updatedAtLabel) { %>
-              <div class="details-backdrop"><strong>updated</strong> <%#= shareLink.updatedAtLabel %></div>
-              <%# } %>
-            </div>   -->
-
-          <%#- include("./partials/admin-buttons.ejs", { shareLink }) %>
-          <%#- include("./partials/admin-buttons.ejs") %>
-<!-- LOOK HERE -->
-            <%- include("./partials/share-buttons.ejs", { shareLink, shareUrl }) %>
-        </div>
-        <% }) %>  
-        <% } %>
+            <div class="card share-border">
+              <h3 class="card-name share-color">
+                <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>
+                <%= shareLink.folder ? "(folder)" : "(file)" %>
+              </h3>
+              <div class="element-container-row-center-start flex-gap flex-wrap">
+                <!-- <div class="details-backdrop"><strong>id</strong> <%#= shareLink.id %></div> -->
+                <!-- <div class="details-backdrop"><strong>token</strong> <%#= shareLink.token %></div> -->
+                <div class="details-backdrop"><strong>download count</strong> <%= shareLink.downloadCount %></div>
+                <div class="details-backdrop"><strong>download maximum</strong> <%= shareLink.maxDownloads ? shareLink.maxDownloads : "unlimited" %></div>
+                <div class="details-backdrop"><strong>expires</strong> <%= shareLink.expiresAtLabel %></div>
+                <div class="details-backdrop"><strong>last accessed</strong> <%= shareLink.lastAccessedAtLabel %></div>
+                <div class="details-backdrop"><strong>created</strong> <%= shareLink.createdAtLabel %></div>
+                <% if (shareLink.createdAtLabel !== shareLink.updatedAtLabel) { %>
+                  <div class="details-backdrop"><strong>updated</strong> <%= shareLink.updatedAtLabel %></div>
+                <% } %>
+                <div class="details-backdrop"><strong>share status</strong> <%= shareLink.isActive ? "🟢 enabled" : "🔴 disabled" %></div>
+                <div class="details-backdrop"><strong>permission</strong> <span class="lowercase"><%= shareLink.permission %></span></div>
+              
+              </div>  
+              <!-- <div class="element-container-row-center-start flex-gap flex-wrap">
+                <div class="details-backdrop"><strong>created</strong> <%#= shareLink.createdAtLabel %></div>
+                <%# if (shareLink.createdAtLabel !== shareLink.updatedAtLabel) { %>
+                <div class="details-backdrop"><strong>updated</strong> <%#= shareLink.updatedAtLabel %></div>
+                <%# } %>
+              </div>   -->
+              <%- include("./partials/share-buttons.ejs", { shareLink, shareUrl }) %>
+          </div>
+          <% }) %>  
+          <% } %>
         </div>
       </div>
     </main>

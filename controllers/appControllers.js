@@ -44,6 +44,8 @@ const {
   deleteFile,
   deleteShare,
   getShareLinkById,
+  getShareHistoryByFolderId,
+  getShareHistoryByFileId,
 } = require("../services/appServices");
 
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
@@ -556,11 +558,22 @@ async function getUserShareLinkFolderPage(req, res, next) {
       emoji: folderEmojis[folder.folderImage],
     };
 
+    const shareHistoryByFolder = await getShareHistoryByFolderId(folderId, userId);
+
+    const formattedDates = shareHistoryByFolder.map((f) => ({
+      ...f,
+      createdAtLabel: formatExactDate(f.createdAt), // formats file dates
+      updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
+      expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
+    }));
+
     res.render("share-link", {
       title: "Share Folder",
       itemType: "folder",
       // folder,
       folder: folderWithEmoji,
+      shareHistoryByFolder: formattedDates,
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
       // csrfToken: req.csrfToken(),
@@ -572,179 +585,12 @@ async function getUserShareLinkFolderPage(req, res, next) {
   }
 }
 
-// async function postUserShareLinkFolderPage(req, res, next) {
-//   try {
-//     // Identify the folder being shared from the URL and the authenticated user.
-//     // Do not accept either value from req.body because they should come from
-//     // trusted request context rather than user-editable form data.
-//     const folderId = req.params.folderId;
-//     const userId = req.user.id;
-
-//     // Retrieve the folder so we can verify that it exists and belongs to
-//     // the authenticated user before creating a share link for it.
-//     const folder = await getFolderById(folderId);
-
-//     if (!folder) {
-//       return res.status(404).render("404");
-//     }
-
-//     // A user must own the folder before they can create a share link for it.
-//     if (folder.userId !== userId) {
-//       return res.status(403).render("forbidden");
-//     }
-
-//     const { expires_at, custom_expires_at, max_downloads, timezone, } = req.body;
-
-//     // null represents an expiration of "never".
-//     let expiresAt = null;
-
-//     // Convert the expiration preset selected in the form into an actual
-//     // DateTime value that Prisma can store.
-//     if (expires_at === "1-day") {
-//       expiresAt = new Date();
-//       expiresAt.setDate(expiresAt.getDate() + 1);
-//     } else if (expires_at === "7-days") {
-//       expiresAt = new Date();
-//       expiresAt.setDate(expiresAt.getDate() + 7);
-//     } else if (expires_at === "30-days") {
-//       expiresAt = new Date();
-//       expiresAt.setDate(expiresAt.getDate() + 30);
-//     } else if (expires_at === "custom") {
-//       // Convert the datetime-local form value into a JavaScript Date.
-//       // expiresAt = new Date(custom_expires_at);
-//       expiresAt = parseLocalDateTimeToUTC(
-//       custom_expires_at,
-//       timezone,
-//       );
-//     } else if (expires_at === "never") {
-//       // Keep expiresAt as null for links that never expire.
-//       expiresAt = null;
-//     } else {
-//       // Reject unexpected expiration values rather than creating a share
-//       // link with an invalid or unintended expiration.
-//       return res.status(400).render("share-link", {
-//         title: "Share Folder",
-//         itemType: "folder",
-//         folder: {
-//           ...folder,
-//           emoji: folderEmojis[folder.folderImage],
-//         },
-//         errors: ["Please select a valid expiration."],
-//         formData: req.body,
-//         shareLink: null,
-//         shareUrl: null,
-//         csrfToken: req.csrfToken(),
-//       });
-//     }
-
-//     // A custom expiration must produce a valid Date.
-//     // if (expiresAt !== null && Number.isNaN(expiresAt.getTime())) {
-//     //   return res.status(400).render("share-link", {
-//     //     title: "Share Folder",
-//     //     itemType: "folder",
-//     //     folder: {
-//     //       ...folder,
-//     //       emoji: folderEmojis[folder.folderImage],
-//     //     },
-//     //     errors: ["Please provide a valid expiration date."],
-//     //     formData: req.body,
-//     //   });
-//     // }
-//      if (!expiresAt) {
-//     return res.status(400).render("share-link", {
-//       title: "Share Folder",
-//       itemType: "folder",
-//       folder: {
-//         ...folder,
-//         emoji: folderEmojis[folder.folderImage],
-//       },
-//       errors: ["Please provide a valid expiration date and time."],
-//       formData: req.body,
-//       shareLink: null,
-//       shareUrl: null,
-//       csrfToken: req.csrfToken(),
-//     });
-//   }
+ // TODO - I need below  to redirect to share-overview (after I write it) OR back to "/app/share-link", and have it show the shared folder below the bordered area, with all the relevant data from the db's ShareLink table for this folder's id. 
 
 
-//     // An expiration date must be in the future.
-//     if (expiresAt !== null && expiresAt <= new Date()) {
-//       return res.status(400).render("share-link", {
-//         title: "Share Folder",
-//         itemType: "folder",
-//         folder: {
-//           ...folder,
-//           emoji: folderEmojis[folder.folderImage],
-//         },
-//         errors: ["Expiration date must be in the future."],
-//         formData: req.body,
-//       });
-//     }
+// TODO - Need server side validation for stuff used in the post controller below!
 
-//     // An empty download limit means unlimited downloads, represented by null
-//     // in the database. Otherwise, convert the form's string value to an integer.
-//     const maxDownloads =
-//       max_downloads === "" ? null : Number.parseInt(max_downloads, 10);
-
-//     // When a limit is supplied, it must be a positive integer.
-//     if (
-//       maxDownloads !== null &&
-//       (!Number.isInteger(maxDownloads) || maxDownloads < 1)
-//     ) {
-//       return res.status(400).render("share-link", {
-//         title: "Share Folder",
-//         itemType: "folder",
-//         folder: {
-//           ...folder,
-//           emoji: folderEmojis[folder.folderImage],
-//         },
-//         errors: ["Maximum downloads must be at least 1."],
-//         formData: req.body,
-//         shareLink: null,
-//         shareUrl: null,
-//         csrfToken: req.csrfToken(),
-//       });
-//     }
-
-//     // Create the share link using only the values established and validated
-//     // by this controller. The service handles creation of the database record.
-//    const shareLink = await createFolderShareLink({
-//      userId,
-//      folderId,
-//      permission: "VIEW",
-//      maxDownloads,
-//      expiresAt,
-//    });
-
-//    console.log("shareLink =", shareLink);
-   
-//    const shareUrl = `${req.protocol}://${req.get("host")}/share/${shareLink.token}`;
-
-//     // Redirect after a successful POST to prevent accidental form resubmission.
-//     return res.render("share-link", {
-//       title: "Share Folder",
-//       itemType: "folder",
-//       folder: {
-//         ...folder,
-//         emoji: folderEmojis[folder.folderImage],
-//       },
-//       errors: [],
-//       formData: req.body,
-//       shareLink,
-//       shareUrl,
-//       csrfToken: req.csrfToken(),
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// }
-
- // TODO - I need above  to redirect to share-overview (after I write it) OR back to "/app/share-link", and have it show the shared folder below the bordered area, with all the relevant data from the db's ShareLink table for this folder's id. 
-
-
-// TODO - Need server side validation for stuff used in the post controller above!
-
-// TODO - above will need UTC date format for custom dates
+// TODO - below will need UTC date format for custom dates
 
 async function postUserShareLinkFolderPage(req, res, next) {
   try {
@@ -766,6 +612,16 @@ async function postUserShareLinkFolderPage(req, res, next) {
     if (folder.userId !== userId) {
       return res.status(403).render("forbidden");
     }
+
+    const shareHistoryByFolder = await getShareHistoryByFolderId(folderId);
+
+    const formattedDates = shareHistoryByFolder.map((f) => ({
+      ...f,
+      createdAtLabel: formatExactDate(f.createdAt), // formats file dates
+      updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
+      expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
+    }));
 
     const { expires_at, custom_expires_at, max_downloads, timezone } = req.body;
 
@@ -797,6 +653,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
             ...folder,
             emoji: folderEmojis[folder.folderImage],
           },
+          shareHistoryByFolder: formattedDates,
           errors: ["Please provide a valid expiration date and time."],
           formData: req.body,
           shareLink: null,
@@ -817,6 +674,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
+        shareHistoryByFolder: formattedDates,
         errors: ["Please select a valid expiration."],
         formData: req.body,
         shareLink: null,
@@ -835,6 +693,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
+        shareHistoryByFolder: formattedDates,
         errors: ["Expiration date must be in the future."],
         formData: req.body,
         shareLink: null,
@@ -860,6 +719,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
+        shareHistoryByFolder: formattedDates,
         errors: ["Maximum downloads must be at least 1."],
         formData: req.body,
         shareLink: null,
@@ -892,6 +752,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
         ...folder,
         emoji: folderEmojis[folder.folderImage],
       },
+      shareHistoryByFolder: formattedDates,
       errors: [],
       formData: req.body,
       shareLink,
@@ -919,10 +780,24 @@ async function getUserShareLinkFilePage(req, res, next) {
       return res.status(403).render("forbidden");
     }
 
+    const shareHistoryByFile = await getShareHistoryByFileId(
+      fileId,
+      userId,
+    );
+
+    const formattedDates = shareHistoryByFile.map((f) => ({
+      ...f,
+      createdAtLabel: formatExactDate(f.createdAt), // formats file dates
+      updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
+      expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
+    }));
+
     res.render("share-link", {
       title: "Share File",
       itemType: "file",
       file,
+      shareHistoryByFile: formattedDates,
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
       // csrfToken: req.csrfToken(),
@@ -948,6 +823,19 @@ async function postUserShareLinkFilePage(req, res, next) {
     if (file.userId !== userId) {
       return res.status(403).render("forbidden");
     }
+
+    const shareHistoryByFile = await getShareHistoryByFileId(
+      fileId,
+      userId,
+    );
+
+    const formattedDates = shareHistoryByFile.map((f) => ({
+      ...f,
+      createdAtLabel: formatExactDate(f.createdAt), // formats file dates
+      updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
+      expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
+    }));
 
     const { expires_at, custom_expires_at, max_downloads, timezone } = req.body;
 
@@ -991,7 +879,8 @@ async function postUserShareLinkFilePage(req, res, next) {
       return res.status(400).render("share-link", {
         title: "Share File",
         itemType: "file",
-        file,  // ??? was this the issue with my error?
+        file, // ??? was this the issue with my error?
+        shareHistoryByFile: formattedDates,
         errors: ["Please select a valid expiration."],
         formData: req.body,
         shareLink: null,
@@ -1007,6 +896,7 @@ async function postUserShareLinkFilePage(req, res, next) {
         title: "Share File",
         itemType: "file",
         file, // ??? was this the issue with my error?
+        shareHistoryByFile: formattedDates,
         errors: ["Expiration date must be in the future."],
         formData: req.body,
         shareLink: null,
@@ -1029,6 +919,7 @@ async function postUserShareLinkFilePage(req, res, next) {
         title: "Share File",
         itemType: "file",
         file, // ??? was this the issue with my error?
+        shareHistoryByFile: formattedDates,
         errors: ["Maximum downloads must be at least 1."],
         formData: req.body,
         shareLink: null,
@@ -1058,6 +949,7 @@ async function postUserShareLinkFilePage(req, res, next) {
       title: "Share File",
       itemType: "file",
       file, // ??? was this the issue with my error?
+      shareHistoryByFile: formattedDates,
       errors: [],
       formData: req.body,
       shareLink,

@@ -100,6 +100,40 @@
           </div>          
         <% } %>
       </div>
+      <div class="element-container-col-default form-width">
+        <h3 class="subtitle">
+          <% if (itemType === "folder") { %>
+          Folder
+          <% } else { %> 
+          File
+          <% } %>
+          Share History
+        </h3>
+        <% if (itemType === "folder") { %> 
+          <% if (shareHistoryByFolder.length === 0) { %>
+            <div class="font-normal">
+              <h4>There is no history of sharing this folder.</h4>
+            </div>
+            <% } else { %> 
+            <% shareHistoryByFolder.forEach(record => { %>
+              <%- include('./partials/share-link-history.ejs', { record }) %>
+            <% }) %> 
+            <% } %>           
+        <% } %>
+
+        <% if (itemType === "file") { %> 
+          <% if (shareHistoryByFile.length === 0) { %>
+            <div class="font-normal">
+              <h4>There is no history of sharing this file.</h4>
+            </div>
+            <% } else { %> 
+            <% shareHistoryByFile.forEach(record => { %>
+              <%- include('./partials/share-link-history.ejs', { record }) %>
+            <% }) %> 
+            <% } %>     
+        <% } %>
+
+    </div>
     </main>
     <%- include('./partials/footer.ejs') %>
     <script src="/js/expiration-select-custom.js" defer></script>

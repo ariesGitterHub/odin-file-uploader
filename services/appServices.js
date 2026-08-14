@@ -250,6 +250,70 @@ async function getShareLinkById(shareLinkId) {
   });
 }
 
+async function getShareHistoryByFolderId(folderId, userId) {
+  return prisma.shareLink.findMany({
+    where: {
+      folderId: folderId,
+      userId: userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      // token: true, // Not needed
+      // folderId: true,
+      // fileId: true,
+      permission: true,
+      downloadCount: true,
+      maxDownloads: true,
+      isActive: true,
+      expiresAt: true,
+      createdAt: true,
+      updatedAt: true,
+      lastAccessedAt: true,
+      // folder: {
+      //   select: {
+      //     id: true,
+      //     folderName: true,
+      //   },
+      // },
+    },
+  });
+}
+
+async function getShareHistoryByFileId(fileId, userId) {
+  return prisma.shareLink.findMany({
+    where: {
+      fileId: fileId,
+      userId: userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      // token: true, // Not needed
+      // folderId: true,
+      fileId: true,
+      permission: true,
+      downloadCount: true,
+      maxDownloads: true,
+      isActive: true,
+      expiresAt: true,
+      createdAt: true,
+      updatedAt: true,
+      lastAccessedAt: true,
+      // file: {
+      //   select: {
+      //     id: true,
+      //     originalFileName: true,
+      //   },
+      // },
+    },
+  });
+}
+
 async function getUserFolderSize(folderId) {
   const result = await prisma.file.aggregate({
     where: {
@@ -330,7 +394,7 @@ async function getUserShareLinksByUserId(userId) {
     },
     select: {
       id: true,
-      token: true, // Not needed
+      token: true,
       folderId: true,
       fileId: true,
       permission: true,
@@ -680,6 +744,8 @@ module.exports = {
   getFolderById,
   getFileById,
   getShareLinkById,
+  getShareHistoryByFolderId,
+  getShareHistoryByFileId,
 
   getUserProfileSize,
   getAdminUserProfiles, // admin

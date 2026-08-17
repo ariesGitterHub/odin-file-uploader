@@ -28,6 +28,7 @@ body {
 /* Header & Nav */
 header {
   margin-bottom: var(--spacer-small);
+
 }
 
 .sticky-header {
@@ -39,6 +40,11 @@ header {
 }
 
 nav {
+  /* border-bottom: 2px double var(--black);
+  padding-bottom: var(--spacer-biggest); */
+}
+
+.black-border-bottom {
   border-bottom: 2px double var(--black);
   padding-bottom: var(--spacer-biggest);
 }

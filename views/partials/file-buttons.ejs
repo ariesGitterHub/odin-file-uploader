@@ -1,12 +1,12 @@
 <div class="button-container-row-space-evenly">
   <!-- Share -->
-  <a class="button-default card-button file-border file-color" href="/app/share-file/<%= file.id %>">
+  <a class="button-default card-button file-button" href="/app/share-file/<%= file.id %>">
     <span class="emoji">🔗</span>
   </a>
   <!-- Download -->
    <form action="/app/download-file/<%= file.id %>">
     <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
-     <button class="button-default card-button file-border file-color" type="submit">
+     <button class="button-default card-button file-button" type="submit">
        <span class="emoji">⬇</span>
      </button>
    </form>
@@ -17,14 +17,14 @@
       <button class="button-default card-button file-border file-color">
         <span class="emoji">👁</span>
       </button>   -->
-    <a class="button-default card-button file-border file-color"
+    <a class="button-default card-button file-button"
       href="/app/view-file/<%= file.id %>">
       <span class="emoji">👁</span>
     </a>
     <!-- </form> -->
   <% } %>
   <!-- Edit -->
-    <a class="button-default card-button file-border file-color" href="/app/user-file-edit/<%= file.id %>">
+    <a class="button-default card-button file-button" href="/app/user-file-edit/<%= file.id %>">
       <span class="emoji">✏</span>
     </a>   
   <!-- Delete -->
@@ -32,7 +32,7 @@
     <%# CSRF Token - hidden input for forms %>
     <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
     <button 
-      class="button-default card-button file-border file-color deletion-form-button"
+      class="button-default card-button file-button deletion-form-button"
       data-action="/app/user-folder/<%= folder.id %>/delete-your-file/<%= file.id %>"
       data-message="Do you wish to delete the file: <%= file.originalFileName %>? Reminder: this action cannot be undone." 
       type="button"

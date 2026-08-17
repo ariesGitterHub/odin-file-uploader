@@ -28,12 +28,19 @@
       </form>
       <div class="share-link-card width-default-percent">       
         <% if (shareLink) { %>
-          <p class="uppercase font-normal">Your share link is...</p>
+          <p class="uppercase font-normal share-color">Your share link is...</p>
           <input class="share-link-input" type="text" value="<%= shareUrl %><%= shareLink.token %>" readonly>
           <div class="button-container-row-space-evenly margin-top">
             <button id="copy-share-link-input" class="button-default width-default-percent" type="button">
               copy share link
             </button>
+            <!-- TODO - below is the share page, use in dev mode to wire up different requirements; keep??? -->
+            <a 
+            class="button-default width-default-percent" 
+            href="/app/share-page/<%= shareLink.token %>"
+            >
+            view share page
+          </a>
           </div>          
         <% } %>
       </div>

@@ -24,6 +24,11 @@
   font-family: var(--font-text);
 }
 
+.share-page-name {
+  font-family: var(--font-title);
+ 
+}
+
 
 
 
@@ -64,30 +69,35 @@
   color: var(--pink); 
 }
 
+.highlight-color {
+  color: var(--gold);
+}
+
 .card:hover,
 .card:hover .card-name,
 .card:hover .card-button {
   border-color: var(--gold);
-  color: var(--gold);
+  /* color: var(--gold); */
 }
 
-.details-backdrop, .share-target-backdrop, .file-extension {
+.details-backdrop, .share-backdrop, .file-extension {
   width: fit-content;
   border-radius: var(--border-radius-default);
   color: var(--black);
   font-family: var(--font-text);
-  padding: var(--spacer-small) var(--spacer-default);
 }
 
 .details-backdrop, .file-extension {
   background-color: var(--gray);
   color: var(--black);
+  padding: var(--spacer-small) var(--spacer-default);
 }
 
-.share-target-backdrop {
+.share-backdrop {
   background-color: var(--black);
   color: var(--white);
-  margin: var(--spacer-default) 0;
+  /* margin: var(--spacer-default) 0; */
+  padding: var(--spacer-default);
 }
 
 .details-backdrop {
@@ -163,9 +173,33 @@
 .margin-top {
   margin-top: var(--spacer-default);
 }
+.margin-top-bottom {
+  margin: var(--spacer-default) 0;
+}
 
 .margin-left-right {
   margin: 0 var(--spacer-default);
+}
+
+.margin-not-top {
+  margin: 0 var(--spacer-default) var(--spacer-default) var(--spacer-default);
+}
+
+.share-description-list {
+  width: var(--share-page-width);
+  font-family: var(--font-text);
+  font-size: var(--font-size-large);
+}
+
+.share-description-list dt {
+  font-weight: var(--font-weight-heavy);
+}
+
+.font-size-large {
+  font-size: var(--font-size-large);
+}
+.font-size-default {
+  font-size: var(--font-size-default);
 }
 
 .uppercase {

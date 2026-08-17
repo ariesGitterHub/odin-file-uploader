@@ -74,7 +74,7 @@
             <%# CSRF Token - hidden input for forms %>
             <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
             <button 
-              class="button-default deletion-form-button"
+              class="button-default width-default-percent deletion-form-button"
               data-action="/app/delete-your-account"
               data-message="Do you wish to delete your user account? Reminder: this action cannot be undone." 
               type="button"
@@ -82,9 +82,9 @@
               delete
             </button>
           <!-- </form> -->
-          <a class="button-default" href="/app/user-data">cancel</a>
+          <a class="button-default width-default-percent" href="/app/user-data">cancel</a>
           <!-- NOTE - I used the form attribute to get all three buttons in a row (as nested forms are buggy and not allowed)  -->
-          <button class="button-default" type="submit" form="user-profile-form">update</button>
+          <button class="button-default width-default-percent" type="submit" form="user-profile-form">update</button>
         </div>
     </main>
     <%#- include('./partials/footer.ejs') %>

@@ -13,7 +13,6 @@ function formatExactDate(date) {
   } else {
   return format(new Date(date), "MMM d, yyyy h:mm a");  
   }
-  
 }
 
 module.exports = { formatRelativeDate, formatExactDate };

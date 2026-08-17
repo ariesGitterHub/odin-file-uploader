@@ -19,6 +19,10 @@
                 <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>
                 <%= shareLink.folder ? "(folder)" : "(file)" %>
               </h3>
+              <!-- TODO - delete below when done with dev mode -->
+              <div> 
+                <div class="details-backdrop"><strong>token</strong> <%= shareLink.token %></div>
+              </div>
               <div class="element-container-row-center-start flex-gap flex-wrap">
                 <!-- <div class="details-backdrop"><strong>id</strong> <%#= shareLink.id %></div> -->
                 <!-- <div class="details-backdrop"><strong>token</strong> <%#= shareLink.token %></div> -->

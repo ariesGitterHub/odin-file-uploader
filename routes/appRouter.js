@@ -29,6 +29,7 @@ const {
   postUserShareLinkIsActiveUpdate,
   getUserShareLinkFilePage,
   postUserShareLinkFilePage,
+  getPublicSharePage,
 
   getUserFolderEditPage,
   postUserFolderEditPage,
@@ -193,6 +194,8 @@ appRouter.post(
   csrfProtection,
   postUserShareLinkIsActiveUpdate,
 );
+
+appRouter.get("/share-page/:token", getPublicSharePage);
 
 appRouter.post(
   "/delete-your-folder/:folderId",

@@ -27,6 +27,7 @@ const {
   getUserShareLinksByFolderId,
   getUserShareLinksByFileId,
   getUserShareLinksByUserId,
+  getShareLinkByToken,
   getDescendantFolderIds,
   getFolderSubfoldersCount,
   getFolderFilesCount,
@@ -741,7 +742,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
 
     // The token is stored in the database, while the complete URL is
     // constructed when it is needed.
-    const shareUrl = `${req.protocol}://${req.get("host")}/share/${shareLink.token}`;
+    const shareUrl = `${req.protocol}://${req.get("host")}/share-page/${shareLink.token}`;
 
     // Render the share page again so the newly generated link can be shown
     // to the user immediately.
@@ -941,7 +942,7 @@ async function postUserShareLinkFilePage(req, res, next) {
 
     // The token is stored in the database, while the complete URL is
     // constructed when it is needed.
-    const shareUrl = `${req.protocol}://${req.get("host")}/share/${shareLink.token}`;
+    const shareUrl = `${req.protocol}://${req.get("host")}/share-page/${shareLink.token}`;
 
     // Render the share page again so the newly generated link can be shown
     // to the user immediately.
@@ -967,7 +968,7 @@ async function getUserShareOverviewPage(req, res, next) {
 
     const shareLinks = await getUserShareLinksByUserId(userId);
     // const shareUrl = `${req.protocol}://${req.get("host")}/share/${shareLink.token}`;
-    const shareUrl = `${req.protocol}://${req.get("host")}/share/`;
+    const shareUrl = `${req.protocol}://${req.get("host")}/share-page/`;
     // const folderId = shareLinks.folderId;
   
     // const formatCreatedAtDate = formatExactDate(shareLinks.createdAt); 
@@ -1053,11 +1054,235 @@ async function postUserShareLinkIsActiveUpdate(req, res, next) {
   }
 }
 
+// async function getPublicSharePage(req, res, next) {
+//   try {
+//     const token = req.params.token;
+
+//     const shareLink = await getShareLinkByToken(token);
+
+//     const folderId = shareLink.folderId
+
+//     const folder = await getFilesByFolder(folderId);
+
+//     const folderDig = await getFolderById(folderId);
+
+//     const rootFolder = folderDig.filter(
+//       (folder) => folder.parentFolderId === null,
+//     );
+
+
+//     // The toke and the shareLink don't correspond
+//     if (!shareLink) {
+//       return res.status(404).render("404");
+//     }
+
+//     // User has disabled the shareLink
+//     if (!shareLink.isActive) {
+//       return res.status(404).render("404");
+//     }
+
+//     // shareLink has expired
+//     if (shareLink.expiresAt && shareLink.expiresAt <= new Date()) {
+//       return res.status(404).render("404");
+//     }
+
+//     // shareLink has reached its download limit... TODO - "This share link has reached its download limit."
+//     if (
+//       shareLink.maxDownloads !== null &&
+//       shareLink.downloadCount >= shareLink.maxDownloads
+//     ) {
+//       return res.status(404).render("404");
+//     }
+
+//     // Is there a folder or file to even share?
+//     if (shareLink.folderId) {
+//       // Folder share
+//     } else if (shareLink.fileId) {
+//       // File share
+//     } else {
+//       // Invalid ShareLink record.
+//       return res.status(404).render("404");
+//     }
+
+//     if (shareLink.folderId && shareLink.fileId) {
+//       return res.status(404).render("404");
+//     }
+
+//     const formattedShareLink = {
+//       ...shareLink,
+//       sizeLabel: formatBytes(shareLink.file?.sizeBytes),
+//       mimeLabel: formatMimeType(shareLink.file?.mimeType),
+//       // createdAtLabel: formatExactDate(f.createdAt), // formats shareLink dates
+//       // updatedAtLabel: formatExactDate(f.updatedAt), // formats shareLink dates
+//       expiresAtLabel: formatExactDate(shareLink.expiresAt), // formats shareLink dates
+//       // lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats shareLink dates
+//       canPreview: isPreviewableMimeType(shareLink.file?.mimeType),
+//     };
+
+//     const childFolders = await getChildFoldersById(folderId);
+
+//     const folderWithCounts = await Promise.all(
+//       {
+//         ...rootFolder,
+//         subfolderCount: await getFolderSubfoldersCount(folder.id),
+//         fileCount: await getFolderFilesCount(folder.id),
+//       })
+
+
+//     const folderSize = await getUserFolderSize(folderId);
+//     const formatFolderSize = formatBytes(folderSize);
+
+//     const folderWithEmoji = {
+//       ...folder,
+//       emoji: folderEmojis[folder.folderImage],
+//       // foldersWithFormattedSize,
+//     };
+
+//    return res.render("share-page", {
+//      title: "Share Page",
+//      errors: [],
+//      formData: {}, // NOTE & REMINDER: req.body is not used in GET
+//      // csrfToken: req.csrfToken(),
+//      shareLink: formattedShareLink,
+//      folder: folderWithEmoji,
+//      formatFolderSize,
+//      // childFolders,
+//      childFolders: foldersWithEmoji,
+//      // shareUrl, // TODO - ???
+//    });
+//   } catch (err) {
+//     next (err)
+//   }
+// }
+
 async function getPublicSharePage(req, res, next) {
   try {
-    
+    const token = req.params.token;
+
+    // Find the share link using the public token.
+    const shareLink = await getShareLinkByToken(token);
+
+    // The token does not correspond to an existing share link.
+    if (!shareLink) {
+      return res.status(404).render("404");
+    }
+
+    // The owner has disabled the share link.
+    if (!shareLink.isActive) {
+      return res.status(404).render("404");
+    }
+
+    // The share link has expired.
+    if (shareLink.expiresAt && shareLink.expiresAt <= new Date()) {
+      return res.status(404).render("404");
+    }
+
+    // The share link has reached its download limit.
+    if (
+      shareLink.maxDownloads !== null &&
+      shareLink.downloadCount >= shareLink.maxDownloads
+    ) {
+      return res.status(404).render("404");
+    }
+
+    // A ShareLink should reference either a folder OR a file,
+    // but never both or neither.
+    if (
+      (shareLink.folderId && shareLink.fileId) ||
+      (!shareLink.folderId && !shareLink.fileId)
+    ) {
+      return res.status(404).render("404");
+    }
+
+    const expiresAtLabel = formatExactDate(shareLink.expiresAt);
+
+    // --------------------------------------------------
+    // FOLDER SHARE
+    // --------------------------------------------------
+
+    if (shareLink.folderId) {
+      const folderId = shareLink.folderId;
+
+      const folder = await getFilesByFolder(folderId);
+
+      if (!folder) {
+        return res.status(404).render("404");
+      }
+
+      const childFolders = await getChildFoldersById(folderId);
+
+      const folderSize = await getUserFolderSize(folderId);
+      const formatFolderSize = formatBytes(folderSize);
+      const subfolderCount = await getFolderSubfoldersCount(folderId);
+      const fileCount = await getFolderFilesCount(folderId);
+
+      const folderWithEmoji = {
+        ...folder,
+        emoji: folderEmojis[folder.folderImage],
+      };
+
+      const filesWithFormattedData = folder.files
+        .map((file) => ({
+          ...file,
+          sizeLabel: formatBytes(file.sizeBytes),
+          mimeLabel: formatMimeType(file.mimeType),
+          canPreview: isPreviewableMimeType(file.mimeType),
+        }))
+        // .sort((a, b) =>
+        //   a.originalFileName.localeCompare(b.originalFileName, undefined, {
+        //     sensitivity: "base",
+        //   }),
+        // );
+
+      folderWithEmoji.files = filesWithFormattedData;
+
+      return res.render("share-page", {
+        title: `Shared Folder: ${folder.folderName}`,
+        shareLink,
+        folder: folderWithEmoji,
+        childFolders,
+        formatFolderSize,
+        subfolderCount,
+        fileCount,
+        expiresAtLabel,
+        errors: [],
+        formData: {},
+      });
+    }
+
+    // --------------------------------------------------
+    // FILE SHARE
+    // --------------------------------------------------
+
+    if (shareLink.fileId) {
+      const file = shareLink.file;
+
+      if (!file) {
+        return res.status(404).render("404");
+      }
+
+      const formattedFile = {
+        ...file,
+        sizeLabel: formatBytes(file.sizeBytes),
+        mimeLabel: formatMimeType(file.mimeType),
+        canPreview: isPreviewableMimeType(file.mimeType),
+      };
+
+      return res.render("share-page", {
+        title: `Shared File: ${file.originalFileName}`,
+        shareLink,
+        file: formattedFile,
+        expiresAtLabel,
+        errors: [],
+        formData: {},
+      });
+    }
+
+    // This should be unreachable because of the validation above,
+    // but keep a final safeguard.
+    return res.status(404).render("404");
   } catch (err) {
-    next (err)
+    next(err);
   }
 }
 

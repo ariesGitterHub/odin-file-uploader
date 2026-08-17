@@ -404,10 +404,10 @@ async function getUserShareLinksByUserId(userId) {
       expiresAt: true,
       createdAt: true,
       updatedAt: true,
+      lastAccessedAt: true, // I had forgotten to add this.
       folder: {
         select: {
           id: true,
-          folderName: true,
           folderName: true,
         },
       },
@@ -415,6 +415,44 @@ async function getUserShareLinksByUserId(userId) {
         select: {
           id: true,
           originalFileName: true,
+        },
+      },
+    },
+  });
+}
+
+async function getShareLinkByToken(token) {
+  return prisma.shareLink.findUnique({
+    where: {
+      token,
+    },
+    select: {
+      id: true,
+      token: true, // TODO - delete if unneeded/unused
+      folderId: true,
+      fileId: true,
+      permission: true,
+      downloadCount: true,
+      maxDownloads: true,
+      isActive: true,
+      expiresAt: true,
+      createdAt: true,
+      updatedAt: true,
+      lastAccessedAt: true,
+      folder: {
+        select: {
+          id: true,
+          folderName: true,
+        },
+      },
+      file: {
+        select: {
+          id: true,
+          originalFileName: true,
+          sizeBytes: true,
+          mimeType: true,
+          // cloudKey: true,
+          // cloudProvider: true,
         },
       },
     },
@@ -756,6 +794,7 @@ module.exports = {
   getUserShareLinksByFolderId,
   getUserShareLinksByFileId,
   getUserShareLinksByUserId,
+  getShareLinkByToken,
   getDescendantFolderIds,
   getFolderSubfoldersCount,
   getFolderFilesCount,

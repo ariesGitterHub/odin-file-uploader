@@ -19,9 +19,9 @@
           <div class="current-folder-details">
             <div class="details-backdrop">
               <% if (folder.parentFolderId === null) { %> 
-                <strong>virtual path</strong> /<span class="lowercase"><%= folder.folderName %></span>
+                <strong>parent folder</strong> none
               <% } else { %> 
-                <strong>virtual path</strong> /<span class="lowercase"><%= folder.parentFolder.folderName %>/<%= folder.folderName %></span>
+                <strong>parent folder</strong> <%= folder.parentFolder.folderName %>
               <% } %>
             </div>
             <div class="details-backdrop">
@@ -56,7 +56,7 @@
             <span class="emoji folder-emoji" role="img" aria-label="Data folder">
               <%= childFolder.emoji %>
             </span>
-            <p class="uppercase"><%= childFolder.folderName%></p>
+            <p><%= childFolder.folderName%></p>
             <div class="element-container-col-start-center folder-card-content">  
               <p class="<%= childFolder.subfolderCount === 0  ? 'hidden' : '' %>"><%= childFolder.subfolderCount %> subfolder(s)</p>
               <p class="<%= childFolder.fileCount === 0  ? 'hidden' : '' %>"><%= childFolder.fileCount %> file(s)</p>        

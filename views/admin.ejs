@@ -23,7 +23,7 @@
               <!-- <div class="details-backdrop"><strong>id</strong> <%#= userProfile.id %></div> -->
               <div class="details-backdrop"><strong>id</strong> <%= userProfile.id %></div>
               <div class="details-backdrop"><strong>email</strong> <%= userProfile.email %></div>
-              <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified %></div>
+              <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified ? "True" : "False" %></div>
              
             </div>  
             <div class="element-container-row-center-start flex-gap flex-wrap">

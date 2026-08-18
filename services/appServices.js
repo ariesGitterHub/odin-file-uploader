@@ -46,23 +46,42 @@ async function updateFile(fileId, fileData) {
   });
 }
 
-// async function toggleShareLinkActiveStatus(shareLinkId, shareLinkData) {
-//   return prisma.shareLink.update({
-//     where: {
-//       id: shareLinkId,
-//     },
-//     data: shareLinkData,
-//   });
-// }
-
-async function toggleShareLinkActiveStatus(shareLinkId, isActive) {
-  return prisma.shareLink.update({
-    where: {
-      id: shareLinkId,
-    },
-    data: isActive,
-  });
+// After user accesses the share-page.ejs, lastAccessedAt is updated
+async function updateLastAccessedAt(shareLinkId) {
+ return prisma.shareLink.update({
+  where: {
+    id: shareLinkId,
+  },
+    data: {lastAccessedAt: new Date()}
+ })
 }
+
+// After user accesses the share-page.ejs and downloads the folder or file, downloadCount is updated
+async function updateDownloadCount(shareLinkId) {
+  return prisma.shareLink.update ({
+  where: {
+    id: shareLinkId,
+  }, 
+  data: {downloadCount: {increment: 1}}   
+  })
+}
+   // async function toggleShareLinkActiveStatus(shareLinkId, shareLinkData) {
+   //   return prisma.shareLink.update({
+   //     where: {
+   //       id: shareLinkId,
+   //     },
+   //     data: shareLinkData,
+   //   });
+   // }
+
+   async function toggleShareLinkActiveStatus(shareLinkId, isActive) {
+     return prisma.shareLink.update({
+       where: {
+         id: shareLinkId,
+       },
+       data: isActive,
+     });
+   };
 
 // Ensures email uniqueness
 async function checkIfEmailExistsForSignUp(email) {
@@ -807,6 +826,8 @@ module.exports = {
   updateUser,
   updateFolder,
   updateFile,
+  updateLastAccessedAt,
+  updateDownloadCount,
   toggleShareLinkActiveStatus,
 
   deleteUser,

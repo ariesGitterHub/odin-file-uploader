@@ -54,7 +54,7 @@ nav {
   background: linear-gradient(180deg, var(--black), var(--purple));
   font-family: var(--font-title);
   margin-bottom: var(--spacer-default);
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   -webkit-background-clip: text; /* Clips background to text shape */
   -webkit-text-fill-color: transparent; /* Makes original text color transparent */
 }
@@ -146,7 +146,7 @@ nav {
 .current-folder-name {
   font-family: var(--font-title);
   font-size: 1.5rem;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .current-folder-details {
@@ -216,6 +216,7 @@ nav {
   /* box-shadow: var(--box-shadow-black); */
   margin-top: -0.25rem;
   padding: var(--spacer-big);
+  text-transform: none;
 }
 
 /* new-file.ejs */

@@ -13,7 +13,7 @@
           <span class="emoji folder-emoji" role="img" aria-label="Data folder">
             <%= folder.emoji %>
           </span>
-          <p class="uppercase"><%= folder.folderName%></p>
+          <p><%= folder.folderName%></p>
           <div class="element-container-col-start-center folder-card-content">
             <p class="<%= folder.subfolderCount === 0  ? 'hidden' : '' %>"><%= folder.subfolderCount %> subfolder(s)</p>
             <p class="<%= folder.fileCount === 0  ? 'hidden' : '' %>"><%= folder.fileCount %> file(s)</p>            

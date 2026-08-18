@@ -51,6 +51,10 @@ const {
 
   downloadFile,
   downloadFolder,
+  getSharePageDownloadFolder,
+  getSharePageDownloadFile,
+  getSharePageFilePreview,
+
 } = require("../controllers/appControllers");
 
 const {
@@ -138,7 +142,7 @@ appRouter.get(
 );
 
 appRouter.get(
-  "/view-file/:fileId",
+  "/preview-file/:fileId",
   // csrfProtection,
   // csrfTokenMiddleware,
   getUserFilePreview,
@@ -258,9 +262,15 @@ appRouter.get(
 
 appRouter.post("/user-file-edit/:fileId", csrfProtection, postUserFileEditPage);
 
-// appRouter.get("/download-file/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
-appRouter.get("/download-file/:fileId", downloadFile);
 // appRouter.get("/download-folder/:folderId", csrfProtection, csrfTokenMiddleware, downloadFolder);
 appRouter.get("/download-folder/:folderId", downloadFolder);
+
+// appRouter.get("/download-file/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
+appRouter.get("/download-file/:fileId", downloadFile);
+
+appRouter.get("/share-page-download-folder/:token", getSharePageDownloadFolder);
+appRouter.get("/share-page-download-file/:token", getSharePageDownloadFile);
+
+appRouter.get("/share-page-preview-file/:token", getSharePageFilePreview);
 
 module.exports = appRouter;

@@ -256,6 +256,9 @@ async function getShareLinkById(shareLinkId) {
     },
     select: {
       userId: true,
+      token: true,
+      folderId: true,
+      fileId: true,
       // permission: true,
       // passwordHash: true,
       // maxDownloads: true,
@@ -280,7 +283,7 @@ async function getShareHistoryByFolderId(folderId, userId) {
     },
     select: {
       id: true,
-      // token: true, // Not needed
+      token: true, // TODO - Not needed??? used now...just check uniqueness
       // folderId: true,
       // fileId: true,
       permission: true,
@@ -312,7 +315,7 @@ async function getShareHistoryByFileId(fileId, userId) {
     },
     select: {
       id: true,
-      // token: true, // Not needed
+      token: true, // TODO - Not needed??? used now...just check uniqueness
       // folderId: true,
       fileId: true,
       permission: true,
@@ -370,6 +373,7 @@ async function getUserShareLinksByFolderId(folderId, userId) {
     },
     select: {
       id: true,
+      token: true,
       userId: true,
       permission: true,
       downloadCount: true,
@@ -390,6 +394,7 @@ async function getUserShareLinksByFileId(fileId, userId) {
     },
     select: {
       id: true,
+      token: true,
       userId: true,
       permission: true,
       downloadCount: true,

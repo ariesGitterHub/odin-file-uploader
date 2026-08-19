@@ -26,8 +26,11 @@ function copyShareLink(button) {
   alert("Copied the text: " + shareLinkInput.value);
 }
 
+let count = 1
+
 document.querySelectorAll(".copy-share-link-button").forEach((button) => {
   button.addEventListener("click", () => {
+    button.textContent = `link copied! (${count++})`
     copyShareLink(button);
   });
 });

@@ -544,6 +544,7 @@ async function getUserShareLinkFolderPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
     const userId = req.user.id;
+    const shareLinkId = req.query.shareLinkId;  
 
     const folder = await getFolderById(folderId);
 
@@ -571,6 +572,29 @@ async function getUserShareLinkFolderPage(req, res, next) {
       lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
     }));
 
+    let shareLink = null;
+    let shareUrl = null;
+
+    // Only retrieve a newly-created link when the redirect supplied
+    // a shareLinkId.
+    if (shareLinkId) {
+      shareLink = await getShareLinkById(shareLinkId); // Bubba
+
+      // Make sure the link actually belongs to this file and user.
+      if (
+        !shareLink ||
+        shareLink.folderId !== folderId ||
+        shareLink.userId !== userId
+      ) {
+        shareLink = null;
+      } else {
+        shareUrl = `${req.protocol}://${req.get("host")}/app/share-page/${shareLink.token}`;
+      }
+    }
+
+    console.log("shareLink is", shareLink);
+    
+
     res.render("share-link", {
       title: "Share Folder",
       itemType: "folder",
@@ -580,8 +604,11 @@ async function getUserShareLinkFolderPage(req, res, next) {
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
       // csrfToken: req.csrfToken(),
-      shareLink: null,
-      shareUrl: null,
+      // shareLink: null,
+      // shareUrl: null,
+      // shareLinkId,
+      shareLink,
+      shareUrl,
     });
   } catch (err) {
     next(err);
@@ -615,16 +642,16 @@ async function postUserShareLinkFolderPage(req, res, next) {
     if (folder.userId !== userId) {
       return res.status(403).render("forbidden");
     }
+// TODO - is below NEEDED?
+    // const shareHistoryByFolder = await getShareHistoryByFolderId(folderId);
 
-    const shareHistoryByFolder = await getShareHistoryByFolderId(folderId);
-
-    const formattedDates = shareHistoryByFolder.map((f) => ({
-      ...f,
-      createdAtLabel: formatExactDate(f.createdAt), // formats file dates
-      updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
-      expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
-      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
-    }));
+    // const formattedDates = shareHistoryByFolder.map((f) => ({
+    //   ...f,
+    //   createdAtLabel: formatExactDate(f.createdAt), // formats file dates
+    //   updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
+    //   expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+    //   lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
+    // }));
 
     const { expires_at, custom_expires_at, max_downloads, timezone } = req.body;
 
@@ -656,7 +683,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
             ...folder,
             emoji: folderEmojis[folder.folderImage],
           },
-          shareHistoryByFolder: formattedDates,
+          // shareHistoryByFolder: formattedDates,
           errors: ["Please provide a valid expiration date and time."],
           formData: req.body,
           shareLink: null,
@@ -677,7 +704,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
-        shareHistoryByFolder: formattedDates,
+        // shareHistoryByFolder: formattedDates,
         errors: ["Please select a valid expiration."],
         formData: req.body,
         shareLink: null,
@@ -696,7 +723,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
-        shareHistoryByFolder: formattedDates,
+        // shareHistoryByFolder: formattedDates,
         errors: ["Expiration date must be in the future."],
         formData: req.body,
         shareLink: null,
@@ -722,7 +749,7 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
-        shareHistoryByFolder: formattedDates,
+        // shareHistoryByFolder: formattedDates,
         errors: ["Maximum downloads must be at least 1."],
         formData: req.body,
         shareLink: null,
@@ -744,25 +771,29 @@ async function postUserShareLinkFolderPage(req, res, next) {
 
     // The token is stored in the database, while the complete URL is
     // constructed when it is needed.
-    const shareUrl = `${req.protocol}://${req.get("host")}/share-page/${shareLink.token}`;
+    // const shareUrl = `${req.protocol}://${req.get("host")}/app/share-page/${shareLink.token}`;
 
     // Render the share page again so the newly generated link can be shown
     // to the user immediately.
     // return res.render("share-link", { // BUBBA
-    return res.redirect("share-link", {
-      title: "Share Folder",
-      itemType: "folder",
-      folder: {
-        ...folder,
-        emoji: folderEmojis[folder.folderImage],
-      },
-      shareHistoryByFolder: formattedDates,
-      errors: [],
-      formData: req.body,
-      shareLink,
-      shareUrl,
-      csrfToken: req.csrfToken(),
-    });
+    // return res.render("share-link", {
+    //   title: "Share Folder",
+    //   itemType: "folder",
+    //   folder: {
+    //     ...folder,
+    //     emoji: folderEmojis[folder.folderImage],
+    //   },
+    //   shareHistoryByFolder: formattedDates,
+    //   errors: [],
+    //   formData: req.body,
+    //   shareLink,
+    //   shareUrl,
+    //   csrfToken: req.csrfToken(),
+    // });
+
+    return res.redirect(
+      `/app/share-folder/${folderId}?shareLinkId=${shareLink.id}`,
+    );
   } catch (err) {
     next(err);
   }
@@ -772,6 +803,7 @@ async function getUserShareLinkFilePage(req, res, next) {
   try {
     const fileId = req.params.fileId;
     const userId = req.user.id;
+    const shareLinkId = req.query.shareLinkId;  
 
     const file = await getFileById(fileId);
 
@@ -780,7 +812,7 @@ async function getUserShareLinkFilePage(req, res, next) {
     }
 
     if (file.userId !== userId) {
-      console.log("Unauthorized user");
+      // console.log("Unauthorized user");
       return res.status(403).render("forbidden");
     }
 
@@ -797,8 +829,31 @@ async function getUserShareLinkFilePage(req, res, next) {
       lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
     }));
 
+    let shareLink = null;
+    let shareUrl = null;
+
+    // Only retrieve a newly-created link when the redirect supplied
+    // a shareLinkId.
+    if (shareLinkId) {
+      shareLink = await getShareLinkById(shareLinkId);
+
+      // Make sure the link actually belongs to this file and user.
+      if (
+        !shareLink ||
+        shareLink.fileId !== fileId ||
+        shareLink.userId !== userId
+      ) {
+        shareLink = null;
+      } else {
+        shareUrl = `${req.protocol}://${req.get("host")}/app/share-page/${shareLink.token}`;
+      }
+    }
+
+     console.log("shareLink is", shareLink);
+     console.log("shareUrl is....", shareUrl);
+
     // res.render("share-link", {
-     res.render("share-link", { //BUBBA
+     return res.render("share-link", { //BUBBA
       title: "Share File",
       itemType: "file",
       file,
@@ -806,8 +861,8 @@ async function getUserShareLinkFilePage(req, res, next) {
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
       // csrfToken: req.csrfToken(),
-      shareLink: null,
-      shareUrl: null,
+      shareLink,
+      shareUrl,
     });
   } catch (err) {
     next(err);
@@ -829,18 +884,17 @@ async function postUserShareLinkFilePage(req, res, next) {
       return res.status(403).render("forbidden");
     }
 
-    const shareHistoryByFile = await getShareHistoryByFileId(
-      fileId,
-      userId,
-    );
 
-    const formattedDates = shareHistoryByFile.map((f) => ({
-      ...f,
-      createdAtLabel: formatExactDate(f.createdAt), // formats file dates
-      updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
-      expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
-      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
-    }));
+    // TODO - is below NEEDED???
+    // const shareHistoryByFile = await getShareHistoryByFileId(fileId, userId);
+
+    // const formattedDates = shareHistoryByFile.map((f) => ({
+    //   ...f,
+    //   createdAtLabel: formatExactDate(f.createdAt), // formats file dates
+    //   updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
+    //   expiresAtLabel: formatExactDate(f.expiresAt), // formats shareLink dates
+    //   lastAccessedAtLabel: formatExactDate(f.lastAccessedAt), // formats file dates
+    // }));
 
     const { expires_at, custom_expires_at, max_downloads, timezone } = req.body;
 
@@ -885,7 +939,7 @@ async function postUserShareLinkFilePage(req, res, next) {
         title: "Share File",
         itemType: "file",
         file, // ??? was this the issue with my error?
-        shareHistoryByFile: formattedDates,
+        // shareHistoryByFile: formattedDates,
         errors: ["Please select a valid expiration."],
         formData: req.body,
         shareLink: null,
@@ -901,7 +955,7 @@ async function postUserShareLinkFilePage(req, res, next) {
         title: "Share File",
         itemType: "file",
         file, // ??? was this the issue with my error?
-        shareHistoryByFile: formattedDates,
+        // shareHistoryByFile: formattedDates,
         errors: ["Expiration date must be in the future."],
         formData: req.body,
         shareLink: null,
@@ -924,7 +978,7 @@ async function postUserShareLinkFilePage(req, res, next) {
         title: "Share File",
         itemType: "file",
         file, // ??? was this the issue with my error?
-        shareHistoryByFile: formattedDates,
+        // shareHistoryByFile: formattedDates,
         errors: ["Maximum downloads must be at least 1."],
         formData: req.body,
         shareLink: null,
@@ -946,21 +1000,28 @@ async function postUserShareLinkFilePage(req, res, next) {
 
     // The token is stored in the database, while the complete URL is
     // constructed when it is needed.
-    const shareUrl = `${req.protocol}://${req.get("host")}/share-page/${shareLink.token}`;
+    // const shareUrl = `${req.protocol}://${req.get("host")}/app/share-page/${shareLink.token}`;
 
     // Render the share page again so the newly generated link can be shown
     // to the user immediately.
-    return res.render("share-link", {
-      title: "Share File",
-      itemType: "file",
-      file, // ??? was this the issue with my error?
-      shareHistoryByFile: formattedDates,
-      errors: [],
-      formData: req.body,
-      shareLink,
-      shareUrl,
-      csrfToken: req.csrfToken(),
-    });
+    // return res.render("share-link", {
+    //   title: "Share File",
+    //   itemType: "file",
+    //   file, // ??? was this the issue with my error?
+    //   shareHistoryByFile: formattedDates,
+    //   errors: [],
+    //   formData: req.body,
+    //   shareLink,
+    //   shareUrl,
+    //   csrfToken: req.csrfToken(),
+    // });
+
+    // Redirect to the GET page after successfully creating the link.
+    // Pass the new share-link ID so the GET controller knows which link
+    // should be displayed.
+    return res.redirect(
+      `/app/share-file/${fileId}?shareLinkId=${shareLink.id}`,
+    );
   } catch (err) {
     next(err);
   }
@@ -972,7 +1033,7 @@ async function getUserShareOverviewPage(req, res, next) {
 
     const shareLinks = await getUserShareLinksByUserId(userId);
     // const shareUrl = `${req.protocol}://${req.get("host")}/share/${shareLink.token}`;
-    const shareUrl = `${req.protocol}://${req.get("host")}/share-page/`;
+    const shareUrl = `${req.protocol}://${req.get("host")}/app/share-page/`;
     // const folderId = shareLinks.folderId;
   
     // const formatCreatedAtDate = formatExactDate(shareLinks.createdAt); 

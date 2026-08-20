@@ -5,57 +5,60 @@ const {
   csrfTokenMiddleware,
 } = require("../middleware/csrfMiddleware");
 
+const { getHomePage } = require("../controllers/home.controller");
+
 const {
-  getHomePage,
+  getAdminPage,
+  getAdminEditPage,
+  postAdminEditPage,
+  deleteUserProfileByAdmin,
+} = require("../controllers/admin.controller");
+
+const {
   getSignUpPage,
   postSignUpPage,
   getLogInPage,
   postLogInPage,
   postLogOut,
+} = require("../controllers/auth.controller");
 
-  getAdminPage,
-  getAdminEditPage,
-  postAdminEditPage,
-  deleteUserProfileByAdmin,
-
-  getUserDataPage,
-  getUserFolderPage,
-  getUserFilePreview,
-
-  getUserShareLinkFolderPage,
-  postUserShareLinkFolderPage,
-
-  getUserShareOverviewPage,
-  postUserShareLinkIsActiveUpdate,
-  getUserShareLinkFilePage,
-  postUserShareLinkFilePage,
-  getPublicSharePage,
-
-  getUserFolderEditPage,
-  postUserFolderEditPage,
-  deleteUserFolderPage,
-
-  getUserFileEditPage,
-  postUserFileEditPage,
-  deleteUserFile,
-  deleteUserShare,
-
-  getUserProfilePage,
-  postUserProfilePage,
-  deleteUserProfileByUser,
-
+const {
   getNewFolderPage,
   postNewFolderPage,
   getNewFilePage,
   postNewFilePage,
-
-  downloadFile,
+  getUserDataPage,
+  getUserFolderPage,
+  getUserFilePreview,
+  deleteUserFolderPage,
+  deleteUserFile,
+  getUserFolderEditPage,
+  postUserFolderEditPage,
+  getUserFileEditPage,
+  postUserFileEditPage,
+  getUserProfilePage,
+  postUserProfilePage,
+  deleteUserProfileByUser,
   downloadFolder,
-  getSharePageDownloadFolder,
-  getSharePageDownloadFile,
-  getSharePageFilePreview,
+  downloadFile,
+} = require("../controllers/user-data.controller");
 
-} = require("../controllers/appControllers");
+const {
+  getUserShareLinkFolderPage,
+  postUserShareLinkFolderPage,
+  getUserShareLinkFilePage,
+  postUserShareLinkFilePage,
+  getUserShareOverviewPage,
+  postUserShareLinkIsActiveUpdate,
+  deleteUserShare,
+} = require("../controllers/user-share.controller");
+
+const {
+  getPublicSharePage,
+  getPublicShareDownloadFolder,
+  getPublicShareDownloadFile,
+  getPublicShareFilePreview,
+} = require("../controllers/public-share.controller");
 
 const {
   createUserValidatorSignUp,
@@ -268,9 +271,9 @@ appRouter.get("/download-folder/:folderId", downloadFolder);
 // appRouter.get("/download-file/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
 appRouter.get("/download-file/:fileId", downloadFile);
 
-appRouter.get("/share-page-download-folder/:token", getSharePageDownloadFolder);
-appRouter.get("/share-page-download-file/:token", getSharePageDownloadFile);
+appRouter.get("/share-page-download-folder/:token", getPublicShareDownloadFolder);
+appRouter.get("/share-page-download-file/:token", getPublicShareDownloadFile);
 
-appRouter.get("/share-page-preview-file/:token", getSharePageFilePreview);
+appRouter.get("/share-page-preview-file/:token", getPublicShareFilePreview);
 
 module.exports = appRouter;

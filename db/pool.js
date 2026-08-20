@@ -1,23 +1,25 @@
-require("dotenv").config();
+// NOT NEEDED SINCE I AM USING PRISMA 
 
-const { Pool } = require("pg");
+// require("dotenv").config();
 
-const isProd = process.env.NODE_ENV === "production";
+// const { Pool } = require("pg");
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is required");
-}
+// const isProd = process.env.NODE_ENV === "production";
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: isProd ? { rejectUnauthorized: false } : false,
-  max: 10,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 5000,
-});
+// if (!process.env.DATABASE_URL) {
+//   throw new Error("DATABASE_URL is required");
+// }
 
-pool.on("connect", () => {
-  console.log("Connected to PostgreSQL");
-});
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: isProd ? { rejectUnauthorized: false } : false,
+//   max: 10,
+//   idleTimeoutMillis: 30000,
+//   connectionTimeoutMillis: 5000,
+// });
 
-module.exports = pool;
+// pool.on("connect", () => {
+//   console.log("Connected to PostgreSQL");
+// });
+
+// module.exports = pool;

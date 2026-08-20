@@ -23,7 +23,7 @@ function copyShareLink(button) {
 
   navigator.clipboard.writeText(shareLinkInput.value);
 
-  alert("Copied the text: " + shareLinkInput.value);
+  // alert("Copied the text: " + shareLinkInput.value);
 }
 
 let count = 1

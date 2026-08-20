@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>  
-      <%- include('./partials/folder-buttons.ejs', { folder }) %>
+      <%- include('./partials/buttons/folder-buttons.ejs', { folder }) %>
       </div>
       <div class="current-folder-items">
         <div class="subfolder-section-title">
@@ -93,8 +93,7 @@
             <div class="details-backdrop"><strong>updated</strong> <%= file.updatedAtLabel %></div>
             <% } %>
           </div>  
-          <%#- include('./partials/file-buttons.ejs') %>
-          <%- include('./partials/file-buttons.ejs', { folder, file }) %>
+          <%- include('./partials/buttons/file-buttons.ejs', { folder, file }) %>
           </div>
           <% }) %>  
           <% } %>

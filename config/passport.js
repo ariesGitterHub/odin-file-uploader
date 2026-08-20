@@ -1,6 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
-// const pool = require("../db/pool");
+// const pool = require("../db/pool"); // Not needed, using Prisma
 const prisma = require("../lib/prisma");
 
 module.exports = (passport) => {
@@ -14,13 +14,9 @@ module.exports = (passport) => {
         try {
           const user = await prisma.user.findUnique({ where: { email } });
 
-          // console.log("USER:", user);
-
           if (!user) {
             return done(null, false, { message: "Incorrect email" });
           }
-
-          // console.log("HASH:", user.passwordHash);
 
           const isMatch = await bcrypt.compare(password, user.passwordHash);
 
@@ -49,24 +45,7 @@ module.exports = (passport) => {
     done(null, user.id);
   });
 
-  // DESERIALIZE USER (CREATES req.user)
-  // Source - https://stackoverflow.com/a/74549824
-  // Posted by Pompedup, modified by community. See post 'Timeline' for change history
-  // Retrieved 2026-06-09, License - CC BY-SA 4.0
-
-  // I don't need all of users table...
-  // passport.deserializeUser(async (id, done) => {
-  //   try {
-  //     const user = await prisma.user.findFirst({ where: { id } });
-  //     console.log("Passport.js says user is:", user)
-
-  //     done(null, user);
-  //   } catch (error) {
-  //     done(error);
-  //   }
-  // });
-
-  // Note - better approach...
+  // DESERIALIZE USER (creates req.user)
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await prisma.user.findUnique({
@@ -77,7 +56,6 @@ module.exports = (passport) => {
           role: true,
         },
       });
-      // console.log("Passport.js says user is:", user);
 
       done(null, user);
     } catch (error) {

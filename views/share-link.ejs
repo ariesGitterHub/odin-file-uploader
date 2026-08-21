@@ -6,7 +6,8 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border-white">
-      <h2 class="subtitle">
+      <!-- <h2 class="subtitle"> -->
+      <h2 class="page-title">
         Share Existing
         <% if (itemType === "folder") { %>
         Folder
@@ -21,7 +22,7 @@
         <% } %>
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <h3 class="font-normal">
+      <h3 class="font-text">
         You are seeking to share the
         <% if (itemType === "folder") { %>
         folder...
@@ -92,7 +93,7 @@
         <%# if (shareLink) { %>
         <% if (shareLink) { %>
           <br>
-          <h4 class="font-normal">Your share link is...</h4>
+          <h4 class="font-text">Your share link is...</h4>
           <input class="share-link-input" type="text" value="<%= shareUrl %>" readonly>
           <div class="button-container-row-space-evenly margin-top">
             <button id="copy-share-link-input" class="button-default width-default-percent copy-share-link-button" type="button">
@@ -101,19 +102,21 @@
           </div>          
         <% } %>
       </div>
+      <br>
       <div class="element-container-col-default form-width">
-        <h3 class="subtitle">
+        <!-- <h3 class="subtitle"> -->
+        <h2 class="page-title">
           <% if (itemType === "folder") { %>
           Folder
           <% } else { %> 
           File
           <% } %>
           Share History
-        </h3>
+        </h2>
         <% if (itemType === "folder") { %> 
           <% if (shareHistoryByFolder.length === 0) { %>
-            <div class="font-normal">
-              <h4>There is no history of sharing this folder.</h4>
+            <div class="font-text">
+              <h3>There is no history of sharing this folder.</h3>
             </div>
             <% } else { %> 
             <% shareHistoryByFolder.forEach(record => { %>
@@ -124,7 +127,7 @@
 
         <% if (itemType === "file") { %> 
           <% if (shareHistoryByFile.length === 0) { %>
-            <div class="font-normal">
+            <div class="font-text">
               <h4>There is no history of sharing this file.</h4>
             </div>
             <% } else { %> 

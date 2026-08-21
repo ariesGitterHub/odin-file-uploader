@@ -70,21 +70,26 @@
 }
 
 .highlight-color {
-  color: var(--gold);
+  color: var(--yellow-bold);
 }
 
 .card:hover,
 .card:hover .card-name,
 .card:hover .card-button {
-  border-color: var(--gold);
-  /* color: var(--gold); */
+  border-color: var(--yellow-bold);
+  /* color: var(--yellow-bold); */
 }
+
+/* .disabled-color-background {
+  background-color: var(--red-bold);
+} */
 
 .details-backdrop, .share-backdrop, .file-extension {
   width: fit-content;
   border-radius: var(--border-radius-default);
   color: var(--black);
   font-family: var(--font-text);
+  text-wrap: nowrap;
 }
 
 .details-backdrop, .file-extension {
@@ -134,11 +139,11 @@
   flex-wrap: wrap;
 }
 
-.font-fancy {
+.font-title {
   font-family: var(--font-title);
 }
 
-.font-normal {
+.font-text {
   font-family: var(--font-text);
 }
 
@@ -188,7 +193,7 @@
 .share-description-list {
   width: var(--share-page-width);
   font-family: var(--font-text);
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-larger);
 }
 
 .share-description-list dt {
@@ -196,7 +201,7 @@
 }
 
 .font-size-large {
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-larger);
 }
 .font-size-default {
   font-size: var(--font-size-default);

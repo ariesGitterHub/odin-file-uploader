@@ -5,7 +5,7 @@ form {
 }
 
 label {
-  /* color: var(--gold); */
+  /* color: var(--yellow-bold); */
   /* color: var(--purple); */
   color: var(--black);
   font-family: var(--font-title);
@@ -51,7 +51,7 @@ select {
 } */
 
 .select-font-larger {
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-larger);
 }
 
 textarea {

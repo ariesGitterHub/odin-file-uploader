@@ -5,19 +5,18 @@
   --white: #ececea;
 
   --gray: #c0c4cf;
-  --gray-dk: #434449;
+  /* --gray-dk: #434449; */
 
   --blue: #0d79f2;
   --orange: #c18266;
   --pink: #ba79b5;
   --purple: #7e1d7e;
-  --gold: #ffd700;
-  --gold-lt: #eee208;
-  --gold-trans: #ffd70080;
+  /* --egoild: #ffdd00; */
 
-  --red-bold: #dc1919;
-  --blue-bold: #1818cc;
-  --yellow-bold: #ffdd00;
+
+  --red-bold: #c62626;
+  --blue-bold: #2525b6;
+  --yellow-bold: #ffd000;
 
   /* Borders */
   --border-solid-default: 2px solid;
@@ -40,7 +39,7 @@
   --button-default-h: 1.75rem;
   --button-default-w: 5.5rem;  
   --nav-button-default-h: 2.25rem;
-  --nav-button-default-w: 3.5rem;
+  --nav-button-default-w: 3.25rem;
   /* --index-card-width: 325px; */
   --share-page-width: 325px;
   --index-card-width: 100%;
@@ -63,7 +62,8 @@
   --font-error: monospace;
   --font-size-small: 0.75rem;
   --font-size-default: 1rem;
-  --font-size-large: 1.5rem;
+  --font-size-large: 1.25rem;
+  --font-size-larger: 1.5rem;
   --font-size-title: 2.5rem;
   --font-weight-light: 200;
   --font-weight-medium: 400;

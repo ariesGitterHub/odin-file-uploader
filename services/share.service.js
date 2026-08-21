@@ -1,4 +1,5 @@
 const prisma = require("../lib/prisma");
+const crypto = require("node:crypto");
 
 async function createFolderShareLink({
   userId,

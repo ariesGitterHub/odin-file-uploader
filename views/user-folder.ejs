@@ -47,7 +47,7 @@
         </div>
         <div class="subfolder-item-section">
           <% if (childFolders.length === 0) { %> 
-            <div class="font-normal folder-color">
+            <div class="font-text folder-color">
               <h4>There are no current subfolders.</h4>
             </div>
           <% } else { %> 
@@ -70,23 +70,23 @@
         </div>
         <div class="file-item-section">
           <% if (folder.files.length === 0) { %>
-          <div class="font-normal file-color">
+          <div class="font-text file-color">
             <h4>There are no current files.</h4>
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>
         <div class="card file-border">
           <h3 class="card-name file-color"><%= file.originalFileName %></h3>
-          <div class="element-container-row-center-start flex-gap">
+          <div class="element-container-row-center-start flex-gap flex-wrap">
             <div class="details-backdrop"><strong>size</strong> <%= file.sizeLabel %> </div>
             <!-- <div class="details-backdrop"><strong>type</strong> <%#= file.mimeType %></div> -->
-          </div>  
-          <div class="element-container-row-center-start flex-gap">
+          <!-- </div>   -->
+          <!-- <div class="element-container-row-center-start flex-gap"> -->
             <!-- <div class="details-backdrop"><strong>size</strong> <%#= file.sizeLabel %> </div> -->
             <!-- <div class="details-backdrop"><strong>type</strong> <%#= file.mimeType %></div> -->
             <div class="details-backdrop"><strong>type</strong> <%= file.mimeLabel %></div>
-          </div>  
-          <div class="element-container-row-center-start flex-gap">
+          <!-- </div>   -->
+          <!-- <div class="element-container-row-center-start flex-gap"> -->
             <div class="details-backdrop"><strong>created</strong> <%= file.createdAtLabel %></div>
             <!-- TODO - check below when I am able to make updates -->
             <% if (file.createdAtLabel !== file.updatedAtLabel) { %>

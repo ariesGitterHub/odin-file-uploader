@@ -19,11 +19,11 @@
     width: min(90vw, 420px);
     background: var(--black);
     border: var(--border-solid-default);
-    border-color: var(--gold);
+    border-color: var(--yellow-bold);
     border-radius: var(--border-radius-small); 
     /* box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);        */
     /* box-shadow: var(--box-shadow-black);        */
-    color: var(--gold);
+    color: var(--yellow-bold);
     padding: 1.5rem;
     text-align: left;
 }

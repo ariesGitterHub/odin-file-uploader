@@ -6,10 +6,11 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap margin-left-right">
-      <h2 class="subtitle">Admin Overview of Users</h2>     
+      <!-- <h2 class="subtitle">Admin Overview of Users</h2>      -->
+      <h2 class="page-title">Admin Overview of Users</h2>     
         <div class="element-container-row-default flex-gap flex-wrap">
           <% if (userProfiles.length === 0) { %>
-          <div class="font-normal admin-color">
+          <div class="font-text admin-color">
             <h4>There are no current users.</h4>
           </div>
           <% } else { %> 
@@ -21,9 +22,9 @@
             </div>   -->
             <div class="element-container-row-center-start flex-gap flex-wrap">
               <!-- <div class="details-backdrop"><strong>id</strong> <%#= userProfile.id %></div> -->
-              <div class="details-backdrop"><strong>id</strong> <%= userProfile.id %></div>
+              <!-- <div class="details-backdrop"><strong>id</strong> <%#= userProfile.id %></div> -->
               <div class="details-backdrop"><strong>email</strong> <%= userProfile.email %></div>
-              <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified ? "True" : "False" %></div>
+              <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified ? "🟢 True" : "🔴 False" %></div>
              
             </div>  
             <div class="element-container-row-center-start flex-gap flex-wrap">
@@ -38,8 +39,6 @@
               <div class="details-backdrop"><strong>storage used</strong> <%= userProfile.storageUsed %></div>    
             </div>  
           <%- include("./partials/buttons/admin-buttons.ejs", { userProfile }) %>
-          <%#- include("./partials/admin-buttons.ejs") %>
-<!-- LOOK HERE -->
         </div>
         <% }) %>  
         <% } %>

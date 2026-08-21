@@ -6,10 +6,11 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap margin-left-right">
-      <h2 class="subtitle">Shared Items Overview</h2>     
+      <!-- <h2 class="subtitle">Shared Items Overview</h2>      -->
+      <h2 class="page-title">Shared Items Overview</h2>     
         <div class="element-container-row-start-center flex-gap flex-wrap">
           <% if (shareLinks.length === 0) { %>
-          <div class="font-normal">
+          <div class="font-text">
             <h4>There is no history of shared links.</h4>
           </div>
           <% } else { %> 
@@ -31,8 +32,30 @@
                   <div class="details-backdrop"><strong>updated</strong> <%= shareLink.updatedAtLabel %></div>
                 <% } %> 
                 <div class="details-backdrop"><strong>share status</strong> <%= shareLink.isActive ? "🟢 Enabled" : "🔴 Disabled" %></div>
-                <div class="details-backdrop"><strong>expires</strong> <%= shareLink.expiresAtLabel %></div>
-                <div class="details-backdrop"><strong>download count</strong> <%= shareLink.downloadCount %></div>
+                <!-- <div class="details-backdrop"><strong>expires</strong> <%#= shareLink.expiresAtLabel %></div> -->
+                <div class="details-backdrop">
+                  <strong>expires</strong>
+                  <% if (shareLink.expiresAt > new Date()) { %> 
+                    🟢 
+                  <% } else if (shareLink.expiresAt === null) { %> 
+                    🟢
+                  <% } else { %> 
+                    🔴
+                  <% } %>
+                  <%= shareLink.expiresAtLabel %>
+                </div>  
+                <!-- <div class="details-backdrop"><strong>download count</strong> <%#= shareLink.downloadCount %></div> -->
+                <div class="details-backdrop">
+                  <strong>download count</strong>
+                  <% if (shareLink.downloadCount < shareLink.maxDownloads) { %> 
+                    🟢 
+                  <% } else if (shareLink.maxDownloads === null) { %> 
+                    🟢
+                  <% } else { %> 
+                    🔴
+                  <% } %>
+                  <%= shareLink.downloadCount %>
+                </div> 
                 <div class="details-backdrop"><strong>download maximum</strong> <%= shareLink.maxDownloads ? shareLink.maxDownloads : "unlimited" %></div>
                 <div class="details-backdrop"><strong>last accessed</strong> <%= shareLink.lastAccessedAtLabel %></div>
  

@@ -53,14 +53,14 @@ nav {
 .page-title {
   background: linear-gradient(180deg, var(--black), var(--purple));
   font-family: var(--font-title);
+  font-size: var(--font-size-large);
   margin-bottom: var(--spacer-default);
-  /* text-transform: uppercase; */
+  text-transform: uppercase;
   -webkit-background-clip: text; /* Clips background to text shape */
   -webkit-text-fill-color: transparent; /* Makes original text color transparent */
 }
 
-.title,
-.subtitle {
+.title {
   height: fit-content;
   width: fit-content;
   font-family: var(--font-title);
@@ -68,15 +68,9 @@ nav {
 }
 
 .title h1 {
-  color: var(--gold);
+  color: var(--yellow-bold);
   font-size: var(--font-size-title);
   text-align: center;
-  text-shadow: var(--text-shadow0);
-}
-
-.subtitle {
-  color: var(--gold);
-  font-size: var(--font-size-large);
   text-shadow: var(--text-shadow0);
 }
 
@@ -91,9 +85,9 @@ nav {
 
 .index-title {
   font-family: var(--font-title);
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-larger);
   font-weight: 800;
-  color: var(--gold);
+  color: var(--yellow-bold);
   text-shadow: var(--text-shadow0);
 }
 
@@ -246,7 +240,7 @@ nav {
 }
 
 #file-upload::file-selector-button:hover {
-  background-color: var(--gold);
+  background-color: var(--yellow-bold);
   color: var(--black);
 }
 

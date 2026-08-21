@@ -22,7 +22,7 @@
 .button-default:hover {
   /* background-color: var(--orange); */
   /* background-color: transparent; */
-  background-color: var(--gold);
+  background-color: var(--yellow-bold);
   /* box-shadow: var(--box-shadow-black); */
   color: var(--black);
   /* transform: scale(1.125); */
@@ -45,7 +45,7 @@ padding: 0;
   height: var(--nav-button-default-h);
   width: var(--nav-button-default-w);
   background-color: var(--gray);
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-larger);
   font-weight: 800;
 }
 
@@ -60,7 +60,7 @@ padding: 0;
   /* width: 6.125rem; */
   background-color: var(--black);
   border: var(--border-solid-default);
-  color: var(--gold);
+  color: var(--yellow-bold);
   font-size: var(--font-size-small);
   padding: 0.25rem 0.5rem;
 }
@@ -89,14 +89,14 @@ padding: 0;
 
 .folder-button:hover,
 .file-button:hover {
-  background-color: var(--gold);
-  border-color: var(--gold);
+  background-color: var(--yellow-bold);
+  border-color: var(--yellow-bold);
   color: var(--black);
 }
 
 /* .card-button {
   width: 100%;
-  background-color: var(--gold-lt);
+  background-color: var(--yellow-bold-lt);
   border: var(--border-solid-default);
   color: var(--blue-bold);
 } */

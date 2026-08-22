@@ -5,15 +5,15 @@
   </head>
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
-    <main class="element-container-col-default frame-border-white">
+    <main class="element-container-col-default frame-border">
       <!-- <h2 class="subtitle">Upload a New File</h2> -->
       <h2 class="page-title">Upload a New File</h2>
       <form class="element-container-col-start-center form-width" action="/app/new-file" method="POST" enctype="multipart/form-data">
       <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <!-- <label for="card-name-new-file">file name</label>
+        <!-- <label for="card-text-highlight-new-file">file name</label>
         <input
-          id="card-name-new-file"
+          id="card-text-highlight-new-file"
           type="text"          
           name="file"
           value="<%#= formData?.file_name || '' %>"
@@ -48,8 +48,8 @@
           <% }) %>
         </select>
         <div class="button-container-row-space-evenly margin-top">
-          <a class="button-default width-default-percent" href="/app/user-data">cancel</a>
-          <button class="button-default width-default-percent" type="submit">upload</button>
+          <a class="button-default max-percent-width" href="/app/user-data">cancel</a>
+          <button class="button-default max-percent-width" type="submit">upload</button>
         </div>
       </form>
     </main>

@@ -7,73 +7,49 @@
   justify-content: center;
   flex-wrap: wrap;
   background-color: var(--gray);
-  /* border: var(--border-default); */
   border-radius: var(--border-radius-small);
   box-shadow: var(--box-shadow-black);
   color: var(--black);
   cursor: pointer;
   font-family: var(--font-title);
-  font-size: var(--font-size-default);
+  /* font-size: var(--font-size-small); */
   font-weight: var(--font-weight-heavy);
   margin: 0;
   text-transform: uppercase;
 }
 
 .button-default:hover {
-  /* background-color: var(--orange); */
-  /* background-color: transparent; */
   background-color: var(--yellow-bold);
-  /* box-shadow: var(--box-shadow-black); */
   color: var(--black);
-  /* transform: scale(1.125); */
 }
-
-/* .wide-button {
-width: var(--width-default-percent);
-margin: 0;
-font-size: var(--font-size-default);
-padding: 0.25rem 0.5rem;
-} */
-
-/* .narrow-button {
-width: fit-content;
-margin: 0;
-padding: 0;
-} */
 
 .nav-button {
   height: var(--nav-button-default-h);
-  width: var(--nav-button-default-w);
+  /* width: var(--nav-button-default-w); */
+  width: fit-content;
   background-color: var(--gray);
   font-size: var(--font-size-larger);
-  font-weight: 800;
+  font-weight: var(--font-weight-heaviest);
+  /* padding: 0 var(spacer-default); */
+  padding: var(--spacer-small) var(--spacer-small);
 }
 
-.card-button,
+.admin-button,
 .folder-button,
 .file-button {
-  /* height: var(--button-default-h); */
-  /* width: var(--button-default-h); */
   height: fit-content;
-  /* width: fit-content; */
-  width: var(--width-default-percent);
-  /* width: 6.125rem; */
+  width: var(--max-percent-width);
   background-color: var(--black);
   border: var(--border-solid-default);
   color: var(--yellow-bold);
-  font-size: var(--font-size-small);
-  padding: 0.25rem 0.5rem;
+  /* font-size: var(--font-size-small); */
+  padding: var(--spacer-small) var(--spacer-medium);
 }
 
-.card-button {
-  background-color: var(--black);
-  border: var(--border-solid-default);
-}
-
-/* Also see card:hover for more of hover css! */
-.card-button:hover {
-  /* background-color: var(--purple); */
-  color: var(--black);
+.admin-button {
+  border-color: var(--blue);
+  color: var(--blue);
+  /* border: var(--border-solid-default); */
 }
 
 .folder-button {
@@ -82,11 +58,11 @@ padding: 0;
 }
 
 .file-button {
-  background-color: var(--black);
   border-color: var(--orange);
   color: var(--orange);
 }
 
+.admin-button:hover,
 .folder-button:hover,
 .file-button:hover {
   background-color: var(--yellow-bold);
@@ -101,10 +77,13 @@ padding: 0;
   color: var(--blue-bold);
 } */
 
+.admin-button .emoji, 
 .folder-button .emoji,
-.card-button .emoji {
-  font-size: 1.5rem;
+.file-button .emoji {
+  font-size: var(--font-size-larger);
 }
+
+
 
 .fit-content-button {
   width: fit-content;

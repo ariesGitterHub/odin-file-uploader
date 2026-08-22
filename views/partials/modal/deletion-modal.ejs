@@ -17,7 +17,7 @@
     </p>
   </div>
   <div class="button-container-row-space-evenly">
-    <button class="button-default width-default-percent" type="submit">
+    <button class="button-default max-percent-width" type="submit">
       proceed with deletion
     </button>
   </div>
@@ -38,8 +38,8 @@
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <!-- <input type="hidden" name="userId" value="<%#= userProfile.id %>"> -->
           <div class="button-container-row-space-evenly">
-            <button class="button-default card-button" type="submit">Delete</button>
-            <button class="button-default card-button" type="button" id="cancel-deletion">Cancel</button>              
+            <button class="button-default" type="submit">Delete</button>
+            <button class="button-default" type="button" id="cancel-deletion">Cancel</button>              
           </div>
         </form>
     </div>

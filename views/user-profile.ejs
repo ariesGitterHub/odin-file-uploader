@@ -5,7 +5,7 @@
   </head>
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
-    <main class="element-container-col-default frame-border-white">
+    <main class="element-container-col-default frame-border">
         <!-- <h2 class="subtitle">Change Your Profile</h2> -->
         <h2 class="page-title">Change Your Profile</h2>
        <form id="user-profile-form" class="element-container-col-start-center form-width" action="/app/user-profile" method="POST">
@@ -75,7 +75,7 @@
             <%# CSRF Token - hidden input for forms %>
             <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
             <button 
-              class="button-default width-default-percent deletion-form-button"
+              class="button-default max-percent-width deletion-form-button"
               data-action="/app/delete-your-account"
               data-message="Do you wish to delete your user account? Reminder: this action cannot be undone." 
               type="button"
@@ -83,9 +83,9 @@
               delete
             </button>
           <!-- </form> -->
-          <a class="button-default width-default-percent" href="/app/user-data">cancel</a>
+          <a class="button-default max-percent-width" href="/app/user-data">cancel</a>
           <!-- NOTE - I used the form attribute to get all three buttons in a row (as nested forms are buggy and not allowed)  -->
-          <button class="button-default width-default-percent" type="submit" form="user-profile-form">update</button>
+          <button class="button-default max-percent-width" type="submit" form="user-profile-form">update</button>
         </div>
     </main>
     <%#- include('./partials/footer.ejs') %>

@@ -1,6 +1,6 @@
 /* @media (min-width: 500px) {
   .folder-button, .card-button {
-    width: var(--width-default-percent);
+    width: var(--max-percent-width);
 }
 } */
 

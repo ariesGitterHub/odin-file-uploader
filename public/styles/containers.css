@@ -1,7 +1,7 @@
 /* button containers */
 
 .button-container-col {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,7 +11,7 @@
 }
 
 .button-container-row {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@
 }
 
 .button-container-row-center-start {
-  /* width: var(--width-default-percent); */
+  /* width: var(--max-percent-width); */
   display: flex;
   align-items: center;
   justify-content: start;
@@ -29,7 +29,7 @@
 }
 
 .button-container-row-space-evenly {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -40,7 +40,7 @@
 }
 
 .button-container-row-space-between {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,7 +89,7 @@
 
 
 .element-container-row-default {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -113,14 +113,14 @@
 }
 
 .element-container-row-space-evenly {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
 .element-container-row-space-between {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -128,7 +128,7 @@
 }
 
 .element-container-row-start-start {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   align-items: start;
   justify-content: start;
@@ -136,7 +136,7 @@
 }
 
 .password-rules-container {
-  width: var(--width-default-percent);
+  width: var(--max-percent-width);
   display: flex;
   flex-direction: column;
   align-items: start;

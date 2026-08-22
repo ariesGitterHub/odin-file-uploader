@@ -5,7 +5,7 @@
   </head>
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
-    <main class="element-container-col-default frame-border-white">
+    <main class="element-container-col-default frame-border">
       <!-- <h2 class="subtitle">Create a New Folder</h2> -->
       <h2 class="page-title">Create a New Folder</h2>
        <form class="element-container-col-start-center form-width" action="/app/new-folder" method="POST">
@@ -56,8 +56,8 @@
         </label>
           <textarea id="folder-description-new-folder" name="folder_description"></textarea>
         <div class="button-container-row-space-evenly margin-top">
-          <a class="button-default width-default-percent" href="/app/user-data">cancel</a>
-          <button class="button-default width-default-percent" type="submit">create</button>
+          <a class="button-default max-percent-width" href="/app/user-data">cancel</a>
+          <button class="button-default max-percent-width" type="submit">create</button>
         </div>
       </form>
     </main>

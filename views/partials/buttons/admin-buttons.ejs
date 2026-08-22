@@ -2,7 +2,7 @@
   <!-- Edit -->
   <!-- <input type="hidden" name="userId" value="<%#= userProfile.id %>"> -->
   <a
-    class="button-default card-button admin-border admin-color"
+    class="button-default admin-button"
     href="/app/admin-edit/<%= userProfile.id %>"
   >
     <span class="emoji">✏</span>
@@ -22,7 +22,7 @@
   <!-- <p><%#= userProfile.id %></p>  -->
   <!-- </form> -->
   <button
-    class="button-default card-button admin-border admin-color deletion-form-button"
+    class="button-default admin-button deletion-form-button"
     data-action="/app/admin/delete-user/<%= userProfile.id %>"
     data-message="Do you wish to delete the account of <%= userProfile.firstName %> <%= userProfile.lastName %> (email: <%= userProfile.email %>)? Reminder: this action cannot be undone."
     type="button"

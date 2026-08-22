@@ -5,5 +5,5 @@ module.exports = {
   minUppercase: "one",
   minNumbers: "one",
   minSpecialChars: "one",
-  specialChars: "@$!%*?&",
+  specialChars: "@, $, !, %, *, ?, or &",
 };

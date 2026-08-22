@@ -8,7 +8,8 @@
     <main class="element-container-col-default flex-gap margin-left-right">
       <!-- <h2 class="subtitle">Shared Items Overview</h2>      -->
       <h2 class="page-title">Shared Items Overview</h2>     
-        <div class="element-container-row-start-center flex-gap flex-wrap">
+        <!-- <div class="element-container-row-start-center flex-gap flex-wrap"> -->
+        <div class="element-container-col-default flex-gap flex-wrap">
           <% if (shareLinks.length === 0) { %>
           <div class="font-text">
             <h4>There is no history of shared links.</h4>
@@ -16,7 +17,7 @@
           <% } else { %> 
           <% shareLinks.forEach(shareLink => { %>
             <div class="card share-border">
-              <h3 class="card-name share-color">
+              <h3 class="card-text-highlight share-color">
                 <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>
                 <%= shareLink.folder ? "(folder)" : "(file)" %>
               </h3>
@@ -54,9 +55,9 @@
                   <% } else { %> 
                     🔴
                   <% } %>
-                  <%= shareLink.downloadCount %>
+                  <%= shareLink.downloadCount %>/<%= shareLink.maxDownloads ? shareLink.maxDownloads : "unlimited" %>
                 </div> 
-                <div class="details-backdrop"><strong>download maximum</strong> <%= shareLink.maxDownloads ? shareLink.maxDownloads : "unlimited" %></div>
+                <!-- <div class="details-backdrop"><strong>download maximum</strong> <%#= shareLink.maxDownloads ? shareLink.maxDownloads : "unlimited" %></div> -->
                 <div class="details-backdrop"><strong>last accessed</strong> <%= shareLink.lastAccessedAtLabel %></div>
  
                 <!-- TODO - What do I do with Permissions? Keep or kill? -->

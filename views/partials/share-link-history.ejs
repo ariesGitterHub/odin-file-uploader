@@ -1,5 +1,5 @@
 <div class="card share-border">
-  <h3 class="card-name share-color">
+  <h3 class="card-text-highlight share-color">
     <%= record.createdAtLabel %>
   </h3>
   <div class="element-container-row-center-start flex-gap flex-wrap">
@@ -7,8 +7,19 @@
     <div class="details-backdrop"><strong>share status</strong> <%= record.isActive ? "🟢 enabled" : "🔴 disabled" %></div>  
     <!-- <div class="details-backdrop"><strong>expires</strong> <%#= record.expiresAtLabel %></div>       -->
     <div class="details-backdrop"><strong>expires</strong> <%= record.expiresAt > new Date() ? "🟢" : "🔴" %> <%= record.expiresAtLabel %></div>      
-    <div class="details-backdrop"><strong>download count</strong> <%= record.downloadCount %></div>
-    <div class="details-backdrop"><strong>download maximum</strong> <%= record.maxDownloads ? record.maxDownloads : "unlimited" %></div>
+    <!-- <div class="details-backdrop"><strong>download count</strong> <%#= record.downloadCount %></div> -->
+    <!-- <div class="details-backdrop"><strong>download maximum</strong> <%#= record.maxDownloads ? record.maxDownloads : "unlimited" %></div> -->
+    <div class="details-backdrop">
+      <strong>download count</strong>
+      <% if (record.downloadCount < record.maxDownloads) { %> 
+        🟢 
+      <% } else if (record.maxDownloads === null) { %> 
+        🟢
+      <% } else { %> 
+        🔴
+      <% } %>
+      <%= record.downloadCount %>/<%= record.maxDownloads ? record.maxDownloads : "unlimited" %>
+    </div> 
     <div class="details-backdrop"><strong>last accessed</strong> <%= record.lastAccessedAtLabel %></div>
     <!-- <div class="details-backdrop"><strong>created</strong> <%#= record.createdAtLabel %></div> -->
     <%# if (record.createdAtLabel !== record.updatedAtLabel) { %>

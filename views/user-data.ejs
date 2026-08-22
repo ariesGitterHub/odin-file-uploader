@@ -7,20 +7,54 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap">
       <!-- <h2 class="subtitle">Root Folders (<%#= formatRootFoldersSize  %>)</h2> -->
-      <h2 class="page-title">Root Folders (<%= formatRootFoldersSize  %>)</h2>
-      <div class="element-container-row-start-center flex-gap">
-        <% userFolders.forEach(function(folder) { %>          
-        <a class="button-default folder-card" href="/app/user-folder/<%= folder.id %>">
+      <!-- <h2 class="page-title">Root Folders (<%= formatRootFoldersSize  %>)</h2> -->
+      <div class="element-container-col-default flex-wrap">
+        <h2 class="page-title">
+          Root Folders        
+        </h2>
+        <span class="page-title">
+          (<%= formatRootFoldersSize %> used)      
+        </span>
+      </div>
+      <!-- <div class="element-container-row-start-center flex-gap">
+        <%# userFolders.forEach(function(folder) { %>          
+        <a class="button-default folder-card" href="/app/user-folder/<%#= folder.id %>">
           <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-            <%= folder.emoji %>
+            <%#= folder.emoji %>
           </span>
-          <p><%= folder.folderName%></p>
+          <p><%#= folder.folderName%></p>
           <div class="element-container-col-start-center folder-card-content">
-            <p class="<%= folder.subfolderCount === 0  ? 'hidden' : '' %>"><%= folder.subfolderCount %> subfolder(s)</p>
-            <p class="<%= folder.fileCount === 0  ? 'hidden' : '' %>"><%= folder.fileCount %> file(s)</p>            
+            <p class="<%#= folder.subfolderCount === 0  ? 'hidden' : '' %>"><%#= folder.subfolderCount %> subfolder(s)</p>
+            <p class="<%#= folder.fileCount === 0  ? 'hidden' : '' %>"><%#= folder.fileCount %> file(s)</p>            
           </div>
         </a>
-        <% }) %>
+        <%# }) %>
+      </div> -->
+      <div class="element-container-col-start-center flex-gap margin-left-right">
+        <% userFolders.forEach(function(folder) { %>    
+            <a class="button-default folder-card" href="/app/user-folder/<%= folder.id %>">
+              <div class="element-container-row-start-start flex-gap">
+                <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+                  <%= folder.emoji %>
+                </span>
+                <div class="element-container-col-start-center folder-card-content">
+                  <div class="element-container-row-center-start flex-wrap">
+                    <h3 class="folder-card-name"><%= folder.folderName%></h3>
+                  </div>
+                  <% if (folder.subfolderCount > 0 || folder.fileCount > 0) { %> 
+                  <div class="element-container-row-center-start flex-gap">
+                    <p class=""><%= folder.subfolderCount %> <%= folder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,</p>
+                    <p class=""><%= folder.fileCount %> <%= folder.fileCount === 1 ? "file" : "files" %></p>                     
+                  </div>
+                  <% } else { %> 
+                  <div class="element-container-col-start-center folder-card-content">
+                    <p class="">Empty folder</p>         
+                  </div>
+                  <% } %> 
+                </div>
+              </div>
+            </a>
+          <% }) %>
       </div>
     </main>
     <%#- include('./partials/footer.ejs') %>

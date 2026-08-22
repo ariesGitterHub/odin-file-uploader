@@ -7,12 +7,12 @@
     <header class="sticky-header element-container-col-default flex-gap">
       <%- include('./partials/title.ejs') %>
     </header>
-    <main class="frame-border-white">
+    <main class="frame-border">
       <div class="page-title element-container-row-center-start">
         <h1>Share Page</h1>
       </div>
       <div class="element-container-col-start-center flex-gap">
-        <h2 class="card-name">
+        <h2 class="card-text-highlight">
           <%= shareLink.folderId ? shareLink.folder.folderName : shareLink.file.originalFileName %>
           <%= shareLink.folderId ? "(folder)" : "(file)" %>
         </h2>        

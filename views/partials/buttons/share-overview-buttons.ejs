@@ -4,20 +4,20 @@
             <%# CSRF Token - hidden input for forms %>
             <input type="hidden" name="_csrf" value="<%#= csrfToken %>">
             <input type="hidden" name="is_active" value="<%#= shareLink.isActive %>">
-            <button class="button-default width-default-percent" type="submit"><%#= shareLink.isActive ? "🟢 active" : "🔴 inactive" %> </button>
+            <button class="button-default max-percent-width" type="submit"><%#= shareLink.isActive ? "🟢 active" : "🔴 inactive" %> </button>
           </form> -->
           <form action="/app/change-active-status/<%= shareLink.id %>" method="POST">
             <%# CSRF Token - hidden input for forms %>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button
-              class="button-default width-default-percent"
+              class="button-default max-percent-width"
               type="submit"
             >
               <%= shareLink.isActive ? "disable" : "enable" %>
             </button>
           </form>
           <button 
-            class="button-default width-default-percent deletion-form-button"
+            class="button-default max-percent-width deletion-form-button"
             data-action="/app/delete-your-shared-item/<%= shareLink.id %>"
             data-message="Do you wish to delete this shared item: <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>
               <%= shareLink.folder ? "(folder)" : "(file)" %>? Reminder: this action cannot be undone." 
@@ -26,17 +26,17 @@
           </button>
         </div>
       </form>
-      <div class="share-link-card width-default-percent">       
+      <div class="share-link-card max-percent-width">       
         <% if (shareLink) { %>
-          <h4 class="font-text share-color">Your share link is...</h4>
+          <h4 class="card-name share-color">Your share link is...</h4>
           <input class="share-link-input" type="text" value="<%= shareUrl %><%= shareLink.token %>" readonly>
           <div class="button-container-row-space-evenly margin-top">
-            <button id="copy-share-link-input" class="button-default width-default-percent copy-share-link-button" type="button">
+            <button id="copy-share-link-input" class="button-default max-percent-width copy-share-link-button" type="button">
               copy link
             </button>
             <!-- TODO - below is the share page, use in dev mode to wire up different requirements; keep??? -->
             <a 
-            class="button-default width-default-percent" 
+            class="button-default max-percent-width" 
             href="/app/share-page/<%= shareLink.token %>"
             >
             view page

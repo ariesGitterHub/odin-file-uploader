@@ -8,11 +8,11 @@
       <%- include('./partials/title.ejs') %>
     </header>
     <main class="frame-border">
-      <div class="page-title element-container-row-center-start">
+      <div class="page-subtitle element-container-row-center-start">
         <h1>Share Page</h1>
       </div>
       <div class="element-container-col-start-center flex-gap">
-        <h2 class="card-text-highlight">
+        <h2 class="card-text-hover-selector">
           <%= shareLink.folderId ? shareLink.folder.folderName : shareLink.file.originalFileName %>
           <%= shareLink.folderId ? "(folder)" : "(file)" %>
         </h2>        

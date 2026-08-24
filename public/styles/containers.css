@@ -1,6 +1,7 @@
-/* button containers */
+/* Flexbox containers for buttons, divs, main, etc. */
 
-.button-container-col {
+/* Button containers */
+/* .button-container-col-default {
   width: var(--max-percent-width);
   display: flex;
   flex-direction: column;
@@ -8,25 +9,25 @@
   justify-content: center;
   gap: var(--spacer-default);
   margin: var(--spacer-default);
-}
+} */
 
-.button-container-row {
+/* .button-container-row-default {
   width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacer-default);
   margin: var(--spacer-default);
-}
+} */
 
-.button-container-row-center-start {
-  /* width: var(--max-percent-width); */
+/* .button-container-row-center-start {
+  width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: start;
   gap: var(--spacer-default);
-   margin: var(--spacer-default);
-}
+  margin: var(--spacer-default);
+} */
 
 .button-container-row-space-evenly {
   width: var(--max-percent-width);
@@ -34,47 +35,24 @@
   align-items: center;
   justify-content: space-evenly;
   gap: var(--spacer-default);
-  /* margin-top: var(--spacer-big); */
-   margin-top: var(--spacer-default);
-   margin-bottom: var(--spacer-default);
+  margin-top: var(--spacer-default);
+  margin-bottom: var(--spacer-default);
 }
 
-.button-container-row-space-between {
+/* .button-container-row-space-between {
   width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacer-default);
-  /* margin-top: var(--spacer-big); */
-   margin: var(--spacer-default);
-}
+  margin: var(--spacer-default);
+} */
 
-/* folder containers */
-
-.current-folder-container {
-  width: fit-content;
-  /* min-width: 380px; */
-  border-radius: var(--border-radius-default);
-  color: var(--white);
-  margin: 0.5rem;
-  padding: 0.5rem;
-}
-
-/* element containers - general */
-
-/* --column-based */
+/* general element containers */
 .element-container-col-default {
-  /* width: 600px; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-}
-
-.element-container-col-start-center {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
   justify-content: center;
 }
 
@@ -85,8 +63,12 @@
   justify-content: start;
 }
 
-/* --row-based */
-
+.element-container-col-start-center {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
 
 .element-container-row-default {
   width: var(--max-percent-width);
@@ -97,34 +79,31 @@
 }
 
 .element-container-row-center-start {
-  /* width: 1000px; */
   display: flex;
-  /* flex-wrap: wrap; */
   align-items: center;
   justify-content: start;
 }
 
-.element-container-row-start-center {
-  /* width: 1000px; */
-  display: flex;
-  flex-wrap: wrap;
-  align-items: start;
-  justify-content: center;
-}
-
-.element-container-row-space-evenly {
-  width: var(--max-percent-width);
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.element-container-row-space-between {
+/* .element-container-row-space-between {
   width: var(--max-percent-width);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacer-medium);
+} */
+
+/* .element-container-row-space-evenly {
+  width: var(--max-percent-width);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+} */
+
+.element-container-row-start-center {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: center;
 }
 
 .element-container-row-start-start {
@@ -133,6 +112,15 @@
   align-items: start;
   justify-content: start;
   gap: var(--spacer-medium);
+}
+
+/* special containers */
+.current-folder-container {
+  width: fit-content;
+  border-radius: var(--border-radius-default);
+  color: var(--white);
+  margin: var(--spacer-default);
+  padding: var(--spacer-default);
 }
 
 .password-rules-container {
@@ -147,5 +135,3 @@
   padding: var(--spacer-default);
   margin-bottom: var(--spacer-big);
 }
-
-

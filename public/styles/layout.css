@@ -50,7 +50,18 @@ nav {
 }
 
 /* Titles & Subtitles */
-.page-title {
+.app-title {
+  height: fit-content;
+  width: fit-content;
+  color: var(--yellow-bold);  
+  font-family: var(--font-title);
+  font-size: var(--font-size-title);
+  padding: var(--spacer-default);
+  text-align: center;
+  text-shadow: var(--text-shadow0);
+}
+
+.page-subtitle {
   background: linear-gradient(180deg, var(--black), var(--purple));
   font-family: var(--font-title);
   font-size: var(--font-size-large);
@@ -60,35 +71,13 @@ nav {
   -webkit-text-fill-color: transparent; /* Makes original text color transparent */
 }
 
-.title {
-  height: fit-content;
-  width: fit-content;
-  font-family: var(--font-title);
-  padding: var(--spacer-default);
-}
-
-.title h1 {
-  color: var(--yellow-bold);
-  font-size: var(--font-size-title);
-  text-align: center;
-  text-shadow: var(--text-shadow0);
-}
-
 /*  index.ejs */
 
-.clear-card {
+.no-background-card {
   height: fit-content;
   width: var(--max-percent-width);
   max-width: var(--max-card-width);
   padding: var(--spacer-biggest);
-}
-
-.index-title {
-  font-family: var(--font-title);
-  font-size: var(--font-size-larger);
-  font-weight: 800;
-  color: var(--yellow-bold);
-  text-shadow: var(--text-shadow0);
 }
 
 .index-image {
@@ -103,8 +92,9 @@ nav {
 .folder-card {
   height: fit-content;
   /* min-height: 7.5rem; */
-  width: fit-content;
-  min-width: var(--min-form-width);
+  /* width: fit-content; */
+  width: 300px;
+  /* min-width: var(--min-form-width); */
   /* min-width: var(--min-folder-card-width); */
   /* max-width: 15rem; */
   display: flex;
@@ -113,8 +103,10 @@ nav {
   align-items: center;
   /* justify-content: center; */
   justify-content: center;
+  /* border: var(--border-solid-default);
+  border-color: red; */
   border-radius: var(--border-radius-default);
-  font-weight: 800;
+  /* font-weight: 800; */
   padding: var(--spacer-default);
   text-align: center;
   text-transform: none;

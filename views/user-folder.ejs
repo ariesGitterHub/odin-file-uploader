@@ -64,7 +64,7 @@
           </a>
             <%# }) %> -->
           <% childFolders.forEach(childFolder => { %> 
-            <a class="button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
+            <a class="button-default folder-card folder-file-card-width" href="/app/user-folder/<%= childFolder.id %>">
             <div class="element-container-row-start-start flex-gap">
               <span class="emoji folder-emoji" role="img" aria-label="Data folder">
                 <%= childFolder.emoji %>
@@ -75,12 +75,12 @@
                 </div>
                 <% if (childFolder.subfolderCount > 0 || childFolder.fileCount > 0) { %> 
                 <div class="element-container-row-center-start flex-gap"> 
-                  <p class=""><%= childFolder.subfolderCount %> <%= childFolder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,</p>
-                  <p class=""><%= childFolder.fileCount %> <%= childFolder.fileCount === 1 ? "file" : "files" %></p>        
+                  <p class="font-text"><%= childFolder.subfolderCount %> <%= childFolder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,</p>
+                  <p class="font-text"><%= childFolder.fileCount %> <%= childFolder.fileCount === 1 ? "file" : "files" %></p>        
                 </div>
                 <% } else { %> 
                   <div class="element-container-col-start-center folder-card-content">
-                    <p class="">Empty folder</p>         
+                    <p class="font-text">Empty folder</p>         
                   </div>
                 <% } %>  
               </div>
@@ -99,8 +99,8 @@
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>
-        <div class="card file-border">
-          <h3 class="card-text-highlight file-color"><%= file.originalFileName %></h3>
+        <div class="card file-border folder-file-card-width">
+          <h3 class="card-text-hover-selector font-title file-color"><%= file.originalFileName %></h3>
           <div class="element-container-row-center-start flex-gap flex-wrap">
             <div class="details-backdrop"><strong>size</strong> <%= file.sizeLabel %> </div>
             <!-- <div class="details-backdrop"><strong>type</strong> <%#= file.mimeType %></div> -->

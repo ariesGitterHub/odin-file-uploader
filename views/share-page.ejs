@@ -9,7 +9,7 @@
     </header>
     <main class="element-container-col-default frame-border margin-not-top">
       <!-- <h2 class="subtitle"> -->
-      <h2 class="page-title">
+      <h2 class="page-subtitle">
         Your Shared
         <%= shareLink.folderId ? "Folder" : "File" %>
       </h2>
@@ -18,7 +18,7 @@
           <span class="emoji">
               <%= shareLink.folderId ? folder.emoji : "👉" %>
           </span>
-          <h3 class="share-page-name">
+          <h3 class="font-title">
             <%= shareLink.folderId ? shareLink.folder.folderName : shareLink.file.originalFileName %>
           </h3>          
         </div>

@@ -7,19 +7,19 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap margin-left-right">
       <!-- <h2 class="subtitle">Shared Items Overview</h2>      -->
-      <h2 class="page-title">Shared Items Overview</h2>     
+      <h2 class="page-subtitle">Shared Items Overview</h2>     
         <!-- <div class="element-container-row-start-center flex-gap flex-wrap"> -->
-        <div class="element-container-col-default flex-gap flex-wrap">
+        <div class="element-container-row-start-center flex-gap flex-wrap">
           <% if (shareLinks.length === 0) { %>
           <div class="font-text">
             <h4>There is no history of shared links.</h4>
           </div>
           <% } else { %> 
           <% shareLinks.forEach(shareLink => { %>
-            <div class="card share-border">
-              <h3 class="card-text-highlight share-color">
+            <div class="card folder-file-card-width <%= shareLink.folder ? 'folder-border' : 'file-border' %> <%= shareLink.folder ? 'folder-color' : 'file-color' %>">
+              <h3 class="card-text-hover-selector font-title">
                 <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>
-                <%= shareLink.folder ? "(folder)" : "(file)" %>
+                <!-- <%#= shareLink.folder ? "(folder)" : "(file)" %> -->
               </h3>
               <!-- TODO - delete below when done with dev mode -->
               <!-- <div> 

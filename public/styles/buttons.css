@@ -12,7 +12,6 @@
   color: var(--black);
   cursor: pointer;
   font-family: var(--font-title);
-  /* font-size: var(--font-size-small); */
   font-weight: var(--font-weight-heavy);
   margin: 0;
   text-transform: uppercase;
@@ -25,12 +24,10 @@
 
 .nav-button {
   height: var(--nav-button-default-h);
-  /* width: var(--nav-button-default-w); */
   width: fit-content;
   background-color: var(--gray);
   font-size: var(--font-size-larger);
   font-weight: var(--font-weight-heaviest);
-  /* padding: 0 var(spacer-default); */
   padding: var(--spacer-small) var(--spacer-small);
 }
 
@@ -42,14 +39,12 @@
   background-color: var(--black);
   border: var(--border-solid-default);
   color: var(--yellow-bold);
-  /* font-size: var(--font-size-small); */
   padding: var(--spacer-small) var(--spacer-medium);
 }
 
 .admin-button {
   border-color: var(--blue);
   color: var(--blue);
-  /* border: var(--border-solid-default); */
 }
 
 .folder-button {
@@ -70,20 +65,11 @@
   color: var(--black);
 }
 
-/* .card-button {
-  width: 100%;
-  background-color: var(--yellow-bold-lt);
-  border: var(--border-solid-default);
-  color: var(--blue-bold);
-} */
-
-.admin-button .emoji, 
+.admin-button .emoji,
 .folder-button .emoji,
 .file-button .emoji {
   font-size: var(--font-size-larger);
 }
-
-
 
 .fit-content-button {
   width: fit-content;

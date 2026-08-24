@@ -7,7 +7,7 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
         <!-- <h2 class="subtitle">Change Your Profile</h2> -->
-        <h2 class="page-title">Change Your Profile</h2>
+        <h2 class="page-subtitle">Change Your Profile</h2>
        <form id="user-profile-form" class="element-container-col-start-center form-width" action="/app/user-profile" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">

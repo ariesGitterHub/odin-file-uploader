@@ -38,8 +38,9 @@
   /* Page or Card Sizing */
   --max-card-width: 650px;
   --max-percent-width: 100%;
-  --min-folder-card-width: 8.75rem;
+  /* --min-folder-card-width: 8.75rem; */
   --min-form-width: 300px;
+  --folder-file-card-width: 300px;
 
   /* Element Spacing */
   --spacer-small: 0.125rem;

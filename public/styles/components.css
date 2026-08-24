@@ -1,95 +1,9 @@
-/* Add these ad-hoc to various elements */
+/* For CSS used across ejs views */
 
-/* .capitalize {
-  text-transform: capitalize;
-} */
-
-.card {
-  width: var(--max-percent-width);
-  /* max-width: 600px; */
-  max-width: var(--max-card-width);
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  gap: var(--spacer-default);
-  background-color: var(--black);
-  border: var(--border-solid-default);
-  /* border-color: var(--orange); */
-  border-radius: var(--border-radius-default);
-  padding: 0.5rem;
-}
-
-.card-text-highlight {
-  /* color: var(--orange); */
-  font-family: var(--font-text);
-}
-
-.share-page-name {
-  font-family: var(--font-title);
- 
-}
-
-
-
-
-
-/* .file-background-color {
-  background-color: var(--orange);
-} */
-
-.delete-color {
-  color: var(--red-bold);
-}
-
-.folder-color {
-  color: var(--gray); 
-}
-
-.file-border {
-  border-color: var(--orange);
-}
-
-.file-color {
-  color: var(--orange); 
-}
-
-.admin-border {
-  border-color: var(--blue);
-}
-
-.admin-color {
-  color: var(--blue); 
-}
-
-.share-border {
-  border-color: var(--pink);
-}
-
-.share-color {
-  color: var(--pink); 
-}
-
-.highlight-color {
-  color: var(--yellow-bold);
-}
-
-.card:hover,
-.card:hover .card-text-highlight {
-  border-color: var(--yellow-bold);
-  color: var(--yellow-bold);
-}
-
-/* .card:hover,
-.card:hover .card-text-highlight {
-  color: var(--yellow-bold);
-} */
-
-/* .disabled-color-background {
-  background-color: var(--red-bold);
-} */
-
-.details-backdrop, .share-backdrop, .file-extension {
+/* Backdrops (rounded backgrounds denoting details like creation dates or file extensions */
+.details-backdrop,
+.file-extension-backdrop,
+.share-backdrop {
   width: fit-content;
   border-radius: var(--border-radius-default);
   color: var(--black);
@@ -97,23 +11,106 @@
   text-wrap: nowrap;
 }
 
-.details-backdrop, .file-extension {
+.details-backdrop,
+.file-extension-backdrop {
   background-color: var(--gray);
   color: var(--black);
   padding: var(--spacer-small) var(--spacer-default);
-}
-
-.share-backdrop {
-  background-color: var(--black);
-  color: var(--white);
-  /* margin: var(--spacer-default) 0; */
-  padding: var(--spacer-default);
 }
 
 .details-backdrop {
   font-size: small;
 }
 
+.file-extension-backdrop {
+  font-size: var(--font-size-default);
+}
+
+.share-backdrop {
+  background-color: var(--black);
+  color: var(--white);
+  padding: var(--spacer-default);
+}
+
+/* Border related */
+.frame-border {
+  border: 0.5rem double var(--gray);
+  border-radius: var(--border-radius-big);
+  padding: var(--spacer-biggest);
+}
+
+/* Card related*/
+.card {
+  height: fit-content;
+  /* width: var(--max-percent-width); */
+  /* max-width: 600px; */
+  /* max-width: var(--max-card-width); */
+  width: 316.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  gap: var(--spacer-default);
+  background-color: var(--black);
+  border: var(--border-solid-default);
+  border-radius: var(--border-radius-default);
+  padding: var(--spacer-default);
+}
+
+.card:hover,
+.card:hover .card-text-hover-selector {
+  border-color: var(--yellow-bold);
+  color: var(--yellow-bold);
+}
+
+/* Color related: background and color */
+.admin-border {
+  border-color: var(--blue);
+}
+
+.admin-color {
+  color: var(--blue);
+}
+
+.delete-color {
+  color: var(--red-bold);
+}
+
+.folder-color {
+  color: var(--gray);
+}
+
+.file-border {
+  border-color: var(--orange);
+}
+
+.file-color {
+  color: var(--orange);
+}
+
+.highlight-color {
+  color: var(--yellow-bold);
+}
+
+.share-border {
+  border-color: var(--pink);
+}
+
+.share-color {
+  color: var(--pink);
+}
+
+/* Display related */
+.hidden {
+  display: none;
+}
+
+/* Emoji related */
+.emoji {
+  font-family: var(--font-emoji) !important;
+}
+
+/* Error related  */
 .error-message {
   color: var(--yellow-bold);
   font-family: var(--font-error);
@@ -124,18 +121,7 @@
   text-transform: uppercase;
 }
 
-.file-extension {
-  font-size: var(--font-size-default);
-}
-
-.emoji {
-  font-family: var(--font-emoji) !important;
-}
-
-.file-width {
-  width: fit-content;  
-}
-
+/* Flexbox related */
 .flex-gap {
   gap: var(--spacer-default);
 }
@@ -144,42 +130,41 @@
   flex-wrap: wrap;
 }
 
+.justify-content-center {
+  justify-content: center;
+}
+
 .no-flex-wrap {
   flex-wrap: nowrap;
 }
 
-.font-title {
-  font-family: var(--font-title);
+/* Font related */
+.font-size-large {
+  font-size: var(--font-size-larger);
+}
+
+.font-size-default {
+  font-size: var(--font-size-default);
 }
 
 .font-text {
   font-family: var(--font-text);
 }
 
+.font-title {
+  font-family: var(--font-title);
+}
+
+.font-uppercase {
+  text-transform: uppercase;
+}
+
+/* Form related */
 .form-width {
-  width: var(--min-form-width);  
+  width: var(--min-form-width);
 }
 
-.frame-border {
-  border: 0.5rem double var(--gray);
-  border-radius: var(--border-radius-big);
-  padding: var(--spacer-biggest);
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-/* Make hidden, an old fav */
-
-.hidden {
-  display: none;
-}
-
-.lowercase {
-  text-transform: lowercase;
-}
-
+/* Spacing related: height, width, margin, and padding */
 .margin-bottom {
   margin-bottom: var(--spacer-default);
 }
@@ -187,6 +172,7 @@
 .margin-top {
   margin-top: var(--spacer-default);
 }
+
 .margin-top-bottom {
   margin: var(--spacer-default) 0;
 }
@@ -199,29 +185,6 @@
   margin: 0 var(--spacer-default) var(--spacer-default) var(--spacer-default);
 }
 
-/* .share-description-list {
-  width: var(--share-page-width);
-  font-family: var(--font-text);
-  font-size: var(--font-size-larger);
-} */
-
-/* .share-description-list dt {
-  font-weight: var(--font-weight-heavy);
-} */
-
-.font-size-large {
-  font-size: var(--font-size-larger);
-}
-.font-size-default {
-  font-size: var(--font-size-default);
-}
-
-.uppercase {
-  text-transform: uppercase;
-}
-
 .max-percent-width {
   width: var(--max-percent-width);
 }
-
-

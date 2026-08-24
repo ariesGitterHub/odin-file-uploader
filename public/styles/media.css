@@ -7,7 +7,7 @@
 @media (min-width: 600px) {
 .card {
   /* width: 100%; */
-  width: fit-content;
+  /* width: fit-content; */
 }
 }
 

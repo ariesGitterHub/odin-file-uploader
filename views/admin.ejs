@@ -7,16 +7,16 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap margin-left-right">
       <!-- <h2 class="subtitle">Admin Overview of Users</h2>      -->
-      <h2 class="page-title">Admin Overview of Users</h2>     
-        <div class="element-container-row-default flex-gap flex-wrap">
+      <h2 class="page-subtitle">Admin Overview of Users</h2>     
+        <div class="element-container-row-start-center flex-gap flex-wrap">
           <% if (userProfiles.length === 0) { %>
           <div class="font-text admin-color">
             <h4>There are no current users.</h4>
           </div>
           <% } else { %> 
           <% userProfiles.forEach(userProfile => { %>
-          <div class="card admin-border">
-            <h3 class="card-text-highlight admin-color"><%= userProfile.firstName %> <%= userProfile.lastName %> (<span class="lowercase"><%= userProfile.role %></span>)</h3>
+          <div class="card admin-border folder-file-card-width">
+            <h3 class="card-text-hover-selector admin-color font-text"><%= userProfile.firstName %> <%= userProfile.lastName %> (<span class="lowercase"><%= userProfile.role %></span>)</h3>
             <!-- <div class="element-container-row-center-start flex-gap">
               <div class="details-backdrop"><strong>role</strong>  </div>
             </div>   -->

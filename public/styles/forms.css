@@ -1,12 +1,9 @@
 form {
-
   /* NOTE - "display: contents" is especially nice because it makes the form "disappear" from the layout while still functioning for form submission. Browser support is generally good, though there are a few edge cases with accessibility tools. */
-    display: contents;
+  display: contents;
 }
 
 label {
-  /* color: var(--yellow-bold); */
-  /* color: var(--purple); */
   color: var(--black);
   font-family: var(--font-title);
   text-shadow: var(--text-shadow1);
@@ -18,7 +15,6 @@ input {
   width: var(--max-percent-width);
   border-radius: var(--border-radius-small);
   color: var(--black);
-  /* font-family: var(--font-text); */
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-big);
   padding-left: var(--spacer-small);
@@ -28,16 +24,9 @@ input {
   width: 80%;
 }
 
-/* .file-extension {
-  font-family: var(--font-text);
-  font-size: var(--font-size-default);
-  font-weight: 800;
-} */
-
 select {
   height: 1.75rem;
   width: var(--max-percent-width);
-  /* font-family: var(--font-text); */
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-big);
 }
@@ -46,10 +35,6 @@ select {
   padding: var(--spacer-big);
 }
 
-/* #folder-parent-id-new-folder option {
-  color: red;
-} */
-
 .select-font-larger {
   font-size: var(--font-size-larger);
 }
@@ -57,10 +42,9 @@ select {
 textarea {
   height: 90px;
   width: var(--max-percent-width);
-  /* font-family: var(--font-text); */
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-default);
-  resize: vertical; /*Allows vertical resizing, remove if not needed */
+  resize: vertical; /* Allows vertical resizing, remove if not needed */
   padding: var(--spacer-small);
   white-space: pre-line;
 }

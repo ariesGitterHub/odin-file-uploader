@@ -19,8 +19,7 @@
           <button 
             class="button-default max-percent-width deletion-form-button"
             data-action="/app/delete-your-shared-item/<%= shareLink.id %>"
-            data-message="Do you wish to delete this shared item: <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>
-              <%= shareLink.folder ? "(folder)" : "(file)" %>? Reminder: this action cannot be undone." 
+            data-message="Do you wish to delete this shared <%= shareLink.folder ? "folder" : "file" %>, <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>? Reminder: this action cannot be undone." 
             type="button">
             delete
           </button>
@@ -28,7 +27,7 @@
       </form>
       <div class="share-link-card max-percent-width">       
         <% if (shareLink) { %>
-          <h4 class="card-name share-color">Your share link is...</h4>
+          <h4 class="card-name card-text-hover-selector font-text <%= shareLink.folder ? 'folder-color' : 'file-color' %>">Your share link is...</h4>
           <input class="share-link-input" type="text" value="<%= shareUrl %><%= shareLink.token %>" readonly>
           <div class="button-container-row-space-evenly margin-top">
             <button id="copy-share-link-input" class="button-default max-percent-width copy-share-link-button" type="button">

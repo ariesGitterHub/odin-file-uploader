@@ -7,7 +7,7 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
       <!-- <h2 class="subtitle">Edit Existing File</h2> -->
-      <h2 class="page-title">Edit Existing File</h2>
+      <h2 class="page-subtitle">Edit Existing File</h2>
        <form class="element-container-col-start-center form-width" action="/app/user-file-edit/<%= file.id %>" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -20,7 +20,7 @@
             value="<%= formData.originalFileName %>"
             required
             />
-            <span class="file-extension"><%= extension %></span>
+            <span class="file-extension-backdrop"><%= extension %></span>
         </div>  
         <label for="folder-id-user-file-edit">choose new parent folder</label>
           <select

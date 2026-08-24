@@ -7,12 +7,12 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap">
       <!-- <h2 class="subtitle">Root Folders (<%#= formatRootFoldersSize  %>)</h2> -->
-      <!-- <h2 class="page-title">Root Folders (<%= formatRootFoldersSize  %>)</h2> -->
+      <!-- <h2 class="page-subtitle">Root Folders (<%#= formatRootFoldersSize  %>)</h2> -->
       <div class="element-container-col-default flex-wrap">
-        <h2 class="page-title">
+        <h2 class="page-subtitle">
           Root Folders        
         </h2>
-        <span class="page-title">
+        <span class="page-subtitle">
           (<%= formatRootFoldersSize %> used)      
         </span>
       </div>
@@ -30,9 +30,9 @@
         </a>
         <%# }) %>
       </div> -->
-      <div class="element-container-col-start-center flex-gap margin-left-right">
+      <div class="element-container-row-start-center flex-gap flex-wrap margin-left-right">
         <% userFolders.forEach(function(folder) { %>    
-            <a class="button-default folder-card" href="/app/user-folder/<%= folder.id %>">
+            <a class="button-default folder-card folder-file-card-width" href="/app/user-folder/<%= folder.id %>">
               <div class="element-container-row-start-start flex-gap">
                 <span class="emoji folder-emoji" role="img" aria-label="Data folder">
                   <%= folder.emoji %>

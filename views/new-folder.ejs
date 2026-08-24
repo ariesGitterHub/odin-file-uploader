@@ -7,7 +7,7 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
       <!-- <h2 class="subtitle">Create a New Folder</h2> -->
-      <h2 class="page-title">Create a New Folder</h2>
+      <h2 class="page-subtitle">Create a New Folder</h2>
        <form class="element-container-col-start-center form-width" action="/app/new-folder" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">

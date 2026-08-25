@@ -19,7 +19,7 @@
           <div class="current-folder-details">
             <div class="details-backdrop">
               <% if (folder.parentFolderId === null) { %> 
-                <strong>parent folder</strong> none
+                <strong>parent folder</strong> None
               <% } else { %> 
                 <strong>parent folder</strong> <%= folder.parentFolder.folderName %>
               <% } %>
@@ -42,7 +42,7 @@
       <%- include('./partials/buttons/folder-buttons.ejs', { folder }) %>
       </div>
       <div class="current-folder-items">
-        <div class="subfolder-section-title">
+        <div class="subfolder-section-title folder-color">
           <h3><span class="emoji"><%= folder.emoji %></span> subfolders</h3>
         </div>
         <div class="subfolder-item-section">
@@ -51,36 +51,26 @@
               <h4>There are no current subfolders.</h4>
             </div>
           <% } else { %> 
-          <!-- <%# childFolders.forEach(childFolder => { %> 
-            <a class="button-default folder-card" href="/app/user-folder/<%#= childFolder.id %>">
-            <span class="emoji folder-emoji" role="img" aria-label="Data folder">
-              <%#= childFolder.emoji %>
-            </span>
-            <p><%#= childFolder.folderName%></p>
-            <div class="element-container-col-start-center folder-card-content">  
-              <p class="<%#= childFolder.subfolderCount === 0  ? 'hidden' : '' %>"><%#= childFolder.subfolderCount %> subfolder(s)</p>
-              <p class="<%#= childFolder.fileCount === 0  ? 'hidden' : '' %>"><%#= childFolder.fileCount %> file(s)</p>        
-            </div>
-          </a>
-            <%# }) %> -->
           <% childFolders.forEach(childFolder => { %> 
-            <a class="button-default folder-card folder-file-card-width" href="/app/user-folder/<%= childFolder.id %>">
+            <a class="button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
             <div class="element-container-row-start-start flex-gap">
-              <span class="emoji folder-emoji" role="img" aria-label="Data folder">
+              <span class="emoji" role="img" aria-label="Data folder">
                 <%= childFolder.emoji %>
               </span>
-              <div class="element-container-col-start-center folder-card-content">
+              <div class="element-container-col-start-center">
                 <div class="element-container-row-center-start flex-wrap">
                   <h3 class="folder-card-name"><%= childFolder.folderName%></h3> 
                 </div>
                 <% if (childFolder.subfolderCount > 0 || childFolder.fileCount > 0) { %> 
                 <div class="element-container-row-center-start flex-gap"> 
-                  <p class="font-text"><%= childFolder.subfolderCount %> <%= childFolder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,</p>
-                  <p class="font-text"><%= childFolder.fileCount %> <%= childFolder.fileCount === 1 ? "file" : "files" %></p>        
+                  <p class="font-text">
+                    (<%= childFolder.subfolderCount %> <%= childFolder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,
+                    <%= childFolder.fileCount %> <%= childFolder.fileCount === 1 ? "file" : "files" %>)
+                  </p>        
                 </div>
                 <% } else { %> 
-                  <div class="element-container-col-start-center folder-card-content">
-                    <p class="font-text">Empty folder</p>         
+                  <div class="element-container-col-start-center">
+                    <p class="font-text">(empty folder)</p>         
                   </div>
                 <% } %>  
               </div>
@@ -89,7 +79,7 @@
           <% }) %>
           <% } %>
         </div>
-        <div class="file-section-title">
+        <div class="file-section-title file-color">
           <h3><span class="emoji"><%= folder.emoji %></span> files</h3>
         </div>
         <div class="file-item-section">
@@ -99,7 +89,7 @@
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>
-        <div class="card file-border folder-file-card-width">
+        <div class="card file-border">
           <h3 class="card-text-hover-selector font-title file-color"><%= file.originalFileName %></h3>
           <div class="element-container-row-center-start flex-gap flex-wrap">
             <div class="details-backdrop"><strong>size</strong> <%= file.sizeLabel %> </div>

@@ -7,7 +7,7 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
       <!-- <h2 class="subtitle">Upload a New File</h2> -->
-      <h2 class="page-subtitle">Upload a New File</h2>
+      <h2 class="app-subtitle">Upload a New File</h2>
       <form class="element-container-col-start-center form-width" action="/app/new-file" method="POST" enctype="multipart/form-data">
       <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">

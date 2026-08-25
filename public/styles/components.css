@@ -15,7 +15,7 @@
 .file-extension-backdrop {
   background-color: var(--gray);
   color: var(--black);
-  padding: var(--spacer-small) var(--spacer-default);
+  padding: var(--spacer-medium) var(--spacer-default);
 }
 
 .details-backdrop {
@@ -42,6 +42,7 @@
 /* Card related*/
 .card {
   height: fit-content;
+  width: var(--card-width-default);
   /* width: var(--max-percent-width); */
   /* max-width: 600px; */
   /* max-width: var(--max-card-width); */
@@ -140,6 +141,10 @@
 
 /* Font related */
 .font-size-large {
+  font-size: var(--font-size-large);
+}
+
+.font-size-larger {
   font-size: var(--font-size-larger);
 }
 
@@ -161,7 +166,7 @@
 
 /* Form related */
 .form-width {
-  width: var(--min-form-width);
+  width: var(--form-width-default);
 }
 
 /* Spacing related: height, width, margin, and padding */

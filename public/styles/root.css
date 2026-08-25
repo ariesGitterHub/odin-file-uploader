@@ -39,8 +39,9 @@
   --max-card-width: 650px;
   --max-percent-width: 100%;
   /* --min-folder-card-width: 8.75rem; */
-  --min-form-width: 300px;
-  --folder-file-card-width: 300px;
+  --form-width-default: 300px;
+  --card-width-default: 300px;
+  --section-width-default: 225px
 
   /* Element Spacing */
   --spacer-small: 0.125rem;

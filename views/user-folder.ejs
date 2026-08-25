@@ -6,10 +6,10 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default current-folder-container flex-gap">
-      <div class="element-container-col-start-center width-default current-parent-folder-section">
+      <div class="element-container-col-start-center current-parent-folder-section">
         <div class="element-container-col-start-center">
           <div class="element-container-row-start-start">  
-            <div class="current-folder-emoji">
+            <div class="current-folder-emoji margin-bottom">
               <span class="emoji"><%= folder.emoji %></span>
             </div>
             <div>
@@ -47,30 +47,30 @@
         </div>
         <div class="subfolder-item-section">
           <% if (childFolders.length === 0) { %> 
-            <div class="font-text folder-color">
-              <h4>There are no current subfolders.</h4>
+            <div class="element-container-row-start-start font-text folder-color">
+              <p>There are no current subfolders.</p>
             </div>
           <% } else { %> 
           <% childFolders.forEach(childFolder => { %> 
-            <a class="button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
+            <a class="card button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
             <div class="element-container-row-start-start flex-gap">
               <span class="emoji" role="img" aria-label="Data folder">
                 <%= childFolder.emoji %>
               </span>
               <div class="element-container-col-start-center">
                 <div class="element-container-row-center-start flex-wrap">
-                  <h3 class="folder-card-name"><%= childFolder.folderName%></h3> 
+                  <h3 class="folder-card-name font-title"><%= childFolder.folderName%></h3> 
                 </div>
                 <% if (childFolder.subfolderCount > 0 || childFolder.fileCount > 0) { %> 
                 <div class="element-container-row-center-start flex-gap"> 
-                  <p class="font-text">
+                  <p class="folder-card-contents font-text">
                     (<%= childFolder.subfolderCount %> <%= childFolder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,
                     <%= childFolder.fileCount %> <%= childFolder.fileCount === 1 ? "file" : "files" %>)
                   </p>        
                 </div>
                 <% } else { %> 
                   <div class="element-container-col-start-center">
-                    <p class="font-text">(empty folder)</p>         
+                    <p class="folder-card-contents font-text">(empty folder)</p>         
                   </div>
                 <% } %>  
               </div>
@@ -84,8 +84,8 @@
         </div>
         <div class="file-item-section">
           <% if (folder.files.length === 0) { %>
-          <div class="font-text file-color">
-            <h4>There are no current files.</h4>
+          <div class="element-container-row-start-start font-text file-color">
+            <p>There are no current files.</p>
           </div>
           <% } else { %> 
         <% folder.files.forEach(file => { %>

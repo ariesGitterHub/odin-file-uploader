@@ -1,41 +1,33 @@
-/* @media (min-width: 500px) {
-  .folder-button, .card-button {
-    width: var(--max-percent-width);
-}
-} */
-
 @media (min-width: 600px) {
-.card {
-  /* width: 100%; */
-  /* width: fit-content; */
-}
+  .card {
+    transition: transform 200ms ease;
+  }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 768px) {
   :root {
-    /* --card-width: 350px;
-    --emoji-quick-view-bar-size: 1.25rem;
-    --index-image-size: 20.125rem; */
+    --card-width-default: 275px;
   }
 
-  /* .current-folder-items {
+    .card {
+    width: var(--card-width-default);
+  }
 
-    display: flex;
-    flex-direction: row;
-    align-items: start;
+    .subfolder-item-section,
+  .file-item-section {
     justify-content: start;
-    gap: var(--spacer-default);
-    flex-wrap: wrap;
-  } */
-
-  .current-card {
-  width: fit-content;
+  }
 }
 
-.current-folder-container {
-  width: 90%;
-  /* width: fit-content; */
-  max-width: 1520px;
+@media (min-width: 992px) {
+  :root {
+    --card-width-default: 300px;
+  }
 
 }
+
+@media (min-width: 1200px) {
+  :root {
+    --card-width-default: 325px;
+  }
 }

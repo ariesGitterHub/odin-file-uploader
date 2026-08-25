@@ -1,7 +1,7 @@
 .button-default {
-  all: unset; /* nukes browser defaults */
-  height: var(--button-default-h);
-  width: var(--button-default-w);
+  all: unset; /* nukes browser defaults for anything linked to this class*/
+  height: var(--button-height-default);
+  width: var(--button-width-default);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,8 +23,9 @@
 }
 
 .nav-button {
-  height: var(--nav-button-default-h);
-  width: fit-content;
+  height: var(--nav-button-height-default);
+  /* width: fit-content; */
+  width: var(--max-percent-width);
   background-color: var(--gray);
   font-size: var(--font-size-larger);
   font-weight: var(--font-weight-heaviest);
@@ -61,7 +62,6 @@
 .folder-button:hover,
 .file-button:hover {
   background-color: var(--yellow-bold);
-  border-color: var(--yellow-bold);
   color: var(--black);
 }
 

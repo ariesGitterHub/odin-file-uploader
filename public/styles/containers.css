@@ -1,34 +1,6 @@
 /* Flexbox containers for buttons, divs, main, etc. */
 
 /* Button containers */
-/* .button-container-col-default {
-  width: var(--max-percent-width);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacer-default);
-  margin: var(--spacer-default);
-} */
-
-/* .button-container-row-default {
-  width: var(--max-percent-width);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacer-default);
-  margin: var(--spacer-default);
-} */
-
-/* .button-container-row-center-start {
-  width: var(--max-percent-width);
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  gap: var(--spacer-default);
-  margin: var(--spacer-default);
-} */
-
 .button-container-row-space-evenly {
   width: var(--max-percent-width);
   display: flex;
@@ -39,14 +11,20 @@
   margin-bottom: var(--spacer-default);
 }
 
-/* .button-container-row-space-between {
+.nav-button-container-row-space-evenly {
   width: var(--max-percent-width);
+  max-width: var(--max-app-width);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   gap: var(--spacer-default);
-  margin: var(--spacer-default);
-} */
+  /* border: var(--border-solid-default); */
+  /* border-color: none; */
+  /* margin-top: var(--spacer-default); */
+  /* margin-bottom: var(--spacer-default); */
+  /* margin: var(--spacer-default); */
+  padding: 0 var(--spacer-default);
+}
 
 /* general element containers */
 .element-container-col-default {
@@ -83,21 +61,6 @@
   align-items: center;
   justify-content: start;
 }
-
-/* .element-container-row-space-between {
-  width: var(--max-percent-width);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacer-medium);
-} */
-
-/* .element-container-row-space-evenly {
-  width: var(--max-percent-width);
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-} */
 
 .element-container-row-start-center {
   display: flex;

@@ -11,13 +11,13 @@ label {
 }
 
 input {
-  height: 1.75rem;
+  height: var(--input-height-default);
   width: var(--max-percent-width);
   border-radius: var(--border-radius-small);
   color: var(--black);
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-big);
-  padding-left: var(--spacer-small);
+  padding-left: var(--spacer-medium);
 }
 
 #original-file-name-user-file-edit {
@@ -25,7 +25,7 @@ input {
 }
 
 select {
-  height: 1.75rem;
+  height: var(--input-height-default);
   width: var(--max-percent-width);
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-big);
@@ -42,9 +42,10 @@ select {
 textarea {
   height: 90px;
   width: var(--max-percent-width);
+  font-family: var(--font-text);
   font-size: var(--font-size-default);
   margin-bottom: var(--spacer-default);
   resize: vertical; /* Allows vertical resizing, remove if not needed */
-  padding: var(--spacer-small);
+  padding: var(--spacer-medium);
   white-space: pre-line;
 }

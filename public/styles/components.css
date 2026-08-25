@@ -41,12 +41,11 @@
 
 /* Card related*/
 .card {
+  all: unset;
   height: fit-content;
   width: var(--card-width-default);
-  /* width: var(--max-percent-width); */
-  /* max-width: 600px; */
-  /* max-width: var(--max-card-width); */
-  width: 316.5px;
+  /* width: 316.5px; */
+  width: var(--max-percent-width);
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -62,6 +61,42 @@
 .card:hover .card-text-hover-selector {
   border-color: var(--yellow-bold);
   color: var(--yellow-bold);
+}
+
+.folder-card {
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gray);
+  border-color: var(--gray);
+  /* text-align: center; */
+  text-transform: none;
+  /* text-wrap: wrap; */
+}
+
+.folder-card:hover {
+  color: var(--black);
+}
+
+.folder-card span {
+  font-size: var(--font-size-title);
+  margin: var(--spacer-small);
+}
+
+.folder-card .emoji {
+  color: var(--gray-dk);
+}
+
+.folder-card-name, .folder-card-contents {
+  font-weight: var(--font-weight-heavy);
+  text-align: left;
+}
+
+.folder-card-name {
+  color: var(--black);
+} 
+
+.folder-card-contents {
+  color: var(--gray-dk);
 }
 
 /* Color related: background and color */
@@ -123,6 +158,10 @@
 }
 
 /* Flexbox related */
+.align-items-start {
+  justify-content: start;
+}
+
 .flex-gap {
   gap: var(--spacer-default);
 }

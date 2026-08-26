@@ -1,10 +1,9 @@
 :root {
-
   /* Colors */
   --black: #0e0d0c;
   --black-transparent: #0e0d0c8c;
-  --gray: #c0c4cf;  
-  --gray-dk: #282a31;  
+  --gray: #c0c4cf;
+  --gray-dk: #282a31;
   --white: #ececea;
 
   --blue: #0d79f2;
@@ -31,17 +30,15 @@
   --text-shadow0: 0 1px 3px var(--red-bold), 0 1px 3px var(--blue-bold);
   --text-shadow1: 0 1px 3px var(--yellow-bold), 0 1px 3px var(--blue-bold);
 
- /* Button, Card, or Form Sizing */
+  /* Button, Card, or Form Sizing */
   --button-height-default: 1.75rem;
   --button-width-default: 5.5rem;
   --nav-button-height-default: 2.25rem;
-  
+
   --input-height-default: 1.75rem;
-  --card-width-default: 275px;  
+  --card-width-default: 275px;
   --form-width-default: 300px;
-  --section-width-default: 225px
-  
-  --max-card-width: 650px;
+  --section-width-default: 225px --max-card-width: 650px;
   --max-app-width: 1200px;
   --max-percent-width: 100%;
 

@@ -1,6 +1,6 @@
 /* Flexbox containers for buttons, divs, main, etc. */
 
-/* Button containers */
+/* Button and a element containers */
 .button-container-row-space-evenly {
   width: var(--max-percent-width);
   display: flex;
@@ -18,15 +18,10 @@
   align-items: center;
   justify-content: space-evenly;
   gap: var(--spacer-default);
-  /* border: var(--border-solid-default); */
-  /* border-color: none; */
-  /* margin-top: var(--spacer-default); */
-  /* margin-bottom: var(--spacer-default); */
-  /* margin: var(--spacer-default); */
   padding: 0 var(--spacer-default);
 }
 
-/* general element containers */
+/* General element containers */
 .element-container-col-default {
   display: flex;
   flex-direction: column;
@@ -77,7 +72,7 @@
   gap: var(--spacer-medium);
 }
 
-/* special containers */
+/* Special containers */
 .current-folder-container {
   width: fit-content;
   border-radius: var(--border-radius-default);

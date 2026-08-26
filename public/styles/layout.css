@@ -17,7 +17,7 @@ body {
 }
 
 main {
-   max-width: var(--max-app-width);
+  max-width: var(--max-app-width);
 }
 
 *,
@@ -71,7 +71,6 @@ header {
 /*  index.ejs */
 .no-background-card {
   height: fit-content;
-  /* width: var(--max-percent-width); */
   width: var(--max-card-width);
   padding: var(--spacer-biggest);
 }
@@ -79,28 +78,12 @@ header {
 .index-image {
   width: var(--max-percent-width);
   max-width: var(--max-card-width);
-  /* max-width: 650px; */
   height: auto;
   box-shadow: var(--box-shadow-black);
   opacity: 0.75;
 }
 
 /* user-data.ejs and user-folder.ejs*/
-/* .folder-card {
-  height: fit-content;
-  width: var(--max-percent-width);
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--border-radius-default);
-  padding: var(--spacer-default);
-  text-align: center;
-  text-transform: none;
-  text-wrap: wrap;
-} */
-
 .current-parent-folder-section {
   width: var(--max-percent-width);
   border: var(--border-solid-default);
@@ -109,15 +92,6 @@ header {
   color: var(--black);
   padding: var(--spacer-default);
 }
-
-/* .folder-card span {
-  font-size: var(--font-size-title);
-  margin: var(--spacer-small);
-}
-
-.folder-card-name {
-  text-align: left;
-} */
 
 .current-folder-emoji span {
   font-size: var(--font-size-title);
@@ -135,7 +109,6 @@ header {
   align-items: center;
   justify-content: start;
   gap: var(--spacer-default);
-  /* font-family: var(--font-text); */
 }
 
 .current-folder-items {

@@ -1,27 +1,27 @@
 /* Full-screen backdrop */
 #deletion-modal {
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    background: var(--black-transparent);
-    backdrop-filter: blur(2px);
-    z-index: 1000;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--black-transparent);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
 }
 
 /* Hidden state */
 #deletion-modal[hidden] {
-    display: none;
+  display: none;
 }
 
 /* Modal */
 #deletion-modal .modal-content {
-    width: min(90vw, 420px);
-    background: var(--black);
-    border: var(--border-solid-default);
-    border-color: var(--yellow-bold);
-    border-radius: var(--border-radius-small); 
-    color: var(--yellow-bold);
-    padding: 1.5rem;
-    text-align: left;
+  width: min(90vw, 420px);
+  background: var(--black);
+  border: var(--border-solid-default);
+  border-color: var(--yellow-bold);
+  border-radius: var(--border-radius-small);
+  color: var(--yellow-bold);
+  padding: 1.5rem;
+  text-align: left;
 }

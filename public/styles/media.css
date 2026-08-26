@@ -9,12 +9,12 @@
     --card-width-default: 300px;
   }
 
-    .card {
+  .card {
     width: var(--card-width-default);
     flex-grow: 1;
   }
 
-    .subfolder-item-section,
+  .subfolder-item-section,
   .file-item-section {
     justify-content: start;
   }
@@ -30,7 +30,7 @@
     font-family: var(--font-title);
     font-size: var(--font-size-default);
     text-transform: capitalize;
-  }  
+  }
 
   .nav-button {
     width: fit-content;
@@ -39,7 +39,7 @@
   }
 
   .folder-button {
-    /* width: fit-content; */
+    width: fit-content;
     gap: var(--spacer-small);
     flex-grow: 1;
   }

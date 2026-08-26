@@ -41,10 +41,8 @@
 
 /* Card related*/
 .card {
-  all: unset;
+  all: unset; /* REMINDER - Using this allowed me to match folder cards and file cards in width without fuss*/
   height: fit-content;
-  width: var(--card-width-default);
-  /* width: 316.5px; */
   width: var(--max-percent-width);
   display: flex;
   flex-direction: column;
@@ -68,9 +66,7 @@
   justify-content: center;
   background-color: var(--gray);
   border-color: var(--gray);
-  /* text-align: center; */
   text-transform: none;
-  /* text-wrap: wrap; */
 }
 
 .folder-card:hover {
@@ -86,14 +82,15 @@
   color: var(--gray-dk);
 }
 
-.folder-card-name, .folder-card-contents {
+.folder-card-name,
+.folder-card-contents {
   font-weight: var(--font-weight-heavy);
   text-align: left;
 }
 
 .folder-card-name {
   color: var(--black);
-} 
+}
 
 .folder-card-contents {
   color: var(--gray-dk);

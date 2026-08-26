@@ -141,6 +141,10 @@
   display: none;
 }
 
+.icon-and-text {
+  display: none;
+}
+
 /* Emoji related */
 .emoji {
   font-family: var(--font-emoji) !important;

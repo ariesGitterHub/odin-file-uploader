@@ -24,7 +24,6 @@
 
 .nav-button {
   height: var(--nav-button-height-default);
-  /* width: fit-content; */
   width: var(--max-percent-width);
   background-color: var(--gray);
   font-size: var(--font-size-larger);

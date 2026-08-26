@@ -6,11 +6,12 @@
 
 @media (min-width: 768px) {
   :root {
-    --card-width-default: 275px;
+    --card-width-default: 300px;
   }
 
     .card {
     width: var(--card-width-default);
+    flex-grow: 1;
   }
 
     .subfolder-item-section,
@@ -21,13 +22,31 @@
 
 @media (min-width: 992px) {
   :root {
-    --card-width-default: 300px;
+    --card-width-default: 350px;
   }
 
+  .icon-and-text {
+    display: flex;
+    font-family: var(--font-title);
+    font-size: var(--font-size-default);
+    text-transform: capitalize;
+  }  
+
+  .nav-button {
+    width: fit-content;
+    gap: var(--spacer-small);
+    flex-grow: 1;
+  }
+
+  .folder-button {
+    /* width: fit-content; */
+    gap: var(--spacer-small);
+    flex-grow: 1;
+  }
 }
 
 @media (min-width: 1200px) {
   :root {
-    --card-width-default: 325px;
+    --card-width-default: 400px;
   }
 }

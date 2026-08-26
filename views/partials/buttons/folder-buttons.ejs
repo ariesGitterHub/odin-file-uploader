@@ -1,22 +1,26 @@
 <div class="button-container-row-space-evenly">
   <!-- Back -->
   <a class="button-default folder-button" href="<%= folder.parentFolderId  ? `/app/user-folder/${folder.parentFolderId}` : '/app/user-data/' %>">
-    <span class="emoji">👈</span>
+    <span class="emoji"> 👈 </span>
+    <span class="icon-and-text"> Back </span>
   </a>
   <!-- Share -->    
     <a class="button-default folder-button" href="/app/share-folder/<%= folder.id %>">
-      <span class="emoji">🔗</span>
+      <span class="emoji"> 🔗 </span>
+      <span class="icon-and-text"> Share </span>
     </a>    
   <!-- Download -->
     <form action="/app/download-folder/<%= folder.id %>">
     <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
     <button class="button-default folder-button" type="submit">
-      <span class="emoji">⬇</span>
+      <span class="emoji"> ⬇ </span>
+      <span class="icon-and-text"> Download </span>
     </button>    
   </form>
   <!-- Edit -->
     <a class="button-default folder-button" href="/app/user-folder-edit/<%= folder.id %>">
-      <span class="emoji">✏</span>
+      <span class="emoji"> ✏ </span>
+      <span class="icon-and-text"> Edit </span>
     </a>    
   <!-- Delete -->
   <!-- <form action="/app/delete-your-folder/<%#= folder.id %>" method="POST"> -->
@@ -27,7 +31,8 @@
       data-action="/app/delete-your-folder/<%= folder.id %>"
       data-message="Do you wish to delete the folder: <%= folder.folderName %>? Reminder: this action cannot be undone." 
       type="button">
-      <span class="emoji">❌</span>
+      <span class="emoji"> ❌ </span>
+      <span class="icon-and-text"> Delete </span>
     </button>
   <!-- </form> -->
 </div>

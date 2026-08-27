@@ -4,16 +4,13 @@ const {
   csrfProtection,
   csrfTokenMiddleware,
 } = require("../middleware/csrfMiddleware");
-
 const { getHomePage } = require("../controllers/home.controller");
-
 const {
   getAdminPage,
   getAdminEditPage,
   postAdminEditPage,
   deleteUserProfileByAdmin,
 } = require("../controllers/admin.controller");
-
 const {
   getSignUpPage,
   postSignUpPage,
@@ -21,7 +18,6 @@ const {
   postLogInPage,
   postLogOut,
 } = require("../controllers/auth.controller");
-
 const {
   getNewFolderPage,
   postNewFolderPage,
@@ -42,7 +38,6 @@ const {
   downloadFolder,
   downloadFile,
 } = require("../controllers/user-data.controller");
-
 const {
   getUserShareLinkFolderPage,
   postUserShareLinkFolderPage,
@@ -52,26 +47,24 @@ const {
   postUserShareLinkIsActiveUpdate,
   deleteUserShare,
 } = require("../controllers/user-share.controller");
-
 const {
   getPublicSharePage,
   getPublicShareDownloadFolder,
   getPublicShareDownloadFile,
   getPublicShareFilePreview,
 } = require("../controllers/public-share.controller");
-
 const {
   createUserValidatorSignUp,
 } = require("../middleware/validateCreateUser");
 
-const {
-  createUserUpdateValidator,
-} = require("../middleware/validateUpdateUser");
+// Below not used in this project; possible future use?
+// const {
+//   createUserUpdateValidator,
+// } = require("../middleware/validateUpdateUser");
 
 const validateUploadFile = require("../middleware/validateUploadFile");
 
-// const { requireAdmin, adminLogCheck } = require("../utils/requireAdmin");  // TODO - remove later --> adminLogCheck
-const { requireAdmin } = require("../utils/requireAdmin");  // TODO - remove later --> adminLogCheck
+const { requireAdmin } = require("../utils/requireAdmin");
 
 const appRouter = Router();
 
@@ -108,7 +101,6 @@ appRouter.get("/admin", csrfProtection, csrfTokenMiddleware, getAdminPage);
 appRouter.get(
   "/admin-edit/:userId",
   requireAdmin,
-  // adminLogCheck, // TODO - remove later
   csrfProtection,
   csrfTokenMiddleware,
   getAdminEditPage,
@@ -117,7 +109,6 @@ appRouter.get(
 appRouter.post(
   "/admin-edit/:userId",
   requireAdmin,
-  // adminLogCheck, // TODO - remove later
   csrfProtection,
   postAdminEditPage,
 );
@@ -125,7 +116,6 @@ appRouter.post(
 appRouter.post(
   "/admin/delete-user/:userId",
   requireAdmin,
-  // adminLogCheck, // TODO - remove later
   csrfProtection,
   deleteUserProfileByAdmin,
 );
@@ -144,10 +134,9 @@ appRouter.get(
   getUserFolderPage,
 );
 
+// No csrfProtection or csrfTokenMiddleware needed below);
 appRouter.get(
   "/preview-file/:fileId",
-  // csrfProtection,
-  // csrfTokenMiddleware,
   getUserFilePreview,
 );
 
@@ -244,8 +233,6 @@ appRouter.get(
 );
 
 appRouter.post("/new-folder", csrfProtection, postNewFolderPage);
-// appRouter.get("/new-file", getNewFilePage);
-// appRouter.post("/new-file", upload.single("file"), postNewFilePage);
 appRouter.get("/new-file", csrfProtection, csrfTokenMiddleware, getNewFilePage);
 
 appRouter.post(
@@ -265,10 +252,10 @@ appRouter.get(
 
 appRouter.post("/user-file-edit/:fileId", csrfProtection, postUserFileEditPage);
 
-// appRouter.get("/download-folder/:folderId", csrfProtection, csrfTokenMiddleware, downloadFolder);
+// No csrfProtection or csrfTokenMiddleware needed below);
 appRouter.get("/download-folder/:folderId", downloadFolder);
 
-// appRouter.get("/download-file/:fileId", csrfProtection, csrfTokenMiddleware, downloadFile);
+// No csrfProtection or csrfTokenMiddleware needed below);
 appRouter.get("/download-file/:fileId", downloadFile);
 
 appRouter.get("/share-page-download-folder/:token", getPublicShareDownloadFolder);

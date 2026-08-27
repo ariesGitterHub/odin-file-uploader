@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { validationResult } = require("express-validator");
-const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
+const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
 const { createUser } = require("../services/user.service");
 
 // CONTROLLERS: SIGN-UP PAGE (sign-up.ejs)

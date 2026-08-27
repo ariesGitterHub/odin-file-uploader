@@ -1,6 +1,4 @@
-// This is my Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// This is my Prisma schema file, learn more about it in the docs: https://pris.ly/d/prisma-schema
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
@@ -19,7 +17,7 @@ enum UserRole {
   ADMIN
 }
 
-enum PermissionType {
+enum PermissionType { // TODO - reconsider this...make all DOWNLOAD???
   VIEW
   EDIT // Not used in this app
   DOWNLOAD

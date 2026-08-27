@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
-const { checkIfEmailExistsForSignUp } = require("../services/appServices");
-const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
+const { checkIfEmailExistsForSignUp } = require("../services/auth.service.js");
+const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
 
 const expectedInviteCodeAnswer = process.env.INVITE_CODE;
 
@@ -65,9 +65,4 @@ module.exports = {
     confirmPasswordValidator,
     inviteCodeValidator,
   ],
-  // createUserValidatorAdminCreate: [
-  //   emailValidator,
-  //   passwordValidator,
-  //   confirmPasswordValidator,
-  // ],
 };

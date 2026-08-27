@@ -1,4 +1,4 @@
-// NOT NEEDED SINCE I AM USING PRISMA 
+// Not needed, using Prisma ORM, but keep for reference if using this code later as a template
 
 // require("dotenv").config();
 

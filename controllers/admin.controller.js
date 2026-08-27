@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
+const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
 const { formatBytes } = require("../utils/formatBytes");
 const { formatExactDate } = require("../utils/formatDate");
 const {

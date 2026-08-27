@@ -1,6 +1,8 @@
+// Below not used in this project; possible future use?
+
 const { check } = require("express-validator");
-const { checkIfEmailAlreadyExists } = require("../services/appServices");
-const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
+const { checkIfEmailAlreadyExists } = require("../services/auth.service.js");
+const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
 
 const emailValidator = check("email")
   .trim()

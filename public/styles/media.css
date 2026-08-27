@@ -43,6 +43,10 @@
     gap: var(--spacer-small);
     flex-grow: 1;
   }
+
+  .restrain-card-width {
+    width: var(--max-percent-width);
+  }
 }
 
 @media (min-width: 1200px) {

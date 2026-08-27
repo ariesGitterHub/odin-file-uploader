@@ -1,12 +1,23 @@
-<div class="card share-border">
-  <h3 class="card-text-hover-selector share-color">
+<div class="card share-border restrain-card-width">
+  <h3 class="card-text-hover-selector share-color font-title">
     <%= record.createdAtLabel %>
   </h3>
   <div class="element-container-row-center-start flex-gap flex-wrap">
     <!-- <div class="details-backdrop"><strong>token</strong> <%#= record.token %></div>   -->
     <div class="details-backdrop"><strong>share status</strong> <%= record.isActive ? "🟢 enabled" : "🔴 disabled" %></div>  
     <!-- <div class="details-backdrop"><strong>expires</strong> <%#= record.expiresAtLabel %></div>       -->
-    <div class="details-backdrop"><strong>expires</strong> <%= record.expiresAt > new Date() ? "🟢" : "🔴" %> <%= record.expiresAtLabel %></div>      
+    <!-- <div class="details-backdrop"><strong>expires</strong> <%#= record.expiresAt > new Date() ? "🟢" : "🔴" %> <%#= record.expiresAtLabel %></div>    -->
+    <div class="details-backdrop">
+      <strong>expires</strong>
+      <% if (record.expiresAt > new Date()) { %> 
+        🟢 
+      <% } else if (record.expiresAt === null) { %> 
+        🟢
+      <% } else { %> 
+        🔴
+      <% } %>
+      <%= record.expiresAtLabel %>
+    </div>     
     <!-- <div class="details-backdrop"><strong>download count</strong> <%#= record.downloadCount %></div> -->
     <!-- <div class="details-backdrop"><strong>download maximum</strong> <%#= record.maxDownloads ? record.maxDownloads : "unlimited" %></div> -->
     <div class="details-backdrop">

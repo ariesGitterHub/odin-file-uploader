@@ -1,77 +1,14 @@
 const bcrypt = require("bcryptjs");
-// const fs = require("node:fs/promises");
-// const { ZipArchive } = require("archiver");
-// const path = require("node:path");
 const passport = require("passport");
 const { validationResult } = require("express-validator");
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
-// const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis");
-// const { formatBytes } = require("../utils/formatBytes");
-// const { formatRelativeDate, formatExactDate } = require("../utils/formatDate");
-// const { formatMimeType, isPreviewableMimeType } = require("../utils/mimeUtils");
-// const { parseLocalDateTimeToUTC } = require("../utils/timezoneUtils");
-
-// const {
-//   getAdminUserProfiles,
-//   getAdminUserProfile,
-// } = require("../services/admin.service");
-
-// const {
-//   checkIfEmailExistsForSignUp,
-//   checkIfEmailAlreadyExists,
-// } = require("../services/auth.service");
-
-// const {
-//   createFile,
-//   getFileById,
-//   getUserProfileStorageSize,
-//   updateFile,
-//   deleteFile,
-// } = require("../services/file.service");
-
-// const {
-//   createFolder,
-//   getUserFolders,
-//   getUserFolder,
-//   getFolderById,
-//   getUserFolderSize,
-//   getDescendantFolderIds,
-//   getFolderSubfoldersCount,
-//   getFolderFilesCount,
-//   getFilesByFolder,
-//   getChildFoldersById,
-//   getFolderTreeForArchive,
-//   updateFolder,
-//   deleteFolder,
-// } = require("../services/folder.service");
-
-// const {
-//   createFolderShareLink,
-//   createFileShareLink,
-//   getShareLinkById,
-//   getShareHistoryByFolderId,
-//   getShareHistoryByFileId,
-//   getUserShareLinksByUserId,
-//   getUserShareLinksByFolderId,
-//   getUserShareLinksByFileId,
-//   getShareLinkByToken,
-//   updateLastAccessedAt,
-//   updateDownloadCount,
-//   toggleShareLinkActiveStatus,
-//   deleteShare,
-// } = require("../services/share.service");
-
-const {
-  createUser,
-  // updateUser,
-  // getUserProfile,
-  // deleteUser,
-} = require("../services/user.service");
+const { createUser } = require("../services/user.service");
 
 // CONTROLLERS: SIGN-UP PAGE (sign-up.ejs)
 
 async function getSignUpPage(req, res, next) {
   try {
+    // REMINDER - the neighborhood message app used a maintenance mode that allowed a different landing screen; this app does not.
     // if (await isMaintenanceMode()) {
     //   return res.redirect("/");
     // }
@@ -87,7 +24,6 @@ async function getSignUpPage(req, res, next) {
   }
 }
 
-// This code is from a similar prior project that did not use Prisma ORM
 async function postSignUpPage(req, res, next) {
   try {
     const errors = validationResult(req);
@@ -111,7 +47,7 @@ async function postSignUpPage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        // csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
       });
     }
 
@@ -119,7 +55,6 @@ async function postSignUpPage(req, res, next) {
 
     const password_hash = await bcrypt.hash(password, 12);
 
-    // await insertNewUser(first_name, last_name, email, password_hash); // Old SQL query way
     await createUser({
       firstName: first_name,
       lastName: last_name,
@@ -138,6 +73,7 @@ async function postSignUpPage(req, res, next) {
 
 async function getLogInPage(req, res, next) {
   try {
+    // REMINDER - the neighborhood message app used a maintenance mode that allowed a different landing screen; this app does not.
     // if (await isMaintenanceMode()) {
     //   return res.redirect("/");
     // }
@@ -158,21 +94,19 @@ async function postLogInPage(req, res, next) {
     if (err) {
       return next(err);
     }
-    // console.log(req.user);
 
     if (!user) {
-      // return res.status(401).render("log-in", {
       return res.render("log-in", {
         title: "Log In",
         errors: [
           {
             field: "auth",
-            // message: info?.message || "Invalid email or password",
+            // message: info?.message || "Invalid email or password", // NOTE - using the code below instead
             message: "Invalid email or password",
           },
         ],
         formData: req.body,
-        csrfToken: req.csrfToken(), // !!! NOTE - Leave this be! Even though this is global for GET, putting this here explicitly to handle errors when validationCreateUser or validationEditUser catches an incorrect email, password, or confirm_password is used; without this here a 500 error pops off!
+        csrfToken: req.csrfToken(), // !!! NOTE - Leave this be! Even though this is global for GET, I am putting this here explicitly to handle errors when validationCreateUser or validationEditUser catches an incorrect email, password, or confirm_password is used; without this here a 500 error pops off!
       });
     }
 
@@ -189,13 +123,14 @@ async function postLogInPage(req, res, next) {
 }
 
 // CONTROLLER: LOG-OUT
+
 async function postLogOut(req, res, next) {
   try {
     req.logout((err) => {
       if (err) {
         return next(err);
       }
-      res.redirect("/app/log-in"); // Redirect to login page after logout
+      res.redirect("/app/log-in");
     });
   } catch (err) {
     next(err);

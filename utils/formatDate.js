@@ -1,7 +1,7 @@
 // import { formatDistanceToNow, format } from "date-fns";
 const { format, formatDistanceToNow } = require("date-fns");
 
-// NOTE - formatRelativeDate not used
+// NOTE - formatRelativeDate not used in ths app now
 function formatRelativeDate(date) {
   return formatDistanceToNow(new Date(date), { addSuffix: true });
 }

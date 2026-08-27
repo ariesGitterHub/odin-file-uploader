@@ -2,27 +2,12 @@ const bcrypt = require("bcryptjs");
 const fs = require("node:fs/promises");
 const { ZipArchive } = require("archiver");
 const path = require("node:path");
-// const passport = require("passport");
 const { validationResult } = require("express-validator");
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
 const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis");
 const { formatBytes } = require("../utils/formatBytes");
-const { 
-  // formatRelativeDate, 
-  formatExactDate 
-} = require("../utils/formatDate");
+const { formatExactDate } = require("../utils/formatDate");
 const { formatMimeType, isPreviewableMimeType } = require("../utils/mimeUtils");
-// const { parseLocalDateTimeToUTC } = require("../utils/timezoneUtils");
-
-// const {
-//   getAdminUserProfiles,
-//   getAdminUserProfile,
-// } = require("../services/admin.service");
-
-// const {
-//   checkIfEmailExistsForSignUp,
-//   checkIfEmailAlreadyExists,
-// } = require("../services/auth.service");
 
 const {
   createFile,
@@ -36,7 +21,6 @@ const {
   createFolder,
   getUserFolders,
   getUserFolder,
-  // getFolderById,
   getUserFolderSize,
   getDescendantFolderIds,
   getFolderSubfoldersCount,
@@ -48,24 +32,7 @@ const {
   deleteFolder,
 } = require("../services/folder.service");
 
-// const {
-//   createFolderShareLink,
-//   createFileShareLink,
-//   getShareLinkById,
-//   getShareHistoryByFolderId,
-//   getShareHistoryByFileId,
-//   getUserShareLinksByUserId,
-//   getUserShareLinksByFolderId,
-//   getUserShareLinksByFileId,
-//   getShareLinkByToken,
-//   updateLastAccessedAt,
-//   updateDownloadCount,
-//   toggleShareLinkActiveStatus,
-//   deleteShare,
-// } = require("../services/share.service");
-
 const {
-  // createUser,
   updateUser,
   getUserProfile,
   deleteUser,
@@ -79,14 +46,11 @@ async function getNewFolderPage(req, res, next) {
 
     const userFolders = await getUserFolders(userId);
 
-    // const parentFolderId = req.body.parent_folder_id || null; // ADD TO POST!
-
     res.render("new-folder", {
       title: "Create Folder",
       errors: [],
       folderEmojisDropdown,
       userFolders,
-      // passwordRules,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
     });
   } catch (err) {
@@ -100,15 +64,15 @@ async function postNewFolderPage(req, res, next) {
 
     const userFolders = await getUserFolders(userId);
 
-    // 1. Extract form data
+    // Extract form data
     const { folder_name, parent_folder_id, folder_image, folder_description } =
       req.body;
 
-    // 2. Normalize parent folder and folder description (important for NULL support)
+    // Normalize parent folder and folder description (important for NULL support)
     const normalizedParentFolderId = parent_folder_id || null;
     const normalizedFolderDescription = folder_description || null;
 
-    // 3. Basic validation
+    // Basic validation
     const errors = [];
 
     if (!folder_name || folder_name.trim() === "") {
@@ -121,11 +85,11 @@ async function postNewFolderPage(req, res, next) {
         errors,
         userFolders,
         folderEmojisDropdown,
-        formData: req.body, // keep user input
+        formData: req.body, // REMINDER - used to keep user input
       });
     }
 
-    // 4. Create folder (service layer)
+    // Create folder (service layer)
     await createFolder({
       userId,
       parentFolderId: normalizedParentFolderId,
@@ -134,7 +98,7 @@ async function postNewFolderPage(req, res, next) {
       folderDescription: normalizedFolderDescription,
     });
 
-    // 5. Redirect after success
+    // Redirect after success
     return res.redirect("/app/user-data");
   } catch (err) {
     next(err);
@@ -151,11 +115,9 @@ async function getNewFilePage(req, res, next) {
     res.render("new-file", {
       title: "Upload File",
       errors: [],
-      // folderEmojisDropdown,
-      // passwordRules,
       userFolders,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -182,7 +144,7 @@ async function postNewFilePage(req, res, next) {
         errors,
         userFolders,
         formData: req.body,
-        // csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
       });
     }
 
@@ -196,16 +158,13 @@ async function postNewFilePage(req, res, next) {
       cloudKey: req.file.path, // or req.file.filename/path if using disk storage
     });
 
-    // 5. Redirect after success
+    // Redirect after success
     return res.redirect("/app/user-data");
-    // } catch (err) {
-    //   next(err);
-    // }
   } catch (err) {
-    // NOTE - Below cleans up the uploaded file if Prisma fails, as multer saves the file before my database record is created, so without this deletion I would leave orphaned files in uploads/ that are taking up storage but are not tracked in my database.
+    // NOTE - Below cleans up the uploaded file if Prisma fails, as Multer saves the file before my database record is created, so without this deletion I would leave orphaned files in uploads/ that are taking up storage but are not tracked in my database
     if (req.file?.path) {
       try {
-        // NOTE - reminder, this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
+        // NOTE - this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
         await fs.unlink(req.file.path);
       } catch (cleanupError) {
         console.error("Failed to remove orphaned upload:", cleanupError);
@@ -227,13 +186,12 @@ async function getUserDataPage(req, res, next) {
     const rootFoldersSize = await getUserProfileStorageSize(userId);
     const formatRootFoldersSize = formatBytes(rootFoldersSize);
 
-    // Prevent folders with parentFolderIds from showing up as these should be shown in folder views.
+    // Prevents folders with parentFolderIds from showing up as these should be shown in folder views.
     const rootFolders = userFolders.filter(
       (folder) => folder.parentFolderId === null,
     );
 
     const foldersWithCounts = await Promise.all(
-      // userFolders.map(async (folder) => ({
       rootFolders.map(async (folder) => ({
         ...folder,
         subfolderCount: await getFolderSubfoldersCount(folder.id),
@@ -251,9 +209,8 @@ async function getUserDataPage(req, res, next) {
       userFolders: foldersWithEmoji,
       formatRootFoldersSize,
       errors: [],
-      // passwordRules,
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -268,8 +225,6 @@ async function getUserFolderPage(req, res, next) {
 
     const folder = await getFilesByFolder(folderId);
 
-    // const userId = req.user.id;
-
     if (!folder) {
       return res.status(404).render("404");
     }
@@ -277,7 +232,6 @@ async function getUserFolderPage(req, res, next) {
     const childFolders = await getChildFoldersById(folderId);
 
     const foldersWithCounts = await Promise.all(
-      // userFolders.map(async (folder) => ({
       childFolders.map(async (folder) => ({
         ...folder,
         subfolderCount: await getFolderSubfoldersCount(folder.id),
@@ -290,48 +244,33 @@ async function getUserFolderPage(req, res, next) {
       emoji: folderEmojis[folder.folderImage],
     }));
 
-    // const foldersWithEmoji = folder.map((folder) => ({
-    //   ...folder,
-    //   emoji: folderEmojis[folder.folderImage],
-    // }));
-
     const folderSize = await getUserFolderSize(folderId);
     const formatFolderSize = formatBytes(folderSize);
-
-    // const foldersWithFormattedSize = folder
-    //   .map((f) => ({
-    //     ...f,
-    //     createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
-    //     updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
-    //   }));
-
-    const formatCreatedAtDate = formatExactDate(folder.createdAt); // formats folder dates
-    const formatUpdatedAtDate = formatExactDate(folder.updatedAt); // formats folder dates
+    const formatCreatedAtDate = formatExactDate(folder.createdAt);
+    const formatUpdatedAtDate = formatExactDate(folder.updatedAt);
 
     const filesWithFormattedSize = folder.files
       .map((f) => ({
         ...f,
         sizeLabel: formatBytes(f.sizeBytes),
         mimeLabel: formatMimeType(f.mimeType),
-        createdAtLabel: formatExactDate(f.createdAt), // formats file dates
-        updatedAtLabel: formatExactDate(f.updatedAt), // formats file dates
+        createdAtLabel: formatExactDate(f.createdAt),
+        updatedAtLabel: formatExactDate(f.updatedAt),
         canPreview: isPreviewableMimeType(f.mimeType),
       }))
       .sort(
         (
           a,
-          b, // orders by alpha where asc cannot as prisma's asc sees "T" and "t" as different
+          b, // Orders by alphabet where asc cannot as prisma's asc sees "T" and "t" as different
         ) =>
           a.originalFileName.localeCompare(b.originalFileName, undefined, {
             sensitivity: "base",
           }),
       );
 
-    // THIS IS INTERESTING (!), adding files to folderWithEmoji
     const folderWithEmoji = {
       ...folder,
       emoji: folderEmojis[folder.folderImage],
-      // foldersWithFormattedSize,
       files: filesWithFormattedSize,
     };
 
@@ -341,9 +280,8 @@ async function getUserFolderPage(req, res, next) {
       formatCreatedAtDate,
       formatUpdatedAtDate,
       formatFolderSize,
-      // childFolders,
       childFolders: foldersWithEmoji,
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -359,13 +297,11 @@ async function getUserFilePreview(req, res, next) {
     console.log(file.mimeType);
     console.log(isPreviewableMimeType(file.mimeType));
 
-    // File doesn't exist
     if (!file) {
       console.log("File not found:", fileId);
       return res.status(404).render("404");
     }
 
-    // User doesn't own this file
     if (file.userId !== userId) {
       console.log("Unauthorized user");
       return res.status(403).render("forbidden");
@@ -378,13 +314,12 @@ async function getUserFilePreview(req, res, next) {
     }
 
     res.type(file.mimeType);
-    // res.sendFile(path.resolve(file.cloudKey));
-
     const filePath = path.resolve(file.cloudKey);
 
-    console.log("cloudKey:", file.cloudKey);
-    console.log("cwd:", process.cwd());
-    console.log("resolved path:", filePath);
+    // Checking...
+    // console.log("cloudKey:", file.cloudKey);
+    // console.log("cwd:", process.cwd());
+    // console.log("resolved path:", filePath);
 
     res.sendFile(filePath);
   } catch (err) {
@@ -420,7 +355,7 @@ async function deleteUserFile(req, res, next) {
 
     const file = await getFileById(fileId);
 
-    const userId = req.user.id
+    const userId = req.user.id;
 
     if (!file) {
       return res.status(404).render("404");
@@ -442,8 +377,6 @@ async function deleteUserFile(req, res, next) {
       console.log("Deleting:", filePath);
 
       try {
-        // await fs.unlink(file.cloudKey);
-        // await fs.unlink(path.resolve(file.cloudKey));
         await fs.unlink(filePath);
         console.log("File deleted successfully");
       } catch (cleanupError) {
@@ -452,7 +385,7 @@ async function deleteUserFile(req, res, next) {
       }
     }
 
-    // delete the physical file before the db row because you lose references if done the other way around.
+    // Delete the physical file before the db row because you lose references if done the other way around.
     await deleteFile(fileId);
 
     res.redirect(`/app/user-folder/${folderId}`);
@@ -489,7 +422,7 @@ async function getUserFolderEditPage(req, res, next) {
       userFolders,
       folderEmojisDropdown,
       formData: folder,
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -503,18 +436,15 @@ async function postUserFolderEditPage(req, res, next) {
 
     const folder = await getUserFolder(folderId);
 
-    // Check this FIRST
     if (!folder) {
       return res.status(404).render("404");
     }
 
-    // Then ownership
     if (folder.userId !== userId) {
       return res.status(403).render("forbidden");
     }
 
     // NOTE - this addresses edit folder issue of nesting a folder within itself or within its children or descendants, thus preventing a circle
-    // const userFolders = await getUserFolders(userId, folderId);
     const excludedIds = [folderId, ...(await getDescendantFolderIds(folderId))];
 
     const folders = await getUserFolders(userId, excludedIds);
@@ -542,7 +472,7 @@ async function postUserFolderEditPage(req, res, next) {
         userFolders,
         folderEmojisDropdown,
         formData: req.body,
-        // csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
       });
     }
     const { folder_name, folder_image, parent_folder_id, folder_description } =
@@ -602,7 +532,7 @@ async function getUserFileEditPage(req, res, next) {
         originalFileName: baseName,
       },
       extension,
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -616,12 +546,10 @@ async function postUserFileEditPage(req, res, next) {
 
     const file = await getFileById(fileId);
 
-    // File doesn't exist
     if (!file) {
       return res.status(404).render("404");
     }
 
-    // User doesn't own this file
     if (file.userId !== userId) {
       return res.status(403).render("forbidden");
     }
@@ -665,11 +593,6 @@ async function postUserFileEditPage(req, res, next) {
 
     const { original_file_name, folder_id } = req.body;
 
-    // const updateData = {
-    //   originalFileName: original_file_name?.trim() + extension,
-    //   folderId: folder_id,
-    // };
-
     const trimmedName = original_file_name.trim();
 
     const updateData = {
@@ -685,7 +608,6 @@ async function postUserFileEditPage(req, res, next) {
     next(err);
   }
 }
-
 
 // CONTROLLERS: USER PROFILE PAGE (user-profile.ejs)
 
@@ -709,7 +631,7 @@ async function getUserProfilePage(req, res, next) {
         last_name: userProfile.lastName,
         email: userProfile.email,
       },
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -717,7 +639,6 @@ async function getUserProfilePage(req, res, next) {
 }
 
 async function postUserProfilePage(req, res, next) {
-  // console.log("POST /user-profile", req.body);
   try {
     const errors = validationResult(req);
 
@@ -740,7 +661,7 @@ async function postUserProfilePage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        // csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
       });
     }
 
@@ -774,7 +695,7 @@ async function postUserProfilePage(req, res, next) {
 }
 
 async function deleteUserProfileByUser(req, res, next) {
-  // This cascades to all user data
+  // REMINDER - this cascades to all user data
   if (!req.user) {
     return res.redirect("/app/log-in");
   }
@@ -806,12 +727,10 @@ async function downloadFolder(req, res, next) {
 
     const folder = await getUserFolder(folderId);
 
-    // Folder doesn't exist
     if (!folder) {
       return res.status(404).render("404");
     }
 
-    // User doesn't own this folder
     if (folder.userId !== userId) {
       return res.status(403).render("forbidden");
     }
@@ -821,10 +740,6 @@ async function downloadFolder(req, res, next) {
       folder.folderName,
     );
 
-    // const archive = archiver("zip", {
-    //   zlib: { level: 9 },
-    // });
-
     const archive = new ZipArchive({
       zlib: { level: 9 },
     });
@@ -833,7 +748,6 @@ async function downloadFolder(req, res, next) {
       next(err);
     });
 
-    // res.attachment(`${folder.name}.zip`);
     res.attachment(`${folder.folderName}.zip`);
 
     archive.pipe(res);
@@ -845,8 +759,6 @@ async function downloadFolder(req, res, next) {
         });
       }
     }
-
-    // console.log(JSON.stringify(folderTree, null, 2));
 
     await archive.finalize();
   } catch (err) {
@@ -862,12 +774,10 @@ async function downloadFile(req, res, next) {
 
     const file = await getFileById(fileId);
 
-    // File doesn't exist
     if (!file) {
       return res.status(404).render("404");
     }
 
-    // User doesn't own this file
     if (file.userId !== userId) {
       return res.status(403).render("forbidden");
     }
@@ -887,8 +797,7 @@ async function downloadFile(req, res, next) {
       if (err) {
         console.error("Download error:", err);
 
-        // If Express hasn't already started sending the response,
-        // let your error middleware handle it.
+        // If Express hasn't already started sending the response, let your error middleware handle it.
         if (!res.headersSent) {
           return next(err);
         }
@@ -922,4 +831,3 @@ module.exports = {
   downloadFolder,
   downloadFile,
 };
-

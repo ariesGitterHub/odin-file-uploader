@@ -1,76 +1,13 @@
 const bcrypt = require("bcryptjs");
-// const fs = require("node:fs/promises");
-// const { ZipArchive } = require("archiver");
-// const path = require("node:path");
-// const passport = require("passport");
 const { validationResult } = require("express-validator");
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the current password scheme
-// const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis");
 const { formatBytes } = require("../utils/formatBytes");
-const { 
-  // formatRelativeDate, 
-  formatExactDate 
-} = require("../utils/formatDate");
-
-// const { formatMimeType, isPreviewableMimeType } = require("../utils/mimeUtils");
-// const { parseLocalDateTimeToUTC } = require("../utils/timezoneUtils");
-
+const { formatExactDate } = require("../utils/formatDate");
 const {
   getAdminUserProfiles,
   getAdminUserProfile,
 } = require("../services/admin.service");
-
-// const {
-//   checkIfEmailExistsForSignUp,
-//   checkIfEmailAlreadyExists,
-// } = require("../services/auth.service");
-
-// const {
-//   createFile,
-//   getFileById,
-//   getUserProfileStorageSize,
-//   updateFile,
-//   deleteFile,
-// } = require("../services/file.service");
-
-// const {
-//   createFolder,
-//   getUserFolders,
-//   getUserFolder,
-//   getFolderById,
-//   getUserFolderSize,
-//   getDescendantFolderIds,
-//   getFolderSubfoldersCount,
-//   getFolderFilesCount,
-//   getFilesByFolder,
-//   getChildFoldersById,
-//   getFolderTreeForArchive,
-//   updateFolder,
-//   deleteFolder,
-// } = require("../services/folder.service");
-
-// const {
-//   createFolderShareLink,
-//   createFileShareLink,
-//   getShareLinkById,
-//   getShareHistoryByFolderId,
-//   getShareHistoryByFileId,
-//   getUserShareLinksByUserId,
-//   getUserShareLinksByFolderId,
-//   getUserShareLinksByFileId,
-//   getShareLinkByToken,
-//   updateLastAccessedAt,
-//   updateDownloadCount,
-//   toggleShareLinkActiveStatus,
-//   deleteShare,
-// } = require("../services/share.service");
-
-const {
-  // createUser,
-  updateUser,
-  // getUserProfile,
-  deleteUser,
-} = require("../services/user.service");
+const { updateUser, deleteUser } = require("../services/user.service");
 
 // CONTROLLERS: ADMIN PAGE (admin.ejs, admin-edit.ejs)
 
@@ -86,14 +23,14 @@ async function getAdminPage(req, res, next) {
       .map((f) => ({
         ...f,
         storageUsed: formatBytes(f.storageUsedBytes),
-        createdAtLabel: formatExactDate(f.createdAt), // or whatever your date field is
-        updatedAtLabel: formatExactDate(f.updatedAt), // or whatever your date field is
-        lastLoginAtLabel: formatExactDate(f.lastLoginAt), // or whatever your date field is
+        createdAtLabel: formatExactDate(f.createdAt),
+        updatedAtLabel: formatExactDate(f.updatedAt),
+        lastLoginAtLabel: formatExactDate(f.lastLoginAt),
       }))
       .sort(
         (
           a,
-          b, // orders by alpha where asc cannot as prisma's asc sees "T" and "t" as different
+          b, // Use this to order by alphabet where asc cannot as prisma's asc sees "T" and "t" as different
         ) =>
           a.firstName.localeCompare(b.firstName, undefined, {
             sensitivity: "base",
@@ -105,7 +42,7 @@ async function getAdminPage(req, res, next) {
       userProfiles: usersWithFormattedSize,
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -113,13 +50,12 @@ async function getAdminPage(req, res, next) {
 }
 
 async function getAdminEditPage(req, res, next) {
-  // if (req.user.role !== "ADMIN") {
-  //   return res.sendStatus(403);
-  // }
+  if (req.user.role !== "ADMIN") {
+    return res.sendStatus(403);
+  }
 
   try {
     const userId = req.params.userId;
-    // console.log("userID ===", userId);
 
     const userProfile = await getAdminUserProfile(userId);
 
@@ -138,7 +74,7 @@ async function getAdminEditPage(req, res, next) {
         email: userProfile.email,
         email_verified: userProfile.emailVerified,
       },
-      // csrfToken: req.csrfToken(),
+      // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
     });
   } catch (err) {
     next(err);
@@ -170,13 +106,11 @@ async function postAdminEditPage(req, res, next) {
         errors: formattedErrors,
         formData: req.body || {},
         passwordRules,
-        // csrfToken: req.csrfToken(),
+        // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
       });
     }
 
     const { first_name, last_name, email, email_verified, password } = req.body;
-    // console.log("req.body ===", req.body);
-
     const updateData = {};
 
     if (first_name.trim()) {
@@ -215,10 +149,9 @@ async function deleteUserProfileByAdmin(req, res, next) {
   }
 
   try {
-    // const { userId } = req.body;
     const userId = req.params.userId;
 
-    // Block admins from deleting their own accounts
+    // Blocks admins from deleting their own accounts
     if (req.user.id === userId) {
       const err = new Error("Admins cannot delete their own accounts.");
       err.status = 403;
@@ -228,7 +161,6 @@ async function deleteUserProfileByAdmin(req, res, next) {
 
     await deleteUser(userId);
     return res.redirect("/app/admin");
-    // }
   } catch (err) {
     next(err);
   }

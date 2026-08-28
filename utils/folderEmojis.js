@@ -68,4 +68,4 @@ const folderEmojisDropdown = [
   { value: "WORK", name: "Work, office", image: "💼" },
 ];
 
-module.exports = { folderEmojis, folderEmojisDropdown};
+module.exports = { folderEmojis, folderEmojisDropdown };

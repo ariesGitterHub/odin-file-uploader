@@ -21,21 +21,21 @@ async function getAdminUserProfiles() {
     },
   });
 
-    const usersWithStorage = await Promise.all(
-      users.map(async (user) => {
-        const storageUsedBytes = await getUserProfileStorageSize(user.id);
-  
-        return {
-          ...user,
-          storageUsedBytes,
-        };
-      }),
-    );
-  
-    return usersWithStorage;
-  }
+  const usersWithStorage = await Promise.all(
+    users.map(async (user) => {
+      const storageUsedBytes = await getUserProfileStorageSize(user.id);
 
-  // For admin-edit.ejs, admin may edit a single user
+      return {
+        ...user,
+        storageUsedBytes,
+      };
+    }),
+  );
+
+  return usersWithStorage;
+}
+
+// For admin-edit.ejs, admin may edit a single user
 async function getAdminUserProfile(userId) {
   return prisma.user.findUnique({
     where: { id: userId },

@@ -73,8 +73,6 @@ async function updateFile(fileId, fileData) {
   });
 }
 
-// TODO - All deletes are hard delete, note that I do have the db set up with a deleted_at column for soft deletes. Add soft/hard delete set up later?
-
 async function deleteFile(fileId) {
   return prisma.file.delete({
     where: {

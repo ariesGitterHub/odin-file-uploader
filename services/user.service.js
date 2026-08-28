@@ -46,8 +46,6 @@ async function getUserProfile(userId) {
   });
 }
 
-// TODO - All deletes are hard delete, note that I do have the db set up with a deleted_at column for soft deletes. Add soft/hard delete set up later?
-
 // For user-profile.ejs and admin.ejs
 async function deleteUser(userId) {
   return prisma.user.delete({

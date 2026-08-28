@@ -117,7 +117,7 @@ async function getFilesByFolder(folderId) {
       parentFolderId: true,
       folderName: true,
       folderImage: true,
-      folderDescription: true, // TODO - forgot to add this initially.
+      folderDescription: true,
       createdAt: true,
       updatedAt: true,
       parentFolder: {
@@ -193,7 +193,7 @@ async function getFolderTreeForArchive(folderId, rootFolderName) {
     // Get all files in the current folder
     const files = await getFilesByFolderIdForArchive(current.id);
 
-    // Save what we discovered
+    // Save what was discovered
     results.push({
       folderId: current.id,
       zipPath: current.zipPath,
@@ -224,8 +224,6 @@ async function updateFolder(folderId, folderData) {
     data: folderData,
   });
 }
-
-// TODO - All deletes are hard delete, note that I do have the db set up with a deleted_at column for soft deletes. Add soft/hard delete set up later?
 
 async function deleteFolder(folderId) {
   return prisma.folder.delete({

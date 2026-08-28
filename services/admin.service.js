@@ -1,9 +1,8 @@
 const prisma = require("../lib/prisma");
 const { getUserProfileStorageSize } = require("./file.service");
 
-// For admin.ejs, that views many users
+// For admin.ejs, where the admin views many users
 async function getAdminUserProfiles() {
-  // return prisma.user.findMany({
   const users = await prisma.user.findMany({
     select: {
       id: true,
@@ -36,8 +35,7 @@ async function getAdminUserProfiles() {
     return usersWithStorage;
   }
 
-  // For admin-edit.ejs, single user
-// TODO - reduce what is grabbed here!!!! Don't need it all.
+  // For admin-edit.ejs, admin may edit a single user
 async function getAdminUserProfile(userId) {
   return prisma.user.findUnique({
     where: { id: userId },
@@ -48,10 +46,6 @@ async function getAdminUserProfile(userId) {
       lastName: true,
       email: true,
       emailVerified: true,
-      // storageUsedBytes: true,
-      // createdAt: true,
-      // updatedAt: true,
-      // lastLoginAt: true,
     },
   });
 }

@@ -6,3 +6,6 @@ npx prisma migrate reset: The command is specifically designed to reset your dat
 node script.js: use this for when I am adding/re-adding data to the db.
 
 When downloading a folder, any subfolder that does NOT have files will NOT have that empty subfolder downloaded via archiver/zip. The exception to this is if the subfolder that lacks files itself has a subfolder that has files. I'm okay with how this works. It cuts out anything that is empty and unneeded.
+
+NOTES
+All deletes in this app are hard delete, though I do have the db set up with a deleted_at column for soft deletes. Maybe add soft/hard delete set up later.

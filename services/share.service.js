@@ -54,14 +54,7 @@ async function getShareLinkById(shareLinkId) {
       folderId: true,
       fileId: true,
       // permission: true,
-      // passwordHash: true,
-      // maxDownloads: true,
       isActive: true,
-      // expiresAt: true,
-      // createdAt: true,
-      // updatedAt: true,
-      // downLoadCount: true,
-      // lastAccessedAt: true,
     },
   });
 }
@@ -77,9 +70,7 @@ async function getShareHistoryByFolderId(folderId, userId) {
     },
     select: {
       id: true,
-      token: true, // TODO - Not needed??? used now...just check uniqueness
-      // folderId: true,
-      // fileId: true,
+      // token: true, // TODO - Not needed???
       permission: true,
       downloadCount: true,
       maxDownloads: true,
@@ -88,12 +79,6 @@ async function getShareHistoryByFolderId(folderId, userId) {
       createdAt: true,
       updatedAt: true,
       lastAccessedAt: true,
-      // folder: {
-      //   select: {
-      //     id: true,
-      //     folderName: true,
-      //   },
-      // },
     },
   });
 }
@@ -109,8 +94,7 @@ async function getShareHistoryByFileId(fileId, userId) {
     },
     select: {
       id: true,
-      token: true, // TODO - Not needed??? used now...just check uniqueness
-      // folderId: true,
+      // token: true, // TODO - Not needed??? 
       fileId: true,
       permission: true,
       downloadCount: true,
@@ -120,12 +104,6 @@ async function getShareHistoryByFileId(fileId, userId) {
       createdAt: true,
       updatedAt: true,
       lastAccessedAt: true,
-      // file: {
-      //   select: {
-      //     id: true,
-      //     originalFileName: true,
-      //   },
-      // },
     },
   });
 }
@@ -218,7 +196,7 @@ async function getShareLinkByToken(token) {
     },
     select: {
       id: true,
-      token: true, // TODO - delete if unneeded/unused
+      token: true,
       folderId: true,
       fileId: true,
       permission: true,
@@ -277,8 +255,6 @@ async function toggleShareLinkActiveStatus(shareLinkId, isActive) {
     data: isActive,
   });
 }
-
-// TODO - All deletes are hard delete, note that I do have the db set up with a deleted_at column for soft deletes. Add soft/hard delete set up later?
 
 async function deleteShare(shareLinkId) {
   return prisma.shareLink.delete({

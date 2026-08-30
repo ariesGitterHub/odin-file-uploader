@@ -23,11 +23,11 @@ const helmet = require("helmet");
 
 // Middleware / routes
 // const requireUserIsActive = require("./middleware/requireUserIsActive");
-const {
-  csrfProtection,
-  csrfTokenMiddleware,
-  csrfErrorHandler,
-} = require("./middleware/csrfMiddleware");
+// const {
+//   // csrfProtection,
+//   // csrfTokenMiddleware,
+//   csrfErrorHandler,
+// } = require("./middleware/csrfMiddleware");
 // const setPermissions = require("./middleware/setPermissions");
 const appRouter = require("./routes/appRouter");
 
@@ -102,8 +102,6 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 
-app.use(session(sessionConfig));
-
 // *** Passport (after session)
 app.use(passport.initialize());
 app.use(passport.session());
@@ -139,12 +137,12 @@ app.get("/", (req, res) => {
 app.use("/app", appRouter);
 
 // *** CSRF error handler
-app.use(csrfErrorHandler);
+// app.use(csrfErrorHandler);
 
 // *** 404 handler
 app.use((req, res, next) => {
-  // const err = new Error("Not Found");
-  const err = new Error();
+  const err = new Error("Not Found");
+  // const err = new Error();
   err.status = 404;
   next(err);
 });

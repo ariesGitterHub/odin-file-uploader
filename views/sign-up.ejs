@@ -29,7 +29,7 @@
           placeholder="enter last name"
           required
         />
-        <div class="element-container-row-start-center">
+        <div class="element-container-row-center-start flex-gap">
           <label for="email-sign-up">email</label>
           <% if (errors && errors.some(e => e.field === 'email')) { %>
             <% errors.filter(e => e.field === 'email').forEach(e => { %>
@@ -45,7 +45,7 @@
           placeholder="enter email address"
           required
         />
-        <div class="element-container-row-start-center">
+        <div class="element-container-row-center-start flex-gap">
           <label for="invite-code-sign-up">invite code</label>
           <% if (errors && errors.some(e => e.field === 'invite_code')) { %>
             <% errors.filter(e => e.field === 'invite_code').forEach(e => { %>
@@ -61,7 +61,7 @@
           placeholder="enter invite code"
           required
         />
-        <div class="element-container-row-start-center">
+        <div class="element-container-row-center-start flex-gap">
           <label for="password-sign-up">password</label>
           <% if (errors && errors.some(e => e.field === 'password')) { %>
             <% errors.filter(e => e.field === 'password').forEach(e => { %>
@@ -76,7 +76,7 @@
           placeholder="select a password"
           required
         />
-        <div class="element-container-row-start-center">
+        <div class="element-container-row-center-start flex-gap">
           <label for="confirm-password-sign-up">confirm</label> 
           <% if (errors && errors.some(e => e.field === 'confirm_password')) { %>
             <% errors.filter(e => e.field === 'confirm_password').forEach(e => { %>

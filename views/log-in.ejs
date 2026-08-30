@@ -11,7 +11,7 @@
       <form class="element-container-col-start-center form-width" action="/app/log-in" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <div class="element-container-row-start-center">
+        <div class="element-container-row-center-start flex-gap">
           <label for="email-log-in">email</label>
           <% if (errors && errors.some(e => e.field === 'auth')) { %>
             <% errors.filter(e => e.field === 'auth').forEach(e => { %>
@@ -27,7 +27,7 @@
           placeholder="enter email address"
           required
         />
-        <div class="element-container-row-start-center">
+        <div class="element-container-row-center-start flex-gap">
           <label for="password-log-in">password</label>
           <% if (errors && errors.some(e => e.field === 'auth')) { %>
             <% errors.filter(e => e.field === 'auth').forEach(e => { %>

@@ -16,16 +16,9 @@
         </div>
       <% } %>
       <%# Specific Content for 403 - Forbidden %>
-      <% if (status === 403) { %>
-        <% if (status === 403 && code === "ACCOUNT_DISABLED") { %>
-        <br>
-        <div class="element-container-row-center-start">
-          <span class="emoji emoji-size-small margin-right">😖</span><p>Please contact the admin for additional assistance.</p>
-        </div>
-        <% } else if (status === 403) { %>       
+      <% if (status === 403) { %>      
         <div class="button-container-row-space-evenly">
             <a class="button-default fit-content-button" href="/app">back to home</a>
-            <% } %>
         </div>
       <% } %>
       <%# Specific Content for 404 - Not Found %>
@@ -46,7 +39,6 @@
           <a class="button-default fit-content-button" href="/app">back to home</a>
         </div>
       <% } %>
-    </main>
-    <%#- include('./partials/footer.ejs') %>    
+    </main> 
   </body>
 </html>

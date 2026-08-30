@@ -1,5 +1,5 @@
-// This is just simple text that populates password-rules.ejs
+// This is just a config file for storage limits
 module.exports = {
-  fileSizeLimit: 45, // 45MB
-  userSizeLimit: 1, // GB
+  fileSizeLimitMB: 45, // 45MB
+  userSizeLimitGB: 1, // GB
 };

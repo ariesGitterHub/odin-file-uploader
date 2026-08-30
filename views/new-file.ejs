@@ -6,21 +6,10 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
-      <!-- <h2 class="subtitle">Upload a New File</h2> -->
       <h2 class="app-subtitle">Upload a New File</h2>
       <form class="element-container-col-start-center form-width" action="/app/new-file" method="POST" enctype="multipart/form-data">
       <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <!-- <label for="card-text-hover-selector-new-file">file name</label>
-        <input
-          id="card-text-hover-selector-new-file"
-          type="text"          
-          name="file"
-          value="<%#= formData?.file_name || '' %>"
-          placeholder="enter new file name"
-          required
-        /> -->
-        <!-- TODO - use a file input -->
         <label for="file-upload">Choose a file</label>
         <input
           id="file-upload"
@@ -41,10 +30,9 @@
             select a folder for your file
           </option>
           <% userFolders.forEach((userFolder) => { %> 
-          <option value="<%= userFolder.id %>"
-          <%= formData?.userFolder === userFolder.id ? "selected" : "" %>>
-            <%= userFolder.folderName %>
-          </option>
+            <option value="<%= userFolder.id %>" <%= formData?.userFolder === userFolder.id ? "selected" : "" %>>
+              <%= userFolder.folderName %>
+            </option>
           <% }) %>
         </select>
         <div class="button-container-row-space-evenly margin-top">
@@ -53,6 +41,5 @@
         </div>
       </form>
     </main>
-    <%#- include('./partials/footer.ejs') %>
   </body>
 </html>

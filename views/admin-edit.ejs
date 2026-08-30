@@ -7,9 +7,7 @@
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
       <div class="element-container-col-default">
-        <!-- <h2 class="subtitle">Edit User</h2> -->
         <h2 class="app-subtitle">Edit User</h2>
-        <!-- <p class="font-uppercase font-text font-size-large"><%#= userProfile.firstName %> <%#= userProfile.lastName %></p> -->
       </div>
        <form class="element-container-col-start-center form-width" action="/app/admin-edit/<%= userProfile.id %>" method="POST">
         <%# CSRF Token - hidden input for forms %>
@@ -42,9 +40,7 @@
           name="email"
           value="<%= formData?.email || '' %>"
         />
-
         <label for="email-verified-admin-edit">email verified</label>
-
         <select
           id="email-verified-admin-edit"       
           name="email_verified"
@@ -84,14 +80,10 @@
         <%- include("./partials/password-rules.ejs") %>
       
         <div class="button-container-row-space-evenly margin-top">
-          <!-- <form action="/app/delete-your-account" method="POST">
-            <button class="button-default" type="submit">delete</button>
-          </form> -->
           <a class="button-default" href="/app/admin">cancel</a>
           <button class="button-default" type="submit">update</button>
         </div>
       </form>
     </main>
-    <%#- include('./partials/footer.ejs') %>
   </body>
 </html>

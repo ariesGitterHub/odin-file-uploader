@@ -1,7 +1,11 @@
 module.exports = (err, req, res, next) => {
   console.error(err);
 
-  const status = err.status || 500;
+  // const status = err.status || 500;
+    const status =
+      Number.isInteger(err.status) && err.status >= 400 && err.status < 600
+        ? err.status
+        : 500;
 
   const ERROR_MAP = {
     400: {
@@ -40,10 +44,24 @@ module.exports = (err, req, res, next) => {
     defaultMessage: "An unknown error occurred.",
   };
 
-  const message =
-    (config.overrides && err.code && config.overrides[err.code]) ||
-    err.message ||
-    config.defaultMessage;
+  // const message =
+  //   (config.overrides && err.code && config.overrides[err.code]) ||
+  //   err.message ||
+  //   config.defaultMessage;
+
+  let message;
+
+  if (status === 500) {
+    message =
+      process.env.NODE_ENV === "production"
+        ? config.defaultMessage
+        : err.stack || err.message;
+  } else {
+    message =
+      (config.overrides && err.code && config.overrides[err.code]) ||
+      err.message ||
+      config.defaultMessage;
+  }
 
   res.status(status).render("error-page", {
     title: config.title,

@@ -6,38 +6,38 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
-      <!-- <h2 class="subtitle">Edit Existing File</h2> -->
       <h2 class="app-subtitle">Edit Existing File</h2>
        <form class="element-container-col-start-center form-width" action="/app/user-file-edit/<%= file.id %>" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="filename-input">
-            <label for="file-name-user-file-edit">file name</label>
-            <input
-            id="original-file-name-user-file-edit"
-            type="text"          
-            name="original_file_name"
-            value="<%= formData.originalFileName %>"
-            required
-            />
-            <span class="file-extension-backdrop"><%= extension %></span>
+          <label for="file-name-user-file-edit">file name</label>
+          <input
+          id="original-file-name-user-file-edit"
+          type="text"          
+          name="original_file_name"
+          value="<%= formData.originalFileName %>"
+          required
+          />
+          <span class="file-extension-backdrop"><%= extension %></span>
         </div>  
         <label for="folder-id-user-file-edit">choose new parent folder</label>
-          <select
-            id="folder-id-user-file-edit"     
-            name="folder_id"
+        <select
+          id="folder-id-user-file-edit"     
+          name="folder_id"
+        >
+          <option
+          value=""
+          disabled
+          <%= !formData?.folder_id ? "selected" : "" %>
           >
-            <option
-            value=""
-            disabled
-            <%= !formData?.folder_id ? "selected" : "" %>>
-            select a folder for your file
-          </option>
+          select a folder for your file
+        </option>
           <% userFolders.forEach((userFolder) => { %> 
-          <option value="<%= userFolder.id %>"
-          <%= file.folderId === userFolder.id ? "selected" : "" %>>
-            <%= userFolder.folderName %>
-          </option>
+            <option value="<%= userFolder.id %>"
+            <%= file.folderId === userFolder.id ? "selected" : "" %>>
+              <%= userFolder.folderName %>
+            </option>
           <% }) %>
         </select>
         <div class="button-container-row-space-evenly margin-top">
@@ -46,6 +46,5 @@
         </div>
       </form>
     </main>
-    <%#- include('./partials/footer.ejs') %>
   </body>
 </html>

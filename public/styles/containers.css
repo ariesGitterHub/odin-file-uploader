@@ -90,6 +90,7 @@
   gap: var(--spacer-small);
   border: var(--border-solid-default);
   border-radius: var(--border-radius-small);
+  font-family: var(--font-text);
+  margin-bottom: var(--spacer-big);  
   padding: var(--spacer-default);
-  margin-bottom: var(--spacer-big);
 }

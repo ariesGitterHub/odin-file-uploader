@@ -17,12 +17,6 @@ enum UserRole {
   ADMIN
 }
 
-enum PermissionType { // TODO - reconsider this...make all DOWNLOAD???
-  VIEW
-  EDIT // Not used in this app
-  DOWNLOAD
-}
-
 enum FolderEmoji {
   GENERAL     @map("📁")
   DOCUMENT    @map("📄")
@@ -56,14 +50,6 @@ enum FolderEmoji {
   VACATION    @map("⛱️️")
   WORK        @map("💼")
 }
-
-// model Session {
-//   sid        String   @id
-//   data       String   @db.Text
-//   expiresAt  DateTime
-
-//   @@index([expiresAt]) // makes cleanup of expired sessions efficient.
-// }
 
 model Session {
   id        String   @id
@@ -100,7 +86,6 @@ model User {
   // User Foreign Keys are used in these tables as Relations
   folders    Folder[]
   files      File[]
-  versions   Version[]
   shareLinks ShareLink[]
 
   @@map("users") // NOTE: this lets me use singular Prisma model names AND use plural SQL table names; it is a common practice
@@ -145,15 +130,10 @@ model File {
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // user who uploaded this file
 
-  // fileName         String @map("file_name") @db.VarChar(255) // NOTE - new randomized file name to avoid collisions and hide actual name, a best practice
   originalFileName String @map("original_file_name") @db.VarChar(255) // NOTE - what the original file is named
 
   mimeType  String @map("mime_type") // Use enum for this??? NO! ❌
-  // extension String? @db.VarChar(20) // Not using right now
   sizeBytes BigInt @map("size_bytes")
-
-  // currentVersionID String @map("current_version_id")
-  // version  Version @relation(fields: [currentVersionID], references: [id]) // current version of file
 
   cloudKey      String @map("cloud_key") // storage provider key
   cloudProvider String @map("cloud_provider") // TODO - create an ENUM for this later? `S3`, `CLOUDFLARE_R2`, etc
@@ -163,39 +143,9 @@ model File {
   deletedAt DateTime? @map("deleted_at")
 
   // File Foreign Keys are used in these tables as Relations
-  versions   Version[]
   shareLinks ShareLink[]
 
   @@map("files")
-}
-
-model Version {
-  id String @id @default(uuid())
-
-  fileId String @map("file_id")
-  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade) // file this file belongs in
-
-  userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // user this filer belongs to
-
-  fileName         String @map("file_name") @db.VarChar(255) // NOTE - new randomized file name to avoid collisions and hide actual name, a best practice
-  originalFileName String @map("original_file_name") @db.VarChar(255) // NOTE - what the original file is named
-  mimeType         String // use enum for this???
-  sizeBytes        BigInt @map("size_bytes")
-
-  versionNumber Int @map("version_number")
-  // currentVersionID String @map("current_version_id")
-  // version  Version @relation(fields: [currentVersionID], references: [id]) // current version of file
-
-  cloudKey String @map("cloud_key") // storage provider key
-  // cloudProvider String @map("cloud_provider") // `S3`, `CLOUDFLARE_R2`, etc
-
-  createdAt DateTime @default(now()) @map("created_at")
-  // updatedAt DateTime @updatedAt @map("updated_at")
-  // deletedAt DateTime? @map("deleted_at")
-
-  @@unique([fileId, versionNumber])
-  @@map("versions")
 }
 
 model ShareLink {
@@ -211,8 +161,6 @@ model ShareLink {
 
   fileId String? @map("file_id")
   file   File?   @relation(fields: [fileId], references: [id], onDelete: Cascade) // folder this file belongs in
-
-  permission PermissionType @default(VIEW)
 
   passwordHash String? @map("password_hash") // TODO - is this needed? Likely not, but keep in case I change my mind later.
 

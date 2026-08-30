@@ -6,9 +6,8 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
-        <!-- <h2 class="subtitle">Change Your Profile</h2> -->
-        <h2 class="app-subtitle">Change Your Profile</h2>
-       <form id="user-profile-form" class="element-container-col-start-center form-width" action="/app/user-profile" method="POST">
+      <h2 class="app-subtitle">Change Your Profile</h2>
+      <form id="user-profile-form" class="element-container-col-start-center form-width" action="/app/user-profile" method="POST">
         <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <label for="first-name-user-profile">first name</label>
@@ -39,7 +38,6 @@
           name="email"
           value="<%= formData?.email || '' %>"
         />
-
         <div class="element-container-row-start-center">
           <label for="password-user-profile">password</label>
           <% if (errors && errors.some(e => e.field === 'password')) { %>
@@ -70,23 +68,20 @@
         />
         <%- include("./partials/password-rules.ejs") %>
       </form>
-        <div class="button-container-row-space-evenly margin-top">
-          <!-- <form action="/app/delete-your-account" method="POST"> -->
-            <%# CSRF Token - hidden input for forms %>
-            <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>"> -->
-            <button 
-              class="button-default max-percent-width deletion-form-button"
-              data-action="/app/delete-your-account"
-              data-message="Do you wish to delete your user account? Reminder: this action cannot be undone." 
-              type="button"
-              >
-              delete
-            </button>
-          <!-- </form> -->
-          <a class="button-default max-percent-width" href="/app/user-data">cancel</a>
-          <!-- NOTE - I used the form attribute to get all three buttons in a row (as nested forms are buggy and not allowed)  -->
-          <button class="button-default max-percent-width" type="submit" form="user-profile-form">update</button>
-        </div>
+      <div class="button-container-row-space-evenly margin-top">
+          <%# CSRF Token - hidden input for forms %>
+          <button 
+            class="button-default max-percent-width deletion-form-button"
+            data-action="/app/delete-your-account"
+            data-message="Do you wish to delete your user account? Reminder: this action cannot be undone." 
+            type="button"
+            >
+            delete
+          </button>
+        <a class="button-default max-percent-width" href="/app/user-data">cancel</a>
+        <!-- NOTE - I used form to get all three buttons in a row (as nested forms are buggy and not allowed)  -->
+        <button class="button-default max-percent-width" type="submit" form="user-profile-form">update</button>
+      </div>
     </main>
     <%#- include('./partials/footer.ejs') %>
     <%- include("./partials/modal/deletion-modal") %>

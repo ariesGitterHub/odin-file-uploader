@@ -6,7 +6,6 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
-      <!-- <h2 class="subtitle">Create a New Folder</h2> -->
       <h2 class="app-subtitle">Create a New Folder</h2>
        <form class="element-container-col-start-center form-width" action="/app/new-folder" method="POST">
         <%# CSRF Token - hidden input for forms %>
@@ -20,7 +19,6 @@
           placeholder="enter new folder name"
           required
         />
-        <!-- TODO - This needs to be a drop down menu that uses the utils/folderEmojis -->
         <label for="folder-image-new-folder">folder image</label>
         <select
           id="folder-image-new-folder"
@@ -35,7 +33,6 @@
               </option>
             <% }) %>
         </select>
-        <!-- TODO - scratch using this here, use only on new file...-->
         <label for="folder-parent-new-folder">choose parent folder</label>
           <select
             id="folder-parent-id-new-folder"     
@@ -61,6 +58,5 @@
         </div>
       </form>
     </main>
-    <%#- include('./partials/footer.ejs') %>
   </body>
 </html>

@@ -61,7 +61,7 @@ header {
 .app-subtitle {
   background: linear-gradient(180deg, var(--black), var(--purple));
   font-family: var(--font-title);
-  font-size: var(--font-size-larger);
+  font-size: var(--font-size-large);
   margin-bottom: var(--spacer-default);
   text-transform: uppercase;
   -webkit-background-clip: text; /* Clips background to text shape */

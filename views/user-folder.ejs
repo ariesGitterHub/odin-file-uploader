@@ -32,7 +32,6 @@
             </div>
             <div class="details-backdrop <%= folder.updatedAt.getTime() !== folder.createdAt.getTime() ? '' : 'hidden' %> ">
               <strong>updated</strong> <%= formatUpdatedAtDate %>
-              <!-- <strong>updated</strong> <%#= folder.updatedAt %> -->
             </div>
             <div class="details-backdrop <%= folder.folderDescription ? '' : 'hidden' %>">
               <strong>description</strong> <%= folder.folderDescription %>          
@@ -43,7 +42,7 @@
       </div>
       <div class="current-folder-items">
         <div class="subfolder-section-title folder-color">
-          <h3><span class="emoji"><%= folder.emoji %></span> subfolders</h3>
+          <h3><span class="emoji"><%= folder.emoji %></span> subfolders </h3>
         </div>
         <div class="subfolder-item-section">
           <% if (childFolders.length === 0) { %> 
@@ -51,32 +50,32 @@
               <p>There are no current subfolders.</p>
             </div>
           <% } else { %> 
-          <% childFolders.forEach(childFolder => { %> 
-            <a class="card button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
-            <div class="element-container-row-start-start flex-gap">
-              <span class="emoji" role="img" aria-label="Data folder">
-                <%= childFolder.emoji %>
-              </span>
-              <div class="element-container-col-start-center">
-                <div class="element-container-row-center-start flex-wrap">
-                  <h3 class="folder-card-name font-title"><%= childFolder.folderName%></h3> 
-                </div>
-                <% if (childFolder.subfolderCount > 0 || childFolder.fileCount > 0) { %> 
-                <div class="element-container-row-center-start flex-gap"> 
-                  <p class="folder-card-contents font-text">
-                    (<%= childFolder.subfolderCount %> <%= childFolder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,
-                    <%= childFolder.fileCount %> <%= childFolder.fileCount === 1 ? "file" : "files" %>)
-                  </p>        
-                </div>
-                <% } else { %> 
-                  <div class="element-container-col-start-center">
-                    <p class="folder-card-contents font-text">(empty folder)</p>         
+            <% childFolders.forEach(childFolder => { %> 
+              <a class="card button-default folder-card" href="/app/user-folder/<%= childFolder.id %>">
+              <div class="element-container-row-start-start flex-gap">
+                <span class="emoji" role="img" aria-label="Data folder">
+                  <%= childFolder.emoji %>
+                </span>
+                <div class="element-container-col-start-center">
+                  <div class="element-container-row-center-start flex-wrap">
+                    <h3 class="folder-card-name font-title"><%= childFolder.folderName%></h3> 
                   </div>
-                <% } %>  
+                  <% if (childFolder.subfolderCount > 0 || childFolder.fileCount > 0) { %> 
+                  <div class="element-container-row-center-start flex-gap"> 
+                    <p class="folder-card-contents font-text">
+                      (<%= childFolder.subfolderCount %> <%= childFolder.subfolderCount === 1 ? "subfolder" : "subfolders" %>,
+                      <%= childFolder.fileCount %> <%= childFolder.fileCount === 1 ? "file" : "files" %>)
+                    </p>        
+                  </div>
+                  <% } else { %> 
+                    <div class="element-container-col-start-center">
+                      <p class="folder-card-contents font-text">(empty folder)</p>         
+                    </div>
+                  <% } %>  
+                </div>
               </div>
-            </div>
-          </a>
-          <% }) %>
+              </a>
+            <% }) %>
           <% } %>
         </div>
         <div class="file-section-title file-color">
@@ -88,33 +87,24 @@
             <p>There are no current files.</p>
           </div>
           <% } else { %> 
-        <% folder.files.forEach(file => { %>
-        <div class="card file-border">
-          <h3 class="card-text-hover-selector font-title file-color"><%= file.originalFileName %></h3>
-          <div class="element-container-row-center-start flex-gap flex-wrap">
-            <div class="details-backdrop"><strong>size</strong> <%= file.sizeLabel %> </div>
-            <!-- <div class="details-backdrop"><strong>type</strong> <%#= file.mimeType %></div> -->
-          <!-- </div>   -->
-          <!-- <div class="element-container-row-center-start flex-gap"> -->
-            <!-- <div class="details-backdrop"><strong>size</strong> <%#= file.sizeLabel %> </div> -->
-            <!-- <div class="details-backdrop"><strong>type</strong> <%#= file.mimeType %></div> -->
-            <div class="details-backdrop"><strong>type</strong> <%= file.mimeLabel %></div>
-          <!-- </div>   -->
-          <!-- <div class="element-container-row-center-start flex-gap"> -->
-            <div class="details-backdrop"><strong>created</strong> <%= file.createdAtLabel %></div>
-            <!-- TODO - check below when I am able to make updates -->
-            <% if (file.createdAtLabel !== file.updatedAtLabel) { %>
-            <div class="details-backdrop"><strong>updated</strong> <%= file.updatedAtLabel %></div>
-            <% } %>
-          </div>  
-          <%- include('./partials/buttons/file-buttons.ejs', { folder, file }) %>
-          </div>
-          <% }) %>  
+          <% folder.files.forEach(file => { %>
+            <div class="card file-border">
+              <h3 class="card-text-hover-selector font-title file-color"><%= file.originalFileName %></h3>
+              <div class="element-container-row-center-start flex-gap flex-wrap">
+                <div class="details-backdrop"><strong>size</strong> <%= file.sizeLabel %> </div>
+                <div class="details-backdrop"><strong>type</strong> <%= file.mimeLabel %> </div>
+                <div class="details-backdrop"><strong>created</strong> <%= file.createdAtLabel %></div>
+                <% if (file.createdAtLabel !== file.updatedAtLabel) { %>
+                  <div class="details-backdrop"><strong>updated</strong> <%= file.updatedAtLabel %></div>
+                <% } %>
+              </div>  
+              <%- include('./partials/buttons/file-buttons.ejs', { folder, file }) %>
+            </div>
+            <% }) %>  
           <% } %>
         </div>
       </div>
     </main>
-    <%#- include('./partials/footer.ejs') %>
     <%- include("./partials/modal/deletion-modal") %>
     <script src="/js/delete-modal.js" defer></script>
   </body>

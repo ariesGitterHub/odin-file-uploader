@@ -51,16 +51,18 @@ async function getUserProfileStorageSize(userId) {
   const result = await prisma.file.aggregate({
     where: {
       userId: userId,
-      deletedAt: null,
+      deletedAt: null, // Keep this here in case I change my current hard delete set up to a soft delete/hard delete set up later
     },
     _sum: {
       sizeBytes: true,
     },
   });
-  console.log("USER:", userId);
-  console.log("AGG RESULT:", result);
 
-  return result._sum.sizeBytes ?? 0;
+  // return result._sum.sizeBytes ?? 0;
+
+  // NOTE - Below are the same, but 0n is simply JavaScript's BigInt literal syntax
+  // return result._sum.sizeBytes ?? BigInt(0);
+  return result._sum.sizeBytes ?? 0n;
 }
 
 // For user-file-edit.ejs page

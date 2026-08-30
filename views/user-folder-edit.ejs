@@ -6,7 +6,6 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default frame-border">
-      <!-- <h2 class="subtitle">Edit Existing Folder</h2> -->
       <h2 class="app-subtitle">Edit Existing Folder</h2>
        <form class="element-container-col-start-center form-width" action="/app/user-folder-edit/<%= folder.id %>" method="POST">
         <%# CSRF Token - hidden input for forms %>
@@ -20,7 +19,6 @@
           placeholder="enter new folder name"
           required
         />
-        <!-- TODO - This needs to be a drop down menu that uses the utils/folderEmojis -->
         <label for="folder-image-user-folder-edit">folder image</label>
         <select
           id="folder-image-user-folder-edit"
@@ -36,22 +34,22 @@
             <% }) %>
         </select>
         <label for="folder-parent-user-folder-edit">choose new parent folder</label>
-          <select
-            id="folder-parent-id-user-folder-edit"     
-            name="parent_folder_id"
-          >
-            <option value="" <%= !folder.parentFolderId ? "selected" : "" %>>
-              None (no parent folder)
+        <select
+          id="folder-parent-id-user-folder-edit"     
+          name="parent_folder_id"
+        >
+          <option value="" <%= !folder.parentFolderId ? "selected" : "" %>>
+            None (no parent folder)
+          </option>
+          <% userFolders.forEach((userFolder) => { %> 
+            <option value="<%= userFolder.id %>"
+            <%= folder.parentFolderId === userFolder.id ? "selected" : "" %>>
+              <%= userFolder.folderName %>
             </option>
-            <% userFolders.forEach((userFolder) => { %> 
-              <option value="<%= userFolder.id %>"
-              <%= folder.parentFolderId === userFolder.id ? "selected" : "" %>>
-                <%= userFolder.folderName %>
-              </option>
-              <p>folder <%= folder.id %></p>
-              <p>userFolder <%= userFolder.parentFolderId %></p>
-            <% }) %>
-          </select>
+            <p>folder <%= folder.id %></p>
+            <p>userFolder <%= userFolder.parentFolderId %></p>
+          <% }) %>
+        </select>
         <label class="capitalize" for="folder-description-user-folder-edit">
           folder description
         </label>
@@ -62,6 +60,5 @@
         </div>
       </form>
     </main>
-    <%#- include('./partials/footer.ejs') %>
   </body>
 </html>

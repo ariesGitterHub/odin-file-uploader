@@ -43,12 +43,6 @@
             name="expires_at"
             required
           >
-          <!-- <option
-            value=""
-            disabled
-            <%#= !formData?.folder_id ? "selected" : "" %>>
-            select an expiration date
-          </option> -->
           <option value="" selected disabled>
             Select an expiration
           </option>
@@ -58,7 +52,6 @@
           <option value="30-days">30 days</option>
           <option value="custom">Custom</option>
         </select>
-
         <div id="custom-expiration" hidden>
           <label for="share-folder-or-file-custom-expires-at">expiration date and time</label>
           <input
@@ -83,14 +76,12 @@
             placeholder="Leave blank for unlimited"
           >
         </div>
-        <!-- TODO - add max download limit! -->
         <div class="button-container-row-space-evenly margin-top">
           <a class="button-default max-percent-width" href="/app/user-data">cancel</a>
           <button class="button-default max-percent-width" type="submit">create link</button>
         </div>
       </form>
       <div class="share-link-card max-percent-width">       
-        <%# if (shareLink) { %>
         <% if (shareLink) { %>
           <br>
           <h4 class="font-text">Your share link is...</h4>
@@ -104,7 +95,6 @@
       </div>
       <br>
       <div class="element-container-col-default form-width">
-        <!-- <h3 class="subtitle"> -->
         <h2 class="app-subtitle">
           <% if (itemType === "folder") { %>
           Folder
@@ -124,7 +114,6 @@
             <% }) %> 
             <% } %>           
         <% } %>
-
         <% if (itemType === "file") { %> 
           <% if (shareHistoryByFile.length === 0) { %>
             <div class="font-text">
@@ -136,10 +125,8 @@
             <% }) %> 
             <% } %>     
         <% } %>
-
-    </div>
+      </div>
     </main>
-    <%#- include('./partials/footer.ejs') %>
     <script src="/js/expiration-select-custom.js" defer></script>
     <script src="/js/copy-share-link.js" defer></script>
   </body>

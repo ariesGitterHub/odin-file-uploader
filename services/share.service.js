@@ -4,7 +4,6 @@ const crypto = require("node:crypto");
 async function createFolderShareLink({
   userId,
   folderId,
-  permission, // TODO - decide what to do with permission
   maxDownloads,
   expiresAt,
 }) {
@@ -15,7 +14,6 @@ async function createFolderShareLink({
       token,
       userId,
       folderId,
-      permission, // TODO - decide what to do with permission
       maxDownloads,
       expiresAt,
     },
@@ -25,7 +23,6 @@ async function createFolderShareLink({
 async function createFileShareLink({
   userId,
   fileId,
-  permission, // TODO - decide what to do with permission
   maxDownloads,
   expiresAt,
 }) {
@@ -36,7 +33,6 @@ async function createFileShareLink({
       token,
       userId,
       fileId,
-      permission, //  TODO - decide what to do with permission
       maxDownloads,
       expiresAt,
     },
@@ -53,7 +49,6 @@ async function getShareLinkById(shareLinkId) {
       token: true,
       folderId: true,
       fileId: true,
-      // permission: true, // TODO - decide what to do with permission
       isActive: true,
     },
   });
@@ -71,7 +66,6 @@ async function getShareHistoryByFolderId(folderId, userId) {
     select: {
       id: true,
       // token: true, // TODO - Not needed???
-      // permission: true, // TODO - decide what to do with permission
       downloadCount: true,
       maxDownloads: true,
       isActive: true,
@@ -96,7 +90,6 @@ async function getShareHistoryByFileId(fileId, userId) {
       id: true,
       // token: true, // TODO - Not needed???
       fileId: true,
-      // permission: true, // TODO - decide what to do with permission
       downloadCount: true,
       maxDownloads: true,
       isActive: true,
@@ -122,7 +115,6 @@ async function getUserShareLinksByUserId(userId) {
       token: true,
       folderId: true,
       fileId: true,
-      // permission: true, // TODO - decide what to do with permission
       downloadCount: true,
       maxDownloads: true,
       isActive: true,
@@ -157,7 +149,6 @@ async function getUserShareLinksByFolderId(folderId, userId) {
       id: true,
       token: true,
       userId: true,
-      // permission: true, // TODO - decide what to do with permission
       downloadCount: true,
       maxDownloads: true,
       isActive: true,
@@ -178,7 +169,6 @@ async function getUserShareLinksByFileId(fileId, userId) {
       id: true,
       token: true,
       userId: true,
-      // permission: true, // TODO - decide what to do with permission
       downloadCount: true,
       maxDownloads: true,
       isActive: true,
@@ -199,7 +189,6 @@ async function getShareLinkByToken(token) {
       token: true,
       folderId: true,
       fileId: true,
-      // permission: true, // TODO - decide what to do with permission
       downloadCount: true,
       maxDownloads: true,
       isActive: true,

@@ -4,8 +4,8 @@ const path = require("path");
 const multer = require("multer");
 const { isAllowedMimeType } = require("../utils/mimeUtils");
 const { 
-  fileSizeLimit, 
-  // userSizeLimit,
+  fileSizeLimitMB, 
+  // userSizeLimitGB,
  } = require("../config/sizeLimits"); // This populates the config for fileSizeLimit
 
 
@@ -42,7 +42,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    fileSize: fileSizeLimit * 1024 * 1024, 
+    fileSize: fileSizeLimitMB * 1024 * 1024, 
   },
   fileFilter(req, file, cb) {
     if (!isAllowedMimeType(file.mimetype)) {

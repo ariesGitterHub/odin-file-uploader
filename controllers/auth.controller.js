@@ -48,6 +48,7 @@ async function postSignUpPage(req, res, next) {
         formData: req.body || {},
         passwordRules,
         // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
+        csrfToken: req.csrfToken(), // !!! NOTE - Leave this be! Even though this is global for GET, I am putting this here explicitly to handle errors when validationCreateUser or validationEditUser catches an incorrect email, password, or confirm_password is used; without this here a 500 error pops off!
       });
     }
 

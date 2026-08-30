@@ -6,15 +6,13 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap">
-      <!-- <h2 class="subtitle">Root Folders (<%#= formatRootFoldersSize  %>)</h2> -->
-      <!-- <h2 class="app-subtitle">Root Folders (<%#= formatRootFoldersSize  %>)</h2> -->
       <div class="element-container-col-default flex-wrap">
         <h2 class="app-subtitle">
           Root Folders        
         </h2>
-        <span class="app-subtitle">
-          (<%= formatRootFoldersSize %> used)      
-        </span>
+        <p class="app-subtitle">
+          <%= formatRootFoldersSize %>/<%= formatUserMaxStorage %> (<%= currentStoragePercentage %>%) used      
+        </p>
       </div>
       <div class="element-container-row-start-center flex-gap flex-wrap margin-left-right">
         <% userFolders.forEach(function(folder) { %>    
@@ -45,6 +43,5 @@
           <% }) %>
       </div>
     </main>
-    <%#- include('./partials/footer.ejs') %>
   </body>
 </html>

@@ -1,46 +1,18 @@
-<!-- <form id="delete-user-form" method="POST">
-  <%# CSRF Token - hidden input for forms %>
-  <input type="hidden" name="_csrf" value="<%#= csrfToken %>" />
-  <input id="delete-user-target-id" type="hidden" name="targetId" />
-  <div
-    class="element-container-col-start-center"
-  >
-    <div class="element-container-row-center-start">
-      <p>
-        <span class="bold">Deletions are permanent and cannot be undone.</span>
-      </p>
-      <span class="emoji">🤔</span>
-    </div>
-    <br />
-    <p>
-      Do you wish to proceed with this deletion?
-    </p>
-  </div>
-  <div class="button-container-row-space-evenly">
-    <button class="button-default max-percent-width" type="submit">
-      proceed with deletion
-    </button>
-  </div>
-</form> -->
-
 <div id="deletion-modal" hidden>
-    <div class="modal-content">
-      <div class="element-container-row-default">
-        <!-- <h2 class="subtitle">Confirm Deletion</h2> -->
-        <h2 class="app-title font-size-larger">Confirm Deletion</h2>
-      </div>
-        
-
-        <p id="deletion-message" class="font-text delete-color"></p>
-
-        <form id="deletion-form" method="POST">
-          <%# CSRF Token - hidden input for forms %>
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <!-- <input type="hidden" name="userId" value="<%#= userProfile.id %>"> -->
-          <div class="button-container-row-space-evenly">
-            <button class="button-default" type="submit">Delete</button>
-            <button class="button-default" type="button" id="cancel-deletion">Cancel</button>              
-          </div>
-        </form>
+  <div class="modal-content">
+    <div class="element-container-row-default">
+      <h2 class="app-title font-size-larger">Confirm Deletion</h2>
     </div>
+    <p id="deletion-message" class="font-text delete-color"></p>
+    <form id="deletion-form" method="POST">
+      <%# CSRF Token - hidden input for forms %>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <div class="button-container-row-space-evenly">
+        <button class="button-default" type="submit">Delete</button>
+        <button class="button-default" type="button" id="cancel-deletion">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

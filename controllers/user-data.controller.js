@@ -4,6 +4,7 @@ const { ZipArchive } = require("archiver");
 const path = require("node:path");
 const { validationResult } = require("express-validator");
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
+const { userSizeLimitGB } = require("../config/sizeLimits");
 const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis");
 const { formatBytes } = require("../utils/formatBytes");
 const { formatExactDate } = require("../utils/formatDate");
@@ -124,10 +125,24 @@ async function getNewFilePage(req, res, next) {
   }
 }
 
+// Helper for postNewFilePage, to avoid duplicating cleanup logic
+async function removeUploadedFile(file) {
+  if (!file?.path) {
+    return;
+  }
+
+  try {
+    await fs.unlink(file.path);
+  } catch (err) {
+    console.error("Failed to remove uploaded file:", err);
+  }
+}
+
 async function postNewFilePage(req, res, next) {
-  console.log("Controller reached");
+  // console.log("Controller reached");
   try {
     const userId = req.user.id;
+
     const userFolders = await getUserFolders(userId);
 
     const { folder_id } = req.body;
@@ -138,10 +153,38 @@ async function postNewFilePage(req, res, next) {
       errors.push("Please select a folder.");
     }
 
+    if (!req.file) {
+      errors.push("Please select a file.");
+    }
+
     if (errors.length > 0) {
       return res.status(400).render("new-file", {
         title: "Upload File",
         errors,
+        userFolders,
+        formData: req.body,
+        // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
+      });
+    }
+
+    // Get the user's current storage usage.
+    const currentStorageUsage = await getUserProfileStorageSize(userId);
+    // Get the size of the incoming file.
+    const incomingFileSize = BigInt(req.file.size);
+    // Convert the configured GB storage limit into bytes.
+    const userMaxStorageInBytes =
+      BigInt(userSizeLimitGB) * 1024n * 1024n * 1024n;
+
+    // if (currentStorageUsage + incomingFileSize > userMaxStorageInBytes) {
+    //   await fs.unlink(req.file.path);
+
+    // Reject the upload if it would exceed the user's storage quota.
+    if (currentStorageUsage + incomingFileSize > userMaxStorageInBytes) {
+      await removeUploadedFile(req.file);
+
+      return res.status(400).render("new-file", {
+        title: "Upload File",
+        errors: ["This upload would exceed your storage limit."],
         userFolders,
         formData: req.body,
         // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
@@ -162,14 +205,18 @@ async function postNewFilePage(req, res, next) {
     return res.redirect("/app/user-data");
   } catch (err) {
     // NOTE - Below cleans up the uploaded file if Prisma fails, as Multer saves the file before my database record is created, so without this deletion I would leave orphaned files in uploads/ that are taking up storage but are not tracked in my database
-    if (req.file?.path) {
-      try {
-        // NOTE - this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
-        await fs.unlink(req.file.path);
-      } catch (cleanupError) {
-        console.error("Failed to remove orphaned upload:", cleanupError);
-      }
-    }
+    // if (req.file?.path) {
+    //   try {
+    //     // NOTE - this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
+    //     await fs.unlink(req.file.path);
+    //   } catch (cleanupError) {
+    //     console.error("Failed to remove orphaned upload:", cleanupError);
+    //   }
+    // }
+    
+    // Multer has already written the file, so remove it if the
+    // database operation or another later operation fails.
+    await removeUploadedFile(req.file);
 
     next(err);
   }
@@ -185,6 +232,13 @@ async function getUserDataPage(req, res, next) {
 
     const rootFoldersSize = await getUserProfileStorageSize(userId);
     const formatRootFoldersSize = formatBytes(rootFoldersSize);
+    const userMaxStorageInBytes = BigInt(userSizeLimitGB) * 1024n * 1024n * 1024n;
+    const formatUserMaxStorage = formatBytes(userMaxStorageInBytes);
+    const currentStorageUsed = (BigInt(rootFoldersSize) * 10000n) / userMaxStorageInBytes;
+    const currentStoragePercentage = Number(currentStorageUsed) / 100;
+
+    console.log(`User percentage = ${currentStoragePercentage}%`);
+    
 
     // Prevents folders with parentFolderIds from showing up as these should be shown in folder views.
     const rootFolders = userFolders.filter(
@@ -208,6 +262,8 @@ async function getUserDataPage(req, res, next) {
       title: "User Data",
       userFolders: foldersWithEmoji,
       formatRootFoldersSize,
+      currentStoragePercentage,
+      formatUserMaxStorage,
       errors: [],
       formData: {}, // NOTE & REMINDER: req.body is not used in GET
       // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes

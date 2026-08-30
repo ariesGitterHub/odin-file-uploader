@@ -8,7 +8,6 @@
       <%- include('./partials/title.ejs') %>
     </header>
     <main class="element-container-col-default frame-border margin-not-top">
-      <!-- <h2 class="subtitle"> -->
       <h2 class="app-subtitle">
         Your Shared
         <%= shareLink.folderId ? "Folder" : "File" %>
@@ -22,64 +21,45 @@
             <%= shareLink.folderId ? shareLink.folder.folderName : shareLink.file.originalFileName %>
           </h3>          
         </div>
-
         <!-- Folder Specific View -->
          <% if (shareLink.folderId) { %> 
-          <!-- <div class="share-border"> -->
           <div class="element-container-row-center-start flex-gap flex-wrap">
-            <!-- <div class="share-backdrop"><strong>type</strong> <%#= shareLink.file.mimeType %></div> -->
             <div class="share-backdrop"><strong>share status</strong> <span class="highlight-color"><%= shareLink.isActive ? "enabled" : "disabled" %></span></div>
-            <!-- <div class="share-backdrop"><strong>type</strong> <span class="highlight-color"><%#= shareLink.mimeLabel %></span></div> -->
-            <!-- <div class="share-backdrop"><strong>size</strong> <%#= shareLink.file.sizeBytes %></div> -->
-
             <div class="share-backdrop <%= folder.subfolderCount === 0  ? 'hidden' : '' %>"><strong>subfolders with files</strong> <span class="highlight-color"><%= subfolderCount %></span></div>
             <div class="share-backdrop <%= folder.fileCount === 0  ? 'hidden' : '' %>"><strong>total files</strong> <span class="highlight-color"><%= fileCount %></span></div>
-
             <div class="share-backdrop"><strong>size</strong> <span class="highlight-color"><%= formatFolderSize %></span></div>
-
             <div class="share-backdrop"><strong>download count</strong> <span class="highlight-color"><%= shareLink.downloadCount %></span></div>
             <div class="share-backdrop"><strong>download maximum</strong> <span class="highlight-color"><%= shareLink.maxDownloads ? shareLink.maxDownloads : "unlimited" %></span></div>
-            <div class="share-backdrop"><strong>expires</strong> <span class="highlight-color"><%= expiresAtLabel %></span></div>
-            
-            <!-- <div class="share-backdrop"><strong>permission</strong> <span class="lowercase"><%#= shareLink.permission %></span></div> -->
+            <div class="share-backdrop"><strong>expires</strong> <span class="highlight-color"><%= expiresAtLabel %></span></div>                 
         </div>
         <div class="button-container-row-space-evenly margin-top">
-          <%# if (shareLink.canPreview) { %> 
-            <!-- <button class="button-default max-percent-width" type="">view</button>   -->
-          <%# } %>
           <form action="/app/share-page-download-folder/<%= shareLink.token %>">
             <button class="button-default max-percent-width" type="submit">
               download
             </button>
           </form>
-
         </div>
         <% } %>
-
-
         <!-- File Specific View -->
         <% if (shareLink.fileId) { %> 
-          <!-- <div class="share-border"> -->
           <div class="element-container-row-center-start flex-gap flex-wrap">
-            <!-- <div class="share-backdrop"><strong>type</strong> <%#= shareLink.file.mimeType %></div> -->
             <div class="share-backdrop"><strong>share status</strong> <span class="highlight-color"><%= shareLink.isActive ? "Enabled" : "Disabled" %></span></div>
             <div class="share-backdrop"><strong>type</strong> <span class="highlight-color"><%= file.mimeLabel %></span></div>
             <div class="share-backdrop"><strong>size</strong> <span class="highlight-color"><%= file.sizeLabel %></span></div>
             <div class="share-backdrop"><strong>download count</strong> <span class="highlight-color"><%= shareLink.downloadCount %></span></div>
             <div class="share-backdrop"><strong>download maximum</strong> <span class="highlight-color"><%= shareLink.maxDownloads ? shareLink.maxDownloads : "Unlimited" %></span></div>
             <div class="share-backdrop"><strong>expires</strong> <span class="highlight-color"><%= expiresAtLabel %></span></div>
-            <!-- <div class="share-backdrop"><strong>permission</strong> <span class="lowercase"><%#= shareLink.permission %></span></div> -->
-        </div>
-        <div class="button-container-row-space-evenly margin-top">
-          <% if (file.canPreview) { %> 
-            <a class="button-default max-percent-width" href="/app/share-page-preview-file/<%= shareLink.token %>">preview</a>  
-          <% } %>
-            <form action="/app/share-page-download-file/<%= shareLink.token %>">
-              <button class="button-default max-percent-width" type="submit">
-                download
-              </button>
-          </form>
-        </div>
+          </div>
+          <div class="button-container-row-space-evenly margin-top">
+            <% if (file.canPreview) { %> 
+              <a class="button-default max-percent-width" href="/app/share-page-preview-file/<%= shareLink.token %>">preview</a>  
+            <% } %>
+              <form action="/app/share-page-download-file/<%= shareLink.token %>">
+                <button class="button-default max-percent-width" type="submit">
+                  download
+                </button>
+            </form>
+          </div>
         <% } %>
       </div>  
     </main>

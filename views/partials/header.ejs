@@ -1,11 +1,6 @@
 <header class="sticky-header element-container-col-default flex-gap black-border-bottom">
   <%- include('./title.ejs') %>
-  <!-- <nav class="element-container-row-default flex-gap" aria-label="user menu"> -->
   <nav class="nav-button-container-row-space-evenly" aria-label="user menu">
-    <!-- TODO - this home link is temporary -->
-    <!-- <a class="button-default nav-button" href="/app">
-      <span class="emoji" role="img" aria-label="TEMP!!!! home link"> 🏠 </span>
-    </a> -->
     <% if (user && user.role === "ADMIN") { %>
       <a class="button-default nav-button" href="/app/admin">
         <span class="emoji" role="img" aria-label="Admin overview link"> ⚙ </span>
@@ -19,7 +14,6 @@
     <a class="button-default nav-button" href="/app/share-overview">
       <span class="emoji" role="img" aria-label="Share overview link"> 🖇 </span>
       <span class="icon-and-text"> Share Overview </span>
-
     </a>
     <a class="button-default nav-button" href="/app/user-profile">
       <span class="emoji" role="img" aria-label="User profile link"> 👤 </span>
@@ -34,8 +28,6 @@
       <span class="icon-and-text"> New File </span>
     </a>
     <form action="/app/log-out" method="POST">
-      <%# CSRF Token - hidden input for forms %>
-      <!-- <input type="hidden" name="_csrf" value="<%#= csrfToken %>" /> -->
       <button class="button-default nav-button" type="submit">
         <span class="emoji emoji-nav-size" role="img" aria-label="Log out"> 📴 </span>
         <span class="icon-and-text"> Logout </span>

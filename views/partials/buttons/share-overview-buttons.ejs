@@ -1,45 +1,37 @@
-        <div class="button-container-row-space-evenly margin-top">
-          <!-- Does this look correct? -->
-          <!-- <form class="element-container-col-start-center form-width" action="/app/change-active-status/<%#= shareLink.id %>" method="POST">
-            <%# CSRF Token - hidden input for forms %>
-            <input type="hidden" name="_csrf" value="<%#= csrfToken %>">
-            <input type="hidden" name="is_active" value="<%#= shareLink.isActive %>">
-            <button class="button-default max-percent-width" type="submit"><%#= shareLink.isActive ? "🟢 active" : "🔴 inactive" %> </button>
-          </form> -->
-          <form action="/app/change-active-status/<%= shareLink.id %>" method="POST">
-            <%# CSRF Token - hidden input for forms %>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button
-              class="button-default max-percent-width"
-              type="submit"
-            >
-              <%= shareLink.isActive ? "disable" : "enable" %>
-            </button>
-          </form>
-          <button 
-            class="button-default max-percent-width deletion-form-button"
-            data-action="/app/delete-your-shared-item/<%= shareLink.id %>"
-            data-message="Do you wish to delete this shared <%= shareLink.folder ? "folder" : "file" %>, <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>? Reminder: this action cannot be undone." 
-            type="button">
-            delete
-          </button>
-        </div>
-      </form>
-      <div class="share-link-card max-percent-width">       
-        <% if (shareLink) { %>
-          <h4 class="card-name card-text-hover-selector font-text <%= shareLink.folder ? 'folder-color' : 'file-color' %>">Your share link is...</h4>
-          <input class="share-link-input" type="text" value="<%= shareUrl %><%= shareLink.token %>" readonly>
-          <div class="button-container-row-space-evenly margin-top">
-            <button id="copy-share-link-input" class="button-default max-percent-width copy-share-link-button" type="button">
-              copy link
-            </button>
-            <!-- TODO - below is the share page, use in dev mode to wire up different requirements; keep??? -->
-            <a 
-            class="button-default max-percent-width" 
-            href="/app/share-page/<%= shareLink.token %>"
-            >
-            view page
-          </a>
-          </div>          
-        <% } %>
-      </div>
+<div class="button-container-row-space-evenly margin-top">
+  <form action="/app/change-active-status/<%= shareLink.id %>" method="POST">
+    <%# CSRF Token - hidden input for forms %>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button
+      class="button-default max-percent-width"
+      type="submit"
+    >
+      <%= shareLink.isActive ? "disable" : "enable" %>
+    </button>
+  </form>
+  <button 
+    class="button-default max-percent-width deletion-form-button"
+    data-action="/app/delete-your-shared-item/<%= shareLink.id %>"
+    data-message="Do you wish to delete this shared <%= shareLink.folder ? "folder" : "file" %>, <%= shareLink.folder ? shareLink.folder.folderName : shareLink.file.originalFileName %>? Reminder: this action cannot be undone." 
+    type="button">
+    delete
+  </button>
+</div>
+</form>
+<div class="share-link-card max-percent-width">       
+  <% if (shareLink) { %>
+    <h4 class="card-name card-text-hover-selector font-text <%= shareLink.folder ? 'folder-color' : 'file-color' %>">Your share link is...</h4>
+    <input class="share-link-input" type="text" value="<%= shareUrl %><%= shareLink.token %>" readonly>
+    <div class="button-container-row-space-evenly margin-top">
+      <button id="copy-share-link-input" class="button-default max-percent-width copy-share-link-button" type="button">
+        copy link
+      </button>
+      <a 
+      class="button-default max-percent-width" 
+      href="/app/share-page/<%= shareLink.token %>"
+      >
+      view page
+    </a>
+    </div>          
+  <% } %>
+</div>

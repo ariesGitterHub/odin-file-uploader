@@ -6,39 +6,33 @@
   <body class="element-container-col-center-start flex-gap">
     <%- include('./partials/header.ejs') %>
     <main class="element-container-col-default flex-gap margin-left-right">
-      <!-- <h2 class="subtitle">Admin Overview of Users</h2>      -->
       <h2 class="app-subtitle">Admin Overview of Users</h2>     
         <div class="element-container-row-start-center flex-gap flex-wrap">
           <% if (userProfiles.length === 0) { %>
-          <div class="font-text admin-color">
-            <h4>There are no current users.</h4>
-          </div>
+            <div class="font-text admin-color">
+              <h4>There are no current users.</h4>
+            </div>
           <% } else { %> 
-          <% userProfiles.forEach(userProfile => { %>
-          <div class="card admin-border">
-            <h3 class="card-text-hover-selector admin-color font-text"><%= userProfile.firstName %> <%= userProfile.lastName %> (<span class="lowercase"><%= userProfile.role %></span>)</h3>
-            <!-- <div class="element-container-row-center-start flex-gap">
-              <div class="details-backdrop"><strong>role</strong>  </div>
-            </div>   -->
-            <div class="element-container-row-center-start flex-gap flex-wrap">
-              <!-- <div class="details-backdrop"><strong>id</strong> <%#= userProfile.id %></div> -->
-              <div class="details-backdrop"><strong>email</strong> <%= userProfile.email %></div>
-              <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified ? "🟢 True" : "🔴 False" %></div>
-             <div class="details-backdrop"><strong>created</strong> <%= userProfile.createdAtLabel %></div>
-              <% if (userProfile.createdAtLabel !== userProfile.updatedAtLabel) { %>
-              <div class="details-backdrop"><strong>updated</strong> <%= userProfile.updatedAtLabel %></div>
-              <% } %>
-              <div class="details-backdrop"><strong>last login</strong> <%= userProfile.lastLoginAtLabel %></div>   
-              <div class="details-backdrop"><strong>storage used</strong> <%= userProfile.storageUsed %></div>               
-            </div>  
-          <%- include("./partials/buttons/admin-buttons.ejs", { userProfile }) %>
-        </div>
-        <% }) %>  
-        <% } %>
+            <% userProfiles.forEach(userProfile => { %>
+              <div class="card admin-border">
+                <h3 class="card-text-hover-selector admin-color font-text"><%= userProfile.firstName %> <%= userProfile.lastName %> (<span class="lowercase"><%= userProfile.role %></span>)</h3>
+                <div class="element-container-row-center-start flex-gap flex-wrap">
+                  <div class="details-backdrop"><strong>email</strong> <%= userProfile.email %></div>
+                  <div class="details-backdrop"><strong>email verified</strong> <%= userProfile.emailVerified ? "🟢 True" : "🔴 False" %></div>
+                  <div class="details-backdrop"><strong>created</strong> <%= userProfile.createdAtLabel %></div>
+                  <% if (userProfile.createdAtLabel !== userProfile.updatedAtLabel) { %>
+                    <div class="details-backdrop"><strong>updated</strong> <%= userProfile.updatedAtLabel %></div>
+                  <% } %>
+                  <div class="details-backdrop"><strong>last login</strong> <%= userProfile.lastLoginAtLabel %></div>   
+                  <div class="details-backdrop"><strong>storage used</strong> <%= userProfile.storageUsed %></div>               
+                </div>  
+                <%- include("./partials/buttons/admin-buttons.ejs", { userProfile }) %>
+              </div>
+            <% }) %>  
+          <% } %>
         </div>
       </div>
     </main>
-    <%#- include('./partials/footer.ejs') %>
     <%- include("./partials/modal/deletion-modal") %>
     <script src="/js/delete-modal.js" defer></script>
   </body>

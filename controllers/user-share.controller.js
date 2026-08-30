@@ -208,7 +208,6 @@ async function postUserShareLinkFolderPage(req, res, next) {
     const shareLink = await createFolderShareLink({
       userId,
       folderId,
-      permission: "VIEW",
       maxDownloads,
       expiresAt,
     });
@@ -387,7 +386,6 @@ async function postUserShareLinkFilePage(req, res, next) {
     const shareLink = await createFileShareLink({
       userId,
       fileId,
-      permission: "VIEW",
       maxDownloads,
       expiresAt,
     });

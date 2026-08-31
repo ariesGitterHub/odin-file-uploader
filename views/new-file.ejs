@@ -10,13 +10,20 @@
       <form class="element-container-col-start-center form-width" action="/app/new-file" method="POST" enctype="multipart/form-data">
       <%# CSRF Token - hidden input for forms %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <label for="file-upload">Choose a file</label>
-        <input
-          id="file-upload"
-          type="file"
-          name="file"
-          required
-        />
+        <!-- <div class="element-container-col-start-center flex-gap"> -->
+          <label for="file-upload">Choose a file</label>  
+          <% if (errors && errors.some(e => e.field === 'size')) { %>
+            <% errors.filter(e => e.field === 'size').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>                
+          <input
+            id="file-upload"
+            type="file"
+            name="file"
+            required
+          /> 
+        <!-- </div> -->
         <label for="folder-new-folder">store in folder</label>
         <select
           id="folder-id-new-folder"        

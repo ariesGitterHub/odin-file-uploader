@@ -17,6 +17,7 @@ body {
 }
 
 main {
+  /* width: var(--max-percent-width); */
   max-width: var(--max-app-width);
 }
 
@@ -58,20 +59,29 @@ header {
   text-shadow: var(--text-shadow0);
 }
 
-.app-subtitle {
+.app-subtitle, .error-subtitle {
   background: linear-gradient(180deg, var(--black), var(--purple));
   font-family: var(--font-title);
-  font-size: var(--font-size-large);
   margin-bottom: var(--spacer-default);
   text-transform: uppercase;
   -webkit-background-clip: text; /* Clips background to text shape */
   -webkit-text-fill-color: transparent; /* Makes original text color transparent */
 }
 
+.app-subtitle {
+  font-size: var(--font-size-large);
+}
+
+.error-subtitle {
+  font-size: var(--font-size-small);
+  text-transform: uppercase;
+}
+
 /*  index.ejs */
 .no-background-card {
-  height: fit-content;
-  width: var(--max-card-width);
+  /* height: fit-content; */
+  /* width: var(--max-percent-width); */
+  /* max-width: var(--max-card-width); */
   padding: var(--spacer-biggest);
 }
 
@@ -111,7 +121,7 @@ header {
   gap: var(--spacer-default);
 }
 
-.current-folder-items {
+.current-root-items, .current-folder-items {
   width: var(--max-percent-width);
   display: flex;
   flex-wrap: wrap;
@@ -121,7 +131,7 @@ header {
   gap: var(--spacer-default);
 }
 
-.subfolder-section-title,
+.root-section-title, .subfolder-section-title,
 .file-section-title {
   width: var(--section-width-default);
   background-color: var(--black);
@@ -135,7 +145,18 @@ header {
   text-transform: uppercase;
 }
 
-.subfolder-item-section,
+.subfolder-section-title,
+.file-section-title {
+  background-color: var(--black);
+  border-color: var(--black);
+}
+
+.root-section-title{
+  background-color: var(--purple);
+  border-color: var(--purple);
+}
+
+.root-item-section, .subfolder-item-section,
 .file-item-section {
   width: var(--max-percent-width);
   display: flex;
@@ -151,6 +172,10 @@ header {
   margin-top: calc(var(--spacer-medium) * -1);
   padding: var(--spacer-big);
   text-transform: none;
+}
+
+.root-item-section {
+  background-color: var(--purple);
 }
 
 /* new-file.ejs */

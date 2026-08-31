@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
 const { formatBytes } = require("../utils/formatBytes");
 const { formatExactDate } = require("../utils/formatDate");
+const { formatValidationErrors } = require("../utils/formatValidationErrors");
 const {
   getAdminUserProfiles,
   getAdminUserProfile,
@@ -85,25 +86,27 @@ async function postAdminEditPage(req, res, next) {
   try {
     const userId = req.params.userId;
 
-    const errors = validationResult(req);
+    const validationErrors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      const formattedErrors = [];
-      const seen = new Set();
+    if (!validationErrors.isEmpty()) {
+      const errors = formatValidationErrors(validationErrors);
+      // const formattedErrors = [];
+      // const seen = new Set();
 
-      errors.array().forEach((err) => {
-        if (!seen.has(err.path)) {
-          formattedErrors.push({
-            field: err.path,
-            message: err.msg,
-          });
-          seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
-        }
-      });
+      // errors.array().forEach((err) => {
+      //   if (!seen.has(err.path)) {
+      //     formattedErrors.push({
+      //       field: err.path,
+      //       message: err.msg,
+      //     });
+      //     seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
+      //   }
+      // });
 
       return res.render("admin-edit", {
         title: "Admin Edit",
-        errors: formattedErrors,
+        // errors: formattedErrors,
+        errors,
         formData: req.body || {},
         passwordRules,
         // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes
@@ -150,9 +153,10 @@ async function deleteUserProfileByAdmin(req, res, next) {
 
   try {
     const userId = req.params.userId;
+    const currentUser = req.user.id
 
     // Blocks admins from deleting their own accounts
-    if (req.user.id === userId) {
+    if (currentUser === userId) {
       const err = new Error("Admins cannot delete their own accounts.");
       err.status = 403;
       err.code = "ADMIN_SELF_DELETE_BLOCKED";

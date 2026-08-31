@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { validationResult } = require("express-validator");
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
+const { formatValidationErrors } = require("../utils/formatValidationErrors");
 const { createUser } = require("../services/user.service");
 
 // CONTROLLERS: SIGN-UP PAGE (sign-up.ejs)
@@ -26,25 +27,27 @@ async function getSignUpPage(req, res, next) {
 
 async function postSignUpPage(req, res, next) {
   try {
-    const errors = validationResult(req);
+    const validationErrors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      const formattedErrors = [];
-      const seen = new Set();
+    if (!validationErrors.isEmpty()) {
+      const errors = formatValidationErrors(validationErrors);
+      // const formattedErrors = [];
+      // const seen = new Set();
 
-      errors.array().forEach((err) => {
-        if (!seen.has(err.path)) {
-          formattedErrors.push({
-            field: err.path,
-            message: err.msg,
-          });
-          seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
-        }
-      });
+      // errors.array().forEach((err) => {
+      //   if (!seen.has(err.path)) {
+      //     formattedErrors.push({
+      //       field: err.path,
+      //       message: err.msg,
+      //     });
+      //     seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
+      //   }
+      // });
 
       return res.render("sign-up", {
         title: "Sign Up",
-        errors: formattedErrors,
+        // errors: formattedErrors,
+        errors,
         formData: req.body || {},
         passwordRules,
         // csrfToken: req.csrfToken(), // Implementing all of these in router/appRouter.js instead as I needed a workaround for one or two routes

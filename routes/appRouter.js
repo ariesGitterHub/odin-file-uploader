@@ -225,6 +225,7 @@ appRouter.post(
 );
 
 appRouter.post("/user-profile", csrfProtection, postUserProfilePage);
+
 appRouter.get(
   "/new-folder",
   csrfProtection,
@@ -233,6 +234,7 @@ appRouter.get(
 );
 
 appRouter.post("/new-folder", csrfProtection, postNewFolderPage);
+
 appRouter.get("/new-file", csrfProtection, csrfTokenMiddleware, getNewFilePage);
 
 appRouter.post(

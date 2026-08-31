@@ -149,12 +149,16 @@
 
 /* Error related  */
 .error-message {
-  color: var(--yellow-bold);
+  /* color: var(--yellow-bold); */
+  background-color: var(--yellow-bold);
+  border-radius: var(--border-radius-small);
+  color: var(--red-bold);
   font-family: var(--font-error);
-  font-size: var(--font-size-smallest);
+  font-size: var(--font-size-small);
   font-weight: var(--font-weight-heavy);
-  margin: 0;
-  padding: 0;
+  /* margin: 0; */
+  margin: var(--spacer-medium) 0;
+  padding: 0 var(--spacer-small) var(--spacer-small) var(--spacer-small);
   text-transform: uppercase;
 }
 

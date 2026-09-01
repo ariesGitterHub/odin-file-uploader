@@ -199,10 +199,6 @@ async function postNewFilePage(req, res, next) {
     if (currentStorageUsage + incomingFileSize > userMaxStorageInBytes) {
       console.log("Storage limit exceeded");
 
-      console.log("Current usage:", currentStorageUsage);
-      console.log("Incoming file:", incomingFileSize);
-      console.log("Maximum allowed:", userMaxStorageInBytes);
-
       await removeUploadedFile(req.file);
 
       console.log("File removed successfully");
@@ -530,9 +526,9 @@ async function deleteUserFile(req, res, next) {
 
     // I need to remove the actual stored file first. Prisma only removes the database record; it does not know about the physical file inside uploads/.
 
-    console.log("File record:", file);
-    console.log("cloudProvider:", file.cloudProvider);
-    console.log("cloudKey:", file.cloudKey);
+    // console.log("File record:", file);
+    // console.log("cloudProvider:", file.cloudProvider);
+    // console.log("cloudKey:", file.cloudKey);
 
     if (file.cloudProvider === "local" && file.cloudKey) {
       const filePath = path.resolve(file.cloudKey);
@@ -934,7 +930,7 @@ async function deleteUserProfileByUser(req, res, next) {
     const userId = req.user.id;
     // Block admins from deleting their own accounts
     if (req.user.role === "ADMIN") {
-      console.log("role is", req.user.role);
+      // console.log("role is", req.user.role);
 
       const err = new Error("Admins cannot delete their own accounts.");
       err.status = 403;

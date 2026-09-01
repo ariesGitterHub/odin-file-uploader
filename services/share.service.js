@@ -65,7 +65,6 @@ async function getShareHistoryByFolderId(folderId, userId) {
     },
     select: {
       id: true,
-      // token: true, // TODO - Not needed???
       downloadCount: true,
       maxDownloads: true,
       isActive: true,
@@ -88,7 +87,6 @@ async function getShareHistoryByFileId(fileId, userId) {
     },
     select: {
       id: true,
-      // token: true, // TODO - Not needed???
       fileId: true,
       downloadCount: true,
       maxDownloads: true,

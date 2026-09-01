@@ -68,7 +68,11 @@ async function getPublicSharePage(req, res, next) {
     const shareLink = await getShareLinkByToken(token);
 
     if (!validateShareLink(shareLink)) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Public share page is no longer available.");
+      err.status = 404;
+
+      return next(err);
     }
 
     const expiresAtLabel = formatExactDate(shareLink.expiresAt);
@@ -81,7 +85,11 @@ async function getPublicSharePage(req, res, next) {
       const folder = await getFilesByFolder(folderId);
 
       if (!folder) {
-        return res.status(404).render("404");
+        // return res.status(404).render("404");
+        const err = new Error("Folder not found.");
+        err.status = 404;
+
+        return next(err);
       }
 
       const childFolders = await getChildFoldersById(folderId);
@@ -127,7 +135,11 @@ async function getPublicSharePage(req, res, next) {
       const file = shareLink.file;
 
       if (!file) {
-        return res.status(404).render("404");
+        // return res.status(404).render("404");
+        const err = new Error("File not found.");
+        err.status = 404;
+
+        return next(err);
       }
 
       const formattedFile = {
@@ -150,7 +162,12 @@ async function getPublicSharePage(req, res, next) {
     }
 
     // This should be unreachable because of the validation above, but keep as a final safeguard.
-    return res.status(404).render("404");
+    // return res.status(404).render("404");
+      const err = new Error("Public share page is no longer available.");
+      err.status = 404;
+
+      return next(err);
+
   } catch (err) {
     next(err);
   }
@@ -163,11 +180,19 @@ async function getPublicShareDownloadFolder(req, res, next) {
     const shareLink = await getShareLinkByToken(token);
 
     if (!validateShareLink(shareLink)) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Public share page is no longer available.");
+      err.status = 404;
+
+      return next(err);
     }
 
     if (!shareLink.folderId || shareLink.fileId) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Public share page is no longer available.");
+      err.status = 404;
+
+      return next(err);
     }
 
     const folderId = shareLink.folderId;
@@ -175,7 +200,11 @@ async function getPublicShareDownloadFolder(req, res, next) {
     const folder = await getFolderById(folderId);
 
     if (!folder) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Folder not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     const folderTree = await getFolderTreeForArchive(
@@ -223,14 +252,22 @@ async function getPublicShareDownloadFile(req, res, next) {
 
     // This endpoint must represent a file share.
     if (!shareLink.fileId || shareLink.folderId) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Public share page is no longer available.");
+      err.status = 404;
+
+      return next(err);
     }
 
     const fileId = shareLink.fileId;
     const file = await getFileById(fileId);
 
     if (!file) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("File not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     // Resolve the stored path (e.g. "uploads/1785174742641-TEST.docx")
@@ -240,7 +277,11 @@ async function getPublicShareDownloadFile(req, res, next) {
     try {
       await fs.access(filePath);
     } catch {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("File not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     await updateDownloadCount(shareLink.id);
@@ -270,33 +311,49 @@ async function getPublicShareFilePreview(req, res, next) {
     const shareLink = await getShareLinkByToken(token);
 
     if (!validateShareLink(shareLink)) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Public share page is no longer available.");
+      err.status = 404;
+
+      return next(err);
     }
 
     if (!shareLink.fileId || shareLink.folderId) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Public share page is no longer available.");
+      err.status = 404;
+
+      return next(err);
     }
     const fileId = shareLink.fileId;
     const file = await getFileById(fileId);
 
     if (!file) {
       console.log("File not found:", fileId);
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("File not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     // REMINDER - is MIME type on the viewable list?
     if (!isPreviewableMimeType(file.mimeType)) {
       console.log("Not previewable:", file.mimeType);
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Preview is not available.");
+      err.status = 404;
+
+      return next(err);
     }
 
     res.type(file.mimeType);
 
     const filePath = path.resolve(file.cloudKey);
 
-    console.log("cloudKey:", file.cloudKey);
-    console.log("cwd:", process.cwd());
-    console.log("resolved path:", filePath);
+    // console.log("cloudKey:", file.cloudKey);
+    // console.log("cwd:", process.cwd());
+    // console.log("resolved path:", filePath);
 
     res.sendFile(filePath);
   } catch (err) {

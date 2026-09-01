@@ -9,7 +9,7 @@ const {
  } = require("../config/sizeLimits"); // This populates the config for fileSizeLimit
 
 
-// TODO - maybe move this sanitizeFilename into utils/ later
+// NOTE - maybe move this sanitizeFilename into utils/ later
 function sanitizeFilename(filename) {
   const extension = path.extname(filename);
   const basename = path.basename(filename, extension);

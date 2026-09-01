@@ -6,8 +6,8 @@ async function createUser(userData) {
     const user = await tx.user.create({
       data: userData,
     });
-
-    await createDefaultFolders(tx, user.id); // Adds a default folder for new users to get them started
+    // New users automatically get a "Default" folder at sign up to get them started
+    await createDefaultFolders(tx, user.id);
 
     return user;
   });

@@ -26,12 +26,22 @@ async function getUserShareLinkFolderPage(req, res, next) {
     const folder = await getFolderById(folderId);
 
     if (!folder) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Folder not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     if (folder.userId !== userId) {
       console.log("Unauthorized user");
-      return res.status(403).render("forbidden");
+      // return res.status(403).render("forbidden");
+      const err = new Error(
+        "You do not have permission to access this folder.",
+      );
+      err.status = 403;
+
+      return next(err);
     }
 
     const folderWithEmoji = {
@@ -71,9 +81,10 @@ async function getUserShareLinkFolderPage(req, res, next) {
       }
     }
 
-    console.log("shareLink is", shareLink);
+    // console.log("shareLink is", shareLink);
 
-    res.render("share-link", {
+    // res.render("share-link", {
+    return res.render("share-link", {
       title: "Share Folder",
       itemType: "folder",
       // folder,
@@ -100,13 +111,36 @@ async function postUserShareLinkFolderPage(req, res, next) {
     const folder = await getFolderById(folderId);
 
     if (!folder) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Folder not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     // A user must own the folder before they can create a share link for it.
     if (folder.userId !== userId) {
-      return res.status(403).render("forbidden");
+      // return res.status(403).render("forbidden");
+      const err = new Error(
+        "You do not have permission to access this folder.",
+      );
+      err.status = 403;
+
+      return next(err);
     }
+
+    const shareHistoryByFolder = await getShareHistoryByFolderId(
+      folderId,
+      userId,
+    );
+
+    const formattedDates = shareHistoryByFolder.map((f) => ({
+      ...f,
+      createdAtLabel: formatExactDate(f.createdAt),
+      updatedAtLabel: formatExactDate(f.updatedAt),
+      expiresAtLabel: formatExactDate(f.expiresAt),
+      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt),
+    }));
 
     const { expires_at, custom_expires_at, max_downloads, timezone } = req.body;
 
@@ -136,7 +170,14 @@ async function postUserShareLinkFolderPage(req, res, next) {
             ...folder,
             emoji: folderEmojis[folder.folderImage],
           },
-          errors: ["Please provide a valid expiration date and time."],
+          shareHistoryByFolder: formattedDates,
+          // errors: ["Please provide a valid expiration date and time."],
+          errors: [
+            {
+              field: "expires_at_with_time",
+              message: "Please provide a valid expiration date and time.",
+            },
+          ],
           formData: req.body,
           shareLink: null,
           shareUrl: null,
@@ -155,7 +196,14 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
-        errors: ["Please select a valid expiration."],
+        shareHistoryByFolder: formattedDates,
+        // errors: ["Please select a valid expiration."],
+        errors: [
+          {
+            field: "expires_at",
+            message: "Please provide a valid expiration date.",
+          },
+        ],
         formData: req.body,
         shareLink: null,
         shareUrl: null,
@@ -172,7 +220,14 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
-        errors: ["Expiration date must be in the future."],
+        shareHistoryByFolder: formattedDates,
+        // errors: ["Expiration date must be in the future."],
+        errors: [
+          {
+            field: "no_past_expires_at",
+            message: "Expiration date must be in the future.",
+          },
+        ],
         formData: req.body,
         shareLink: null,
         shareUrl: null,
@@ -196,7 +251,14 @@ async function postUserShareLinkFolderPage(req, res, next) {
           ...folder,
           emoji: folderEmojis[folder.folderImage],
         },
-        errors: ["Maximum downloads must be at least 1."],
+        shareHistoryByFolder: formattedDates,
+        // errors: ["Maximum downloads must be at least 1."],
+        errors: [
+          {
+            field: "max_downloads",
+            message: "Maximum downloads must be at least 1.",
+          },
+        ],
         formData: req.body,
         shareLink: null,
         shareUrl: null,
@@ -229,11 +291,21 @@ async function getUserShareLinkFilePage(req, res, next) {
     const file = await getFileById(fileId);
 
     if (!file) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("File not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     if (file.userId !== userId) {
-      return res.status(403).render("forbidden");
+      // return res.status(403).render("forbidden");
+      const err = new Error(
+        "You do not have permission to access this file.",
+      );
+      err.status = 403;
+
+      return next(err);
     }
 
     const shareHistoryByFile = await getShareHistoryByFileId(fileId, userId);
@@ -292,12 +364,32 @@ async function postUserShareLinkFilePage(req, res, next) {
     const file = await getFileById(fileId);
 
     if (!file) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("File not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     if (file.userId !== userId) {
-      return res.status(403).render("forbidden");
+      // return res.status(403).render("forbidden");
+      const err = new Error(
+        "You do not have permission to access this file.",
+      );
+      err.status = 403;
+
+      return next(err);
     }
+
+    const shareHistoryByFile = await getShareHistoryByFileId(fileId, userId);
+
+    const formattedDates = shareHistoryByFile.map((f) => ({
+      ...f,
+      createdAtLabel: formatExactDate(f.createdAt),
+      updatedAtLabel: formatExactDate(f.updatedAt),
+      expiresAtLabel: formatExactDate(f.expiresAt),
+      lastAccessedAtLabel: formatExactDate(f.lastAccessedAt),
+    }));
 
     const { expires_at, custom_expires_at, max_downloads, timezone } = req.body;
 
@@ -323,7 +415,14 @@ async function postUserShareLinkFilePage(req, res, next) {
         return res.status(400).render("share-link", {
           title: "Share File",
           itemType: "file",
-          errors: ["Please provide a valid expiration date and time."],
+          // errors: ["Please provide a valid expiration date and time."],
+          errors: [
+            {
+              field: "expires_at_with_time",
+              message: "Please provide a valid expiration date and time.",
+            },
+          ],
+          shareHistoryByFile: formattedDates,
           formData: req.body,
           shareLink: null,
           shareUrl: null,
@@ -338,8 +437,15 @@ async function postUserShareLinkFilePage(req, res, next) {
       return res.status(400).render("share-link", {
         title: "Share File",
         itemType: "file",
-        file, // ??? was this the issue with my error?
-        errors: ["Please select a valid expiration."],
+        file,
+        // errors: ["Please select a valid expiration."],
+        errors: [
+          {
+            field: "expires_at",
+            message: "Please select a valid expiration.",
+          },
+        ],
+        shareHistoryByFile: formattedDates,
         formData: req.body,
         shareLink: null,
         shareUrl: null,
@@ -352,8 +458,15 @@ async function postUserShareLinkFilePage(req, res, next) {
       return res.status(400).render("share-link", {
         title: "Share File",
         itemType: "file",
-        file, // ??? was this the issue with my error?
-        errors: ["Expiration date must be in the future."],
+        file,
+        // errors: ["Expiration date must be in the future."],
+        errors: [
+          {
+            field: "no_past_expires_at",
+            message: "Expiration date must be in the future.",
+          },
+        ],
+        shareHistoryByFile: formattedDates,
         formData: req.body,
         shareLink: null,
         shareUrl: null,
@@ -373,8 +486,15 @@ async function postUserShareLinkFilePage(req, res, next) {
       return res.status(400).render("share-link", {
         title: "Share File",
         itemType: "file",
-        file, // ??? was this the issue with my error?
-        errors: ["Maximum downloads must be at least 1."],
+        file,
+        shareHistoryByFile: formattedDates,
+        // errors: ["Maximum downloads must be at least 1."],
+        errors: [
+          {
+            field: "max_downloads",
+            message: "Maximum downloads must be at least 1",
+          },
+        ],
         formData: req.body,
         shareLink: null,
         shareUrl: null,
@@ -439,11 +559,21 @@ async function postUserShareLinkIsActiveUpdate(req, res, next) {
     const shareLink = await getShareLinkById(shareLinkId);
 
     if (!shareLink) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Shared link not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     if (shareLink.userId !== userId) {
-      return res.sendStatus(403);
+      // return res.sendStatus(403);
+      const err = new Error(
+        "You do not have permission to access this shared link.",
+      );
+      err.status = 403;
+
+      return next(err);
     }
 
     // Toggle the current database value.
@@ -466,11 +596,21 @@ async function deleteUserShare(req, res, next) {
     const userId = req.user.id;
 
     if (!shareLink) {
-      return res.status(404).render("404");
+      // return res.status(404).render("404");
+      const err = new Error("Shared link not found.");
+      err.status = 404;
+
+      return next(err);
     }
 
     if (shareLink.userId !== userId) {
-      return res.sendStatus(403);
+      // return res.sendStatus(403);
+      const err = new Error(
+        "You do not have permission to access this shared link.",
+      );
+      err.status = 403;
+
+      return next(err);
     }
 
     await deleteShare(shareLinkId);

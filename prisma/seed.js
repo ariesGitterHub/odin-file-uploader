@@ -9,7 +9,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function seed() {
-    // await prisma.user.deleteMany() // Clear existing data first // TODO - Keep????
+  // await prisma.user.deleteMany() // Clear existing data first, comment out otherwise
 
   // Temp password hashes for dev
     if (!process.env.MMM_FAST_PASSWORD) {
@@ -17,7 +17,6 @@ async function seed() {
     }
     
   const hash = await bcrypt.hash(process.env.MMM_FAST_PASSWORD, 12);
-  console.log(hash); // TODO - remove before committing
 
   // Create admin user
   const admin = await prisma.user.create({
@@ -41,9 +40,6 @@ async function seed() {
       emailVerified: true,
     },
   });
-
-  console.log("Created admin:", admin.email);
-  console.log("Created user:", user.email);
 }
 
 seed()

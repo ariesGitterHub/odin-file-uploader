@@ -39,26 +39,84 @@
         </h4>
         <%- include('./partials/subfolder-no-files.ejs') %>
         <label for="share-folder-or-file-expires-at">choose expiration</label>
+        <% if (errors && errors.some(e => e.field === 'expires_at')) { %>
+          <% errors.filter(e => e.field === 'expires_at').forEach(e => { %>
+            <span class="error-message">[<%= e.message %>]</span>
+          <% }) %>
+        <% } %>
           <select
             id="share-folder-or-file-expires-at"     
             name="expires_at"
             required
           >
-          <option value="" selected disabled>
+          <!-- <option value="" selected disabled>
             Select an expiration
           </option>
           <option value="never">Never</option>
           <option value="1-day">1 day</option>
           <option value="7-days">7 days</option>
           <option value="30-days">30 days</option>
-          <option value="custom">Custom</option>
+          <option value="custom">Custom</option> -->
+          <option value="" disabled
+            <%= !formData.expires_at ? "selected" : "" %>
+          >
+            Select an expiration
+          </option>
+
+          <option value="never"
+            <%= formData.expires_at === "never" ? "selected" : "" %>
+          >
+            Never
+          </option>
+
+          <option value="1-day"
+            <%= formData.expires_at === "1-day" ? "selected" : "" %>
+          >
+            1 day
+          </option>
+
+          <option value="7-days"
+            <%= formData.expires_at === "7-days" ? "selected" : "" %>
+          >
+            7 days
+          </option>
+
+          <option value="30-days"
+            <%= formData.expires_at === "30-days" ? "selected" : "" %>
+          >
+            30 days
+          </option>
+
+          <option value="custom"
+            <%= formData.expires_at === "custom" ? "selected" : "" %>
+          >
+            Custom
+          </option>
         </select>
-        <div id="custom-expiration" hidden>
+        <!-- <div id="custom-expiration" hidden> -->
+        <div
+            id="custom-expiration"
+            <%= formData.expires_at === "custom" ? "" : "hidden" %>
+          > 
           <label for="share-folder-or-file-custom-expires-at">expiration date and time</label>
+          <div class="note-section-text">
+            **Please select a future date and time.
+          </div>
+          <% if (errors && errors.some(e => e.field === 'expires_at_with_time')) { %>
+            <% errors.filter(e => e.field === 'expires_at_with_time').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+          <% if (errors && errors.some(e => e.field === 'no_past_expires_at')) { %>
+            <% errors.filter(e => e.field === 'no_past_expires_at').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
           <input
             id="share-folder-or-file-custom-expires-at"
             name="custom_expires_at"          
             type="datetime-local"
+            value="<%= formData.custom_expires_at || "" %>"
           >
           <input
             type="hidden"
@@ -68,13 +126,27 @@
         </div>
         <div>
           <label for="share-folder-or-file-max-downloads">maximum downloads allowed</label>
-          <input
+            <% if (errors && errors.some(e => e.field === 'max_downloads')) { %>
+            <% errors.filter(e => e.field === 'max_downloads').forEach(e => { %>
+              <span class="error-message">[<%= e.message %>]</span>
+            <% }) %>
+          <% } %>
+          <!-- <input
             id="share-folder-or-file-max-downloads"
             name="max_downloads"          
             type="number"
             min="1"
             step="1"
             placeholder="Leave blank for unlimited"
+          > -->
+          <input
+            id="share-folder-or-file-max-downloads"
+            name="max_downloads"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="Leave blank for unlimited"
+            value="<%= formData.max_downloads || "" %>"
           >
         </div>
         <div class="button-container-row-space-evenly margin-top">

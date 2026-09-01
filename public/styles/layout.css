@@ -104,7 +104,7 @@ header {
 }
 
 .current-folder-emoji span {
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-larger);
 }
 
 .current-folder-name {
@@ -129,6 +129,14 @@ header {
   align-items: start;
   justify-content: start;
   gap: var(--spacer-default);
+}
+
+.note-section-text {
+  color: var(--gray-dk);
+  font-family: var(--font-text);
+  font-size: var(--font-size-smallest);
+  margin: var(--spacer-small);
+  text-transform: uppercase;
 }
 
 .root-section-title, .subfolder-section-title,

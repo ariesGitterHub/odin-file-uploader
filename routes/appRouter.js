@@ -63,7 +63,7 @@ const {
 // } = require("../middleware/validateUpdateUser");
 
 const validateUploadFile = require("../middleware/validateUploadFile");
-
+const { requireAuth } = require("../middleware/requireAuth");
 const { requireAdmin } = require("../utils/requireAdmin");
 
 const appRouter = Router();
@@ -96,10 +96,17 @@ appRouter.post(
   postLogOut,
 );
 
-appRouter.get("/admin", csrfProtection, csrfTokenMiddleware, getAdminPage);
+appRouter.get(
+  "/admin",
+  requireAuth,
+  csrfProtection,
+  csrfTokenMiddleware,  
+  getAdminPage,  
+);
 
 appRouter.get(
   "/admin-edit/:userId",
+  requireAuth,
   requireAdmin,
   csrfProtection,
   csrfTokenMiddleware,
@@ -108,6 +115,7 @@ appRouter.get(
 
 appRouter.post(
   "/admin-edit/:userId",
+  requireAuth,
   requireAdmin,
   csrfProtection,
   postAdminEditPage,
@@ -115,6 +123,7 @@ appRouter.post(
 
 appRouter.post(
   "/admin/delete-user/:userId",
+  requireAuth,
   requireAdmin,
   csrfProtection,
   deleteUserProfileByAdmin,
@@ -122,6 +131,7 @@ appRouter.post(
 
 appRouter.get(
   "/user-data",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getUserDataPage,
@@ -129,19 +139,18 @@ appRouter.get(
 
 appRouter.get(
   "/user-folder/:folderId",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getUserFolderPage,
 );
 
 // No csrfProtection or csrfTokenMiddleware needed below);
-appRouter.get(
-  "/preview-file/:fileId",
-  getUserFilePreview,
-);
+appRouter.get("/preview-file/:fileId", requireAuth, getUserFilePreview);
 
 appRouter.get(
   "/share-folder/:folderId",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getUserShareLinkFolderPage,
@@ -149,12 +158,14 @@ appRouter.get(
 
 appRouter.post(
   "/share-folder/:folderId",
+  requireAuth,
   csrfProtection,
   postUserShareLinkFolderPage,
 );
 
 appRouter.get(
   "/share-file/:fileId",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getUserShareLinkFilePage,
@@ -162,18 +173,22 @@ appRouter.get(
 
 appRouter.post(
   "/share-file/:fileId",
+  requireAuth,
   csrfProtection,
   postUserShareLinkFilePage,
 );
 
-appRouter.get("/share-overview/",
+appRouter.get(
+  "/share-overview/",
+  requireAuth,
   csrfProtection,
-  csrfTokenMiddleware, 
-  getUserShareOverviewPage
+  csrfTokenMiddleware,
+  getUserShareOverviewPage,
 );
 
 appRouter.get(
   "/user-folder-edit/:folderId",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getUserFolderEditPage,
@@ -181,38 +196,42 @@ appRouter.get(
 
 appRouter.post(
   "/user-folder-edit/:folderId",
+  requireAuth,
   csrfProtection,
   postUserFolderEditPage,
 );
 
 appRouter.post(
   "/change-active-status/:shareLinkId",
+  requireAuth,
   csrfProtection,
   postUserShareLinkIsActiveUpdate,
 );
 
-appRouter.get("/share-page/:token", getPublicSharePage);
-
 appRouter.post(
   "/delete-your-folder/:folderId",
+  requireAuth,
   csrfProtection,
   deleteUserFolderPage,
 );
 
 appRouter.post(
   "/user-folder/:folderId/delete-your-file/:fileId",
+  requireAuth,
   csrfProtection,
   deleteUserFile,
 );
 
 appRouter.post(
   "/delete-your-shared-item/:shareLinkId",
+  requireAuth,
   csrfProtection,
   deleteUserShare,
 );
 
 appRouter.get(
   "/user-profile",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getUserProfilePage,
@@ -220,25 +239,39 @@ appRouter.get(
 
 appRouter.post(
   "/delete-your-account",
+  requireAuth,
   csrfProtection,
   deleteUserProfileByUser,
 );
 
-appRouter.post("/user-profile", csrfProtection, postUserProfilePage);
+appRouter.post(
+  "/user-profile",
+  requireAuth,
+  csrfProtection,
+  postUserProfilePage,
+);
 
 appRouter.get(
   "/new-folder",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getNewFolderPage,
 );
 
-appRouter.post("/new-folder", csrfProtection, postNewFolderPage);
+appRouter.post("/new-folder", requireAuth, csrfProtection, postNewFolderPage);
 
-appRouter.get("/new-file", csrfProtection, csrfTokenMiddleware, getNewFilePage);
+appRouter.get(
+  "/new-file",
+  requireAuth,
+  csrfProtection,
+  csrfTokenMiddleware,
+  getNewFilePage,
+);
 
 appRouter.post(
   "/new-file",
+  requireAuth,  
   upload.single("file"),
   validateUploadFile,
   csrfProtection,
@@ -247,18 +280,26 @@ appRouter.post(
 
 appRouter.get(
   "/user-file-edit/:fileId",
+  requireAuth,
   csrfProtection,
   csrfTokenMiddleware,
   getUserFileEditPage,
 );
 
-appRouter.post("/user-file-edit/:fileId", csrfProtection, postUserFileEditPage);
+appRouter.post(
+  "/user-file-edit/:fileId",
+  requireAuth,
+  csrfProtection,
+  postUserFileEditPage,
+);
 
 // No csrfProtection or csrfTokenMiddleware needed below);
-appRouter.get("/download-folder/:folderId", downloadFolder);
+appRouter.get("/download-folder/:folderId", requireAuth, downloadFolder);
 
 // No csrfProtection or csrfTokenMiddleware needed below);
-appRouter.get("/download-file/:fileId", downloadFile);
+appRouter.get("/download-file/:fileId", requireAuth, downloadFile);
+
+appRouter.get("/share-page/:token", getPublicSharePage);
 
 appRouter.get("/share-page-download-folder/:token", getPublicShareDownloadFolder);
 appRouter.get("/share-page-download-file/:token", getPublicShareDownloadFile);

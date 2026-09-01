@@ -6,7 +6,6 @@
 .share-backdrop {
   width: fit-content;
   border-radius: var(--border-radius-default);
-  color: var(--black);
   font-family: var(--font-text);
   text-wrap: nowrap;
 }
@@ -125,6 +124,10 @@
   color: var(--yellow-bold);
 }
 
+.note-color {
+  color: var(--gray-dk);
+}
+
 .share-border {
   border-color: var(--pink);
 }
@@ -184,6 +187,10 @@
 }
 
 /* Font related */
+.font-size-small {
+  font-size: var(--font-size-small);
+}
+
 .font-size-default {
   font-size: var(--font-size-default);
 }

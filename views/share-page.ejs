@@ -25,7 +25,7 @@
          <% if (shareLink.folderId) { %> 
           <div class="element-container-row-center-start flex-gap flex-wrap">
             <div class="share-backdrop"><strong>share status</strong> <span class="highlight-color"><%= shareLink.isActive ? "enabled" : "disabled" %></span></div>
-            <div class="share-backdrop <%= folder.subfolderCount === 0  ? 'hidden' : '' %>"><strong>subfolders with files</strong> <span class="highlight-color"><%= subfolderCount %></span></div>
+            <!-- <div class="share-backdrop <%#= folder.subfolderCount === 0  ? 'hidden' : '' %>"><strong>subfolders with files</strong> <span class="highlight-color"><%#= subfolderCount %></span></div> -->
             <div class="share-backdrop <%= folder.fileCount === 0  ? 'hidden' : '' %>"><strong>total files</strong> <span class="highlight-color"><%= fileCount %></span></div>
             <div class="share-backdrop"><strong>size</strong> <span class="highlight-color"><%= formatFolderSize %></span></div>
             <div class="share-backdrop"><strong>download count</strong> <span class="highlight-color"><%= shareLink.downloadCount %></span></div>

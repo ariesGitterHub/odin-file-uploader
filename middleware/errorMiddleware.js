@@ -27,6 +27,10 @@ module.exports = (err, req, res, next) => {
     401: {
       title: "401 - Unauthorized",
       defaultMessage: "You must be logged in to access this page.",
+      overrides: {
+        SESSION_EXPIRED:
+          "Your session has expired. Please log in again to continue.",
+      },
     },
     403: {
       title: "403 - Forbidden",

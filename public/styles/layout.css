@@ -17,7 +17,6 @@ body {
 }
 
 main {
-  /* width: var(--max-percent-width); */
   max-width: var(--max-app-width);
 }
 

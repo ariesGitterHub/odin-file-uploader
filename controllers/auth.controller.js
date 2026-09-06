@@ -31,22 +31,9 @@ async function postSignUpPage(req, res, next) {
 
     if (!validationErrors.isEmpty()) {
       const errors = formatValidationErrors(validationErrors);
-      // const formattedErrors = [];
-      // const seen = new Set();
-
-      // errors.array().forEach((err) => {
-      //   if (!seen.has(err.path)) {
-      //     formattedErrors.push({
-      //       field: err.path,
-      //       message: err.msg,
-      //     });
-      //     seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
-      //   }
-      // });
 
       return res.render("sign-up", {
         title: "Sign Up",
-        // errors: formattedErrors,
         errors,
         formData: req.body || {},
         passwordRules,
@@ -74,7 +61,6 @@ async function postSignUpPage(req, res, next) {
 }
 
 // CONTROLLERS: LOG-IN PAGE (log-in.ejs)
-
 async function getLogInPage(req, res, next) {
   try {
     // REMINDER - the neighborhood message app used a maintenance mode that allowed a different landing screen; this app does not.
@@ -127,7 +113,6 @@ async function postLogInPage(req, res, next) {
 }
 
 // CONTROLLER: LOG-OUT
-
 async function postLogOut(req, res, next) {
   try {
     req.logout((err) => {

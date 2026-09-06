@@ -53,7 +53,7 @@ async function main() {
   // });
 
   const userId = "xxxxxxx-long-user-id-xxxxxxxx"; // Look up the useId in the db (with psql in bash) and use it below
-  const folderId = "xxxxxxx-long-user-id-xxxxxxxx"; // Look up up the folderId in the db (with psql in bash) and use it below
+  const folderId = "xxxxxxx-long-folder-id-xxxxxxxx"; // Look up up the folderId in the db (with psql in bash) and use it below
 
   // const createAdminFolders = await prisma.folder.createMany({
   //   data: [

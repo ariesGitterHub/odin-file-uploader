@@ -59,7 +59,6 @@ async function getUserProfileStorageSize(userId) {
   });
 
   // return result._sum.sizeBytes ?? 0;
-
   // NOTE - Below are the same, but 0n is simply JavaScript's BigInt literal syntax
   // return result._sum.sizeBytes ?? BigInt(0);
   return result._sum.sizeBytes ?? 0n;

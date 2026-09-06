@@ -11,7 +11,6 @@ const {
 const { updateUser, deleteUser } = require("../services/user.service");
 
 // CONTROLLERS: ADMIN PAGE (admin.ejs, admin-edit.ejs)
-
 async function getAdminPage(req, res, next) {
   if (req.user.role !== "ADMIN") {
     return res.sendStatus(403);
@@ -90,22 +89,9 @@ async function postAdminEditPage(req, res, next) {
 
     if (!validationErrors.isEmpty()) {
       const errors = formatValidationErrors(validationErrors);
-      // const formattedErrors = [];
-      // const seen = new Set();
-
-      // errors.array().forEach((err) => {
-      //   if (!seen.has(err.path)) {
-      //     formattedErrors.push({
-      //       field: err.path,
-      //       message: err.msg,
-      //     });
-      //     seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
-      //   }
-      // });
 
       return res.render("admin-edit", {
         title: "Admin Edit",
-        // errors: formattedErrors,
         errors,
         formData: req.body || {},
         passwordRules,

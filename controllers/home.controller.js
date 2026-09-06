@@ -1,5 +1,4 @@
 // CONTROLLER: HOME (INDEX) PAGE
-
 async function getHomePage(req, res, next) {
   try {
     res.render("index", {

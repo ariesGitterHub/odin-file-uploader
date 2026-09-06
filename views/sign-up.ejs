@@ -61,14 +61,12 @@
           placeholder="enter invite code"
           required
         />
-        <!-- <div class="element-container-row-center-start flex-gap"> -->
-          <label for="password-sign-up">password</label>
+            <label for="password-sign-up">password</label>
           <% if (errors && errors.some(e => e.field === 'password')) { %>
             <% errors.filter(e => e.field === 'password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
             <% }) %>
           <% } %>
-        <!-- </div> -->
         <input
           id="password-sign-up"
           type="password"
@@ -76,14 +74,12 @@
           placeholder="select a password"
           required
         />
-        <!-- <div class="element-container-row-center-start flex-gap"> -->
           <label for="confirm-password-sign-up">confirm</label> 
           <% if (errors && errors.some(e => e.field === 'confirm_password')) { %>
             <% errors.filter(e => e.field === 'confirm_password').forEach(e => { %>
               <span class="error-message">[<%= e.message %>]</span>
             <% }) %>
           <% } %>
-        <!-- </div> -->
         <input
           id="confirm-password-sign-up"
           type="password"

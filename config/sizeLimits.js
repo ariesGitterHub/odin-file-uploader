@@ -1,10 +1,4 @@
 // This is just a config file for storage limits
-// module.exports = {
-//   // fileSizeLimitMB: 25,
-//   fileSizeLimitMB: 25,
-//   // userSizeLimitGB: 1,
-//   userSizeLimitGB: 1,
-// };
 
 function getPositiveNumber(name) {
   const value = Number(process.env[name]);
@@ -18,5 +12,6 @@ function getPositiveNumber(name) {
 
 module.exports = {
   fileSizeLimitMB: getPositiveNumber("MAX_FILE_DOWNLOAD_KB"),
-  userSizeLimitGB: getPositiveNumber("MAX_USER_STORAGE_GB"),
+  // userSizeLimitGB: getPositiveNumber("MAX_USER_STORAGE_GB"), // Changed to MB since cloud storage free limit is 1GB
+  userSizeLimitMB: getPositiveNumber("MAX_USER_STORAGE_MB"), 
 };

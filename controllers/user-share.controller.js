@@ -16,7 +16,6 @@ const {
 } = require("../services/share.service");
 
 // CONTROLLER SHARE LINK PAGE (share-link.ejs) THAT CAN BE FOR A FOLDER OR A FILE
-
 async function getUserShareLinkFolderPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
@@ -81,13 +80,9 @@ async function getUserShareLinkFolderPage(req, res, next) {
       }
     }
 
-    // console.log("shareLink is", shareLink);
-
-    // res.render("share-link", {
     return res.render("share-link", {
       title: "Share Folder",
       itemType: "folder",
-      // folder,
       folder: folderWithEmoji,
       shareHistoryByFolder: formattedDates,
       errors: [],
@@ -337,9 +332,6 @@ async function getUserShareLinkFilePage(req, res, next) {
       }
     }
 
-    //  console.log("shareLink is", shareLink);
-    //  console.log("shareUrl is....", shareUrl);
-
     return res.render("share-link", {
       title: "Share File",
       itemType: "file",
@@ -520,7 +512,6 @@ async function postUserShareLinkFilePage(req, res, next) {
 }
 
 // CONTROLLER SHARE OVERVIEW PAGE (share-overview.ejs) SHOWING ALL USER SHARES
-
 async function getUserShareOverviewPage(req, res, next) {
   try {
     const userId = req.user.id;

@@ -10,7 +10,7 @@ const customExpirationInput = document.getElementById(
 
 const timezoneInput = document.getElementById("share-folder-or-file-timezone");
 
-// Tell the server which timezone the user's browser is using.
+// Tells the server which timezone the user's browser is using.
 timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 expirationSelect.addEventListener("change", () => {

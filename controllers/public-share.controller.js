@@ -59,7 +59,6 @@ function validateShareLink(shareLink) {
 }
 
 // CONTROLLER: PUBLIC SHARE PAGE (share-page.ejs)
-
 async function getPublicSharePage(req, res, next) {
   try {
     const token = req.params.token;
@@ -291,7 +290,7 @@ async function getPublicShareDownloadFile(req, res, next) {
       if (err) {
         console.error("Download error:", err);
 
-        // If Express hasn't already started sending the response, lets your error middleware handle it.
+        // If Express hasn't already started sending the response, lets my error middleware handle it.
         if (!res.headersSent) {
           return next(err);
         }

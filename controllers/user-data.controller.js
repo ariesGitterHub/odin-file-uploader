@@ -4,7 +4,8 @@ const { ZipArchive } = require("archiver");
 const path = require("node:path");
 const { validationResult } = require("express-validator");
 const passwordRules = require("../config/passwordRules"); // This populates the password-rules.ejs with the config/ password scheme
-const { userSizeLimitGB } = require("../config/sizeLimits");
+// const { userSizeLimitGB } = require("../config/sizeLimits"); // Changed to below
+const { userSizeLimitMB } = require("../config/sizeLimits");
 const { folderEmojis, folderEmojisDropdown } = require("../utils/folderEmojis");
 const { formatBytes } = require("../utils/formatBytes");
 const { formatExactDate } = require("../utils/formatDate");
@@ -41,7 +42,6 @@ const {
 } = require("../services/user.service");
 
 // CONTROLLERS: NEW FOLDER PAGE (new-folder.ejs)
-
 async function getNewFolderPage(req, res, next) {
   try {
     const userId = req.user.id;
@@ -112,7 +112,6 @@ async function postNewFolderPage(req, res, next) {
 }
 
 // CONTROLLERS: NEW FILE PAGE (new-file.ejs)
-
 async function getNewFilePage(req, res, next) {
   try {
     const userId = req.user.id;
@@ -144,7 +143,6 @@ async function removeUploadedFile(file) {
 }
 
 async function postNewFilePage(req, res, next) {
-  // console.log("Controller reached");
   try {
     const userId = req.user.id;
 
@@ -185,10 +183,14 @@ async function postNewFilePage(req, res, next) {
     const currentStorageUsage = await getUserProfileStorageSize(userId);
     // Get the size of the incoming file.
     const incomingFileSize = BigInt(req.file.size);
-    // Convert the configured GB storage limit into bytes.
+    // Convert the configured MB (formerly GB) storage limit into bytes.
+    // const userMaxStorageInBytes =
+    //   BigInt(userSizeLimitGB) * 
+    //   1024n * 
+    //   1024n * 
+    //   1024n;
     const userMaxStorageInBytes =
-      BigInt(userSizeLimitGB) * 
-      1024n * 
+      BigInt(userSizeLimitMB) * 
       1024n * 
       1024n;
 
@@ -202,16 +204,6 @@ async function postNewFilePage(req, res, next) {
       await removeUploadedFile(req.file);
 
       console.log("File removed successfully");
-
-      //new...
-      // try {
-      //   await removeUploadedFile(req.file);
-      // } catch (cleanupError) {
-      //   console.error(
-      //     "Failed to remove file after storage quota rejection:",
-      //     cleanupError,
-      //   );
-      // }
 
       return res.status(400).render("new-file", {
         title: "Upload File",
@@ -240,32 +232,7 @@ async function postNewFilePage(req, res, next) {
 
     // Redirect after success
     return res.redirect("/app/user-data");
-    //} catch (err) {
-    // NOTE - Below cleans up the uploaded file if Prisma fails, as Multer saves the file before my database record is created, so without this deletion I would leave orphaned files in uploads/ that are taking up storage but are not tracked in my database
-    // if (req.file?.path) {
-    //   try {
-    //     // NOTE - this optional chaining (req.file?.path) means that req.file AND req.file.path must exist
-    //     await fs.unlink(req.file.path);
-    //   } catch (cleanupError) {
-    //     console.error("Failed to remove orphaned upload:", cleanupError);
-    //   }
-    // }
-
-    // Multer has already written the file, so remove it if the
-    // database operation or another later operation fails.
-    // await removeUploadedFile(req.file);
-
-    //next(err);
-
-    // new...
   } catch (err) {
-    // Multer has already written the file before this controller performs database operations, so attempt to remove it to prevent orphaned files.
-
-    // try {
-    //   await removeUploadedFile(req.file);
-    // } catch (cleanupError) {
-    //   console.error("Failed to remove orphaned upload:", cleanupError);
-    // }
 
     await removeUploadedFile(req.file);
 
@@ -275,7 +242,6 @@ async function postNewFilePage(req, res, next) {
 }
 
 // CONTROLLER: USER DATA PAGE (user-data.ejs)
-
 async function getUserDataPage(req, res, next) {
   try {
     const userId = req.user.id;
@@ -284,26 +250,25 @@ async function getUserDataPage(req, res, next) {
 
     const rootFoldersSize = await getUserProfileStorageSize(userId);
     const formatRootFoldersSize = formatBytes(rootFoldersSize);
+    // const userMaxStorageInBytes =
+    //   BigInt(userSizeLimitGB) * 
+    //   1024n * 
+    //   1024n * 
+    //   1024n;
     const userMaxStorageInBytes =
-      BigInt(userSizeLimitGB) * 
-      1024n * 
+      BigInt(userSizeLimitMB) * 
       1024n * 
       1024n;
     const formatUserMaxStorage = formatBytes(userMaxStorageInBytes);
     const currentStorageUsed = (BigInt(rootFoldersSize) * 10000n) / userMaxStorageInBytes;
     const currentStoragePercentage = Number(currentStorageUsed) / 100;
-
-    console.log(`User percentage = ${currentStoragePercentage}%`);
     
-
     // Prevents folders with parentFolderIds from showing up as these should be shown in folder views.
     const rootFolders = userFolders.filter(
       (folder) => folder.parentFolderId === null,
     );
 
     const rootFolderCount = rootFolders.length
-
-    console.log("Root folder number ===", rootFolderCount);
 
     const foldersWithCounts = await Promise.all(
       rootFolders.map(async (folder) => ({
@@ -345,6 +310,7 @@ async function getUserFolderPage(req, res, next) {
     // if (!folder) {
     //   return res.status(404).render("404");
     // }
+
     if (!folder) {
       const err = new Error("Folder not found.");
       err.status = 404;
@@ -417,8 +383,6 @@ async function getUserFilePreview(req, res, next) {
     const userId = req.user.id;
 
     const file = await getFileById(fileId);
-    // console.log(file.mimeType);
-    // console.log(isPreviewableMimeType(file.mimeType));
 
     // if (!file) {
     //   console.log("File not found:", fileId);
@@ -470,6 +434,7 @@ async function deleteUserFolderPage(req, res, next) {
     // if (!folder) {
     //   return res.status(404).render("404");
     // }
+
       if (!folder) {
         const err = new Error("Folder not found.");
         err.status = 404;
@@ -507,6 +472,7 @@ async function deleteUserFile(req, res, next) {
     // if (!file) {
     //   return res.status(404).render("404");
     // }
+
     if (!file) {
       const err = new Error("File not found.");
       err.status = 404;
@@ -517,6 +483,7 @@ async function deleteUserFile(req, res, next) {
     // if (file.userId !== userId) {
     //   return res.sendStatus(403);
     // }
+
     if (file.userId !== userId) {
       const err = new Error("You do not have permission to access this file.");
       err.status = 403;
@@ -554,7 +521,6 @@ async function deleteUserFile(req, res, next) {
 }
 
 // CONTROLLERS: USER FOLDER EDIT PAGE (user-folder-edit.ejs)
-
 async function getUserFolderEditPage(req, res, next) {
   try {
     const folderId = req.params.folderId;
@@ -565,6 +531,7 @@ async function getUserFolderEditPage(req, res, next) {
     // if (!folder) {
     //   return res.status(404).render("404");
     // }
+
     if (!folder) {
       const err = new Error("Folder not found.");
       err.status = 404;
@@ -643,22 +610,9 @@ async function postUserFolderEditPage(req, res, next) {
 
     if (!validationErrors.isEmpty()) {
       const errors = formatValidationErrors(validationErrors);
-      // const formattedErrors = [];
-      // const seen = new Set();
-
-      // errors.array().forEach((err) => {
-      //   if (!seen.has(err.path)) {
-      //     formattedErrors.push({
-      //       field: err.path,
-      //       message: err.msg,
-      //     });
-      //     seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
-      //   }
-      // });
 
       return res.render("user-folder-edit", {
         title: "Edit Folder",
-        // errors: formattedErrors,
         errors,
         folder,
         userFolders,
@@ -704,6 +658,7 @@ async function getUserFileEditPage(req, res, next) {
     // if (!file) {
     //   return res.status(404).render("404");
     // }
+
     if (!file) {
       const err = new Error("File not found.");
       err.status = 404;
@@ -754,6 +709,7 @@ async function postUserFileEditPage(req, res, next) {
     // if (!file) {
     //   return res.status(404).render("404");
     // }
+
     if (!file) {
       const err = new Error("File not found.");
       err.status = 404;
@@ -764,6 +720,7 @@ async function postUserFileEditPage(req, res, next) {
     // if (file.userId !== userId) {
     //   return res.status(403).render("forbidden");
     // }
+
     if (file.userId !== userId) {
       const err = new Error("You do not have permission to access this file.");
       err.status = 403;
@@ -781,23 +738,9 @@ async function postUserFileEditPage(req, res, next) {
 
     if (!validationErrors.isEmpty()) {
       const errors = formatValidationErrors(validationErrors);
-      // const formattedErrors = [];
-      // const seen = new Set();
-
-      // errors.array().forEach((err) => {
-      //   if (!seen.has(err.path)) {
-      //     formattedErrors.push({
-      //       field: err.path,
-      //       message: err.msg,
-      //     });
-
-      //     seen.add(err.path);
-      //   }
-      // });
 
       return res.render("user-file-edit", {
         title: "Edit File",
-        // errors: formattedErrors,
         errors,
         file,
         userFolders,
@@ -829,7 +772,6 @@ async function postUserFileEditPage(req, res, next) {
 }
 
 // CONTROLLERS: USER PROFILE PAGE (user-profile.ejs)
-
 async function getUserProfilePage(req, res, next) {
   try {
     if (!req.user) {
@@ -868,22 +810,9 @@ async function postUserProfilePage(req, res, next) {
 
     if (!validationErrors.isEmpty()) {
       const errors = formatValidationErrors(validationErrors);
-      // const formattedErrors = [];
-      // const seen = new Set();
-
-      // errors.array().forEach((err) => {
-      //   if (!seen.has(err.path)) {
-      //     formattedErrors.push({
-      //       field: err.path,
-      //       message: err.msg,
-      //     });
-      //     seen.add(err.path); // Seen ensures only one error per field, so your EJS shows one message for password, not multiple.
-      //   }
-      // });
 
       return res.render("user-profile", {
         title: "Change Your Profile",
-        // errors: formattedErrors,
         errors,
         formData: req.body || {},
         passwordRules,
@@ -930,8 +859,6 @@ async function deleteUserProfileByUser(req, res, next) {
     const userId = req.user.id;
     // Block admins from deleting their own accounts
     if (req.user.role === "ADMIN") {
-      // console.log("role is", req.user.role);
-
       const err = new Error("Admins cannot delete their own accounts.");
       err.status = 403;
       err.code = "ADMIN_SELF_DELETE_BLOCKED"; // FIX: structured error
@@ -946,7 +873,6 @@ async function deleteUserProfileByUser(req, res, next) {
 }
 
 // CONTROLLERS: DOWNLOAD FOLDER OR FILE
-
 async function downloadFolder(req, res, next) {
   try {
     const folderId = req.params.folderId;
@@ -957,6 +883,7 @@ async function downloadFolder(req, res, next) {
     // if (!folder) {
     //   return res.status(404).render("404");
     // }
+
     if (!folder) {
       const err = new Error("Folder not found.");
       err.status = 404;
@@ -1019,6 +946,7 @@ async function downloadFile(req, res, next) {
     // if (!file) {
     //   return res.status(404).render("404");
     // }
+
     if (!file) {
       const err = new Error("File not found.");
       err.status = 404;
@@ -1029,6 +957,7 @@ async function downloadFile(req, res, next) {
     // if (file.userId !== userId) {
     //   return res.status(403).render("forbidden");
     // }
+    
     if (file.userId !== userId) {
       const err = new Error("You do not have permission to access this file.");
       err.status = 403;
